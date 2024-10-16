@@ -4834,6 +4834,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1964833981}
   cameraPoint: {fileID: 990334757}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1001 &443455653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7720,6 +7723,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7483968071716142372, guid: 00afe8f341a910e4b82895861d85b39a,
         type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7483968071716142372, guid: 00afe8f341a910e4b82895861d85b39a,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -8415,6 +8423,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Gyedong_Pillar_02A (29)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7483968071716142372, guid: 00afe8f341a910e4b82895861d85b39a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7483968071716142372, guid: 00afe8f341a910e4b82895861d85b39a,
         type: 3}
@@ -17640,6 +17653,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7483968071716142372, guid: 00afe8f341a910e4b82895861d85b39a,
         type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7483968071716142372, guid: 00afe8f341a910e4b82895861d85b39a,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -20788,7 +20806,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4548c252451fed449af7beacaff3f72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
+  moveSpeed: 1.5
+  turnSpeed: 100
 --- !u!4 &1964833981
 Transform:
   m_ObjectHideFlags: 0
@@ -32564,6 +32583,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Gyedong_Door_04B
+      objectReference: {fileID: 0}
+    - target: {fileID: 3081929964409400106, guid: 0352c12f4b608194b92146c4c182465b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3081929964409400106, guid: 0352c12f4b608194b92146c4c182465b,
         type: 3}

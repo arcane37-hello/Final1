@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed = 5f;         // 이동 속도
+    public float turnSpeed = 100f;       // 회전 속도
     private Rigidbody rb;
 
     void Start()
@@ -19,36 +20,33 @@ public class PlayerMove : MonoBehaviour
 
     void MovePlayer()
     {
-        float moveX = 0f;
-        float moveZ = 0f;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            moveZ = 1f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            moveZ = -1f;
-        }
+        // 회전 입력 (A, D 키로 회전)
+        float turn = 0f;
         if (Input.GetKey(KeyCode.A))
         {
-            moveX = -1f;
+            turn = -1f; // 왼쪽 회전
         }
         if (Input.GetKey(KeyCode.D))
         {
-            moveX = 1f;
+            turn = 1f; // 오른쪽 회전
         }
 
-        Vector3 moveDirection = new Vector3(moveX, 0f, moveZ).normalized;
+        // 플레이어 회전 (Y축 회전)
+        transform.Rotate(0f, turn * turnSpeed * Time.deltaTime, 0f);
 
-        // 플레이어 이동
-        if (moveDirection != Vector3.zero)
+        // 이동 입력 (W, S 키로 이동)
+        float move = 0f;
+        if (Input.GetKey(KeyCode.W))
         {
-            rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.deltaTime);
-
-            // 이동 방향으로 회전
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            move = 1f; // 전진
         }
+        if (Input.GetKey(KeyCode.S))
+        {
+            move = -1f; // 후진
+        }
+
+        // 플레이어 전후 이동 (Z축 방향으로 이동)
+        Vector3 moveDirection = transform.forward * move * moveSpeed * Time.deltaTime;
+        rb.MovePosition(rb.position + moveDirection);
     }
 }
