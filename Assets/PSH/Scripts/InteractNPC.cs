@@ -6,14 +6,19 @@ public class InteractNPC : MonoBehaviour
 {
     private bool isInInteractZone = false;  // 상호작용 가능 여부
     private GameObject currentNPC;          // 현재 상호작용 가능한 NPC
+    public GameObject miniGameUI;           // 연결할 UI 오브젝트 (비활성화된 상태여야 함)
 
     void Update()
     {
         // F 키를 누르면 상호작용 시도
         if (isInInteractZone && Input.GetKeyDown(KeyCode.F))
         {
-            // 상호작용 테스트 메시지 출력
-            Debug.Log("NPC와 상호작용합니다: " + currentNPC.name);
+            if (currentNPC != null && currentNPC.name == "MinigameNPC")
+            {
+                // UI 창을 활성화
+                miniGameUI.SetActive(true);
+                Debug.Log("MinigameNPC와 상호작용하여 UI 창 활성화");
+            }
         }
     }
 
@@ -25,7 +30,7 @@ public class InteractNPC : MonoBehaviour
         {
             isInInteractZone = true;
             currentNPC = other.gameObject;
-            Debug.Log("NPC 상호작용 가능: " + currentNPC.name);
+            Debug.Log(currentNPC.name + "와 상호작용 가능");
         }
     }
 
@@ -37,7 +42,7 @@ public class InteractNPC : MonoBehaviour
         {
             isInInteractZone = false;
             currentNPC = null;
-            Debug.Log("NPC 상호작용 불가");
+            Debug.Log("상호작용 불가");
         }
     }
 }
