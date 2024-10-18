@@ -4,40 +4,42 @@ using UnityEngine;
 
 public class InteractNPC : MonoBehaviour
 {
-    private bool isInInteractZone = false;  // »óÈ£ÀÛ¿ë °¡´É ¿©ºÎ
-    private GameObject currentNPC;          // ÇöÀç »óÈ£ÀÛ¿ë °¡´ÉÇÑ NPC
+    private bool isInInteractZone = false;  // ìƒí˜¸ì‘ìš© ê°€ëŠ¥ ì—¬ë¶€
+    private GameObject currentNPC;          // í˜„ì¬ ìƒí˜¸ì‘ìš© ê°€ëŠ¥í•œ NPC
 
     void Update()
     {
-        // F Å°¸¦ ´©¸£¸é »óÈ£ÀÛ¿ë ½Ãµµ
+        // F í‚¤ë¥¼ ëˆ„ë¥´ë©´ ìƒí˜¸ì‘ìš© ì‹œë„
         if (isInInteractZone && Input.GetKeyDown(KeyCode.F))
         {
-            // »óÈ£ÀÛ¿ë Å×½ºÆ® ¸Ş½ÃÁö Ãâ·Â
-            Debug.Log("NPC¿Í »óÈ£ÀÛ¿ëÇÕ´Ï´Ù: " + currentNPC.name);
+            // ìƒí˜¸ì‘ìš© í…ŒìŠ¤íŠ¸ ë©”ì‹œì§€ ì¶œë ¥
+            Debug.Log("NPCì™€ ìƒí˜¸ì‘ìš©í•©ë‹ˆë‹¤: " + currentNPC.name);
+            currentNPC.GetComponent<InteractUser>().Chat("ë¹„ì—¼ì— ì¢‹ì€ ì•½ì¬ë¥¼ ì¶”ì²œí•´ ì£¼ì„¸ìš”.");
         }
     }
 
-    // »óÈ£ÀÛ¿ë ¿µ¿ª¿¡ µé¾î¿ÔÀ» ¶§
+    // ìƒí˜¸ì‘ìš© ì˜ì—­ì— ë“¤ì–´ì™”ì„ ë•Œ
     void OnTriggerEnter(Collider other)
     {
-        // NPC ÅÂ±×°¡ ÀÖ´Â ¿ÀºêÁ§Æ®¿Í Ãæµ¹Çß´ÂÁö È®ÀÎ
+        // NPC íƒœê·¸ê°€ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì™€ ì¶©ëŒí–ˆëŠ”ì§€ í™•ì¸
         if (other.CompareTag("NPC"))
         {
             isInInteractZone = true;
             currentNPC = other.gameObject;
-            Debug.Log("NPC »óÈ£ÀÛ¿ë °¡´É: " + currentNPC.name);
+            Debug.Log("NPC ìƒí˜¸ì‘ìš© ê°€ëŠ¥: " + currentNPC.name);
+            
         }
     }
 
-    // »óÈ£ÀÛ¿ë ¿µ¿ª¿¡¼­ ³ª°¬À» ¶§
+    // ìƒí˜¸ì‘ìš© ì˜ì—­ì—ì„œ ë‚˜ê°”ì„ ë•Œ
     void OnTriggerExit(Collider other)
     {
-        // NPC ÅÂ±×°¡ ÀÖ´Â ¿ÀºêÁ§Æ®¿¡¼­ ³ª°¡¸é »óÈ£ÀÛ¿ë ºÒ°¡´É
+        // NPC íƒœê·¸ê°€ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì—ì„œ ë‚˜ê°€ë©´ ìƒí˜¸ì‘ìš© ë¶ˆê°€ëŠ¥
         if (other.CompareTag("NPC"))
         {
             isInInteractZone = false;
             currentNPC = null;
-            Debug.Log("NPC »óÈ£ÀÛ¿ë ºÒ°¡");
+            Debug.Log("NPC ìƒí˜¸ì‘ìš© ë¶ˆê°€");
         }
     }
 }
