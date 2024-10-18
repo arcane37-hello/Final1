@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     public float turnSpeed = 100f;       // 회전 속도
     private Rigidbody rb;
     private Animator animator;           // Animator 컴포넌트
+    public bool isMovementEnabled = true; // 이동 가능 여부
 
     void Start()
     {
@@ -25,7 +26,10 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        MovePlayer();
+        if (isMovementEnabled)
+        {
+            MovePlayer();
+        }
     }
 
     void MovePlayer()
@@ -47,33 +51,27 @@ public class PlayerMove : MonoBehaviour
         // 이동 입력 (W, S 키로 이동)
         float move = 0f;
 
-        // W 키를 눌렀을 때 전진 및 애니메이션 재생
         if (Input.GetKey(KeyCode.W))
         {
             move = 1f; // 전진
             if (animator != null)
             {
                 animator.SetBool("isWalking", true); // Walk 애니메이션 시작
-                animator.speed = 1f; // 애니메이션 정방향 재생
             }
         }
-        // S 키를 눌렀을 때 후진 및 애니메이션 정상 재생
         else if (Input.GetKey(KeyCode.S))
         {
             move = -1f; // 후진
             if (animator != null)
             {
                 animator.SetBool("isWalking", true); // Walk 애니메이션 시작
-                animator.speed = 1f; // 애니메이션 정방향 재생
             }
         }
         else
         {
-            // W나 S 키를 떼면 Idle 상태로 돌아감
             if (animator != null)
             {
                 animator.SetBool("isWalking", false); // Walk 애니메이션 중지
-                animator.speed = 1f; // 애니메이션 속도 초기화
             }
         }
 
