@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 757586001737055842}
   - component: {fileID: 2116668129304294746}
   - component: {fileID: 4040757206218150615}
+  - component: {fileID: 5320322454303491665}
   m_Layer: 0
   m_Name: Kettle_Prefab
   m_TagString: Kettle
@@ -131,5 +132,17 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 14
   m_CollisionDetection: 0
+--- !u!114 &5320322454303491665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261993076855398327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d48d1f6a79db2b143ad391518355b923, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
