@@ -32,6 +32,12 @@ public class PlayMinigame : MonoBehaviour
         ToggleGrabObjects(true);
     }
 
+    // 외부에서 텍스트를 갱신할 수 있는 함수
+    public void UpdateText(string newText)
+    {
+        dialogueText.text = newText;  // 텍스트 갱신
+    }
+
     // GrabObject 스크립트가 활성화되거나 비활성화되도록 설정하는 함수
     void ToggleGrabObjects(bool isActive)
     {
