@@ -7947,6 +7947,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 697756907}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &700187911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 700187912}
+  m_Layer: 0
+  m_Name: KettlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &700187912
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700187911}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.571, y: 1.1072881, z: -0.368}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &701123869 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7483968071716142372, guid: 00afe8f341a910e4b82895861d85b39a,
@@ -11850,6 +11881,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
+        type: 3}
+      propertyPath: playMinigame
+      value: 
+      objectReference: {fileID: 159402177}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39472,3 +39508,4 @@ SceneRoots:
   - {fileID: 766140106}
   - {fileID: 1876280397}
   - {fileID: 159402178}
+  - {fileID: 700187912}
