@@ -8,6 +8,8 @@ public class Kettle : MonoBehaviour
     private int teaLeafStack = 0;  // 찻잎 스택
     public PlayMinigame playMinigame; // PlayMinigame 스크립트 참조 (텍스트 갱신용)
     public Transform targetPosition;  // Kettle이 이동할 첫 번째 빈 오브젝트의 위치
+    public GameObject objectToReplace;  // 교체할 대상 오브젝트
+    public GameObject replacementPrefab; // 교체될 프리팹
     private Vector3 originalPosition;  // Kettle의 원래 위치
     private Quaternion originalRotation;  // Kettle의 원래 회전값
     private bool isReadyToBoil = false;  // 물을 끓일 준비가 되었는지 여부
@@ -79,12 +81,22 @@ public class Kettle : MonoBehaviour
         }
     }
 
-    // 물 끓이기 코루틴
+    // 물 끓이기 코루틴 (타이머 포함)
     IEnumerator BoilWater()
     {
         isReadyToBoil = false; // 물 끓이기 동작이 시작되면 다시 끓일 수 없게 설정
-        yield return new WaitForSeconds(15f);  // 15초 대기
-        playMinigame.UpdateText("차가 완성된 거 같습니다 이제 주전자를 클릭해서 차를 따라 봅시다");
+        int totalTime = 15;  // 총 15초간 물을 끓임
+
+        // 타이머가 진행되는 동안 텍스트를 업데이트
+        while (totalTime > 0)
+        {
+            playMinigame.UpdateText($"물을 끓이는 중입니다. 0:{totalTime:D2}");
+            yield return new WaitForSeconds(1f);
+            totalTime--;
+        }
+
+        // 타이머가 끝난 후 텍스트 갱신
+        playMinigame.UpdateText("시간이 다 됐습니다 이제 주전자를 클릭해서 차를 따라 봅시다");
 
         // 물 끓인 후 이동 준비 상태로 변경
         isReadyToMove = true;
@@ -102,12 +114,34 @@ public class Kettle : MonoBehaviour
         // 3초 대기
         yield return new WaitForSeconds(3f);
 
+        // 3초 후 지정된 오브젝트 교체
+        ReplaceObject();
+
         // 원래 위치로 이동 및 원래 회전값 복귀를 동시에 진행
         StartCoroutine(MoveToPosition(originalPosition, 1f));
         StartCoroutine(RotateKettle(0f, 1f, true));
 
         // 두 코루틴이 완료될 때까지 대기
         yield return new WaitForSeconds(1f);
+    }
+
+    // 프리팹 교체 함수
+    void ReplaceObject()
+    {
+        // 대상 오브젝트가 존재할 경우에만 교체
+        if (objectToReplace != null && replacementPrefab != null)
+        {
+            Vector3 replacePosition = objectToReplace.transform.position;
+            Quaternion replaceRotation = objectToReplace.transform.rotation;
+
+            // 기존 오브젝트 삭제
+            Destroy(objectToReplace);
+
+            // 새로운 프리팹을 교체 위치에 생성
+            Instantiate(replacementPrefab, replacePosition, replaceRotation);
+
+            playMinigame.UpdateText("차가 완성됐습니다 이제 차를 클릭해서 잘 만들었는지 평가를 받아봅시다");
+        }
     }
 
     // 부드럽게 위치 이동
