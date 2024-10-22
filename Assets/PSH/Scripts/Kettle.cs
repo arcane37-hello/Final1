@@ -10,6 +10,9 @@ public class Kettle : MonoBehaviour
     public Transform targetPosition;  // Kettle이 이동할 첫 번째 빈 오브젝트의 위치
     public GameObject objectToReplace;  // 교체할 대상 오브젝트
     public GameObject replacementPrefab; // 교체될 프리팹
+    public GameObject boilingEffectPrefab; // 물 끓일 때 출력할 이펙트 프리팹
+    public Transform effectSpawnPoint;  // 이펙트가 생성될 위치
+    private GameObject boilingEffectInstance;  // 생성된 이펙트 인스턴스
     private Vector3 originalPosition;  // Kettle의 원래 위치
     private Quaternion originalRotation;  // Kettle의 원래 회전값
     private bool isReadyToBoil = false;  // 물을 끓일 준비가 되었는지 여부
@@ -81,11 +84,21 @@ public class Kettle : MonoBehaviour
         }
     }
 
-    // 물 끓이기 코루틴 (타이머 포함)
+    // 물 끓이기 코루틴
     IEnumerator BoilWater()
     {
         isReadyToBoil = false; // 물 끓이기 동작이 시작되면 다시 끓일 수 없게 설정
         int totalTime = 15;  // 총 15초간 물을 끓임
+
+        // 이펙트 프리팹 생성 (이펙트는 물을 끓이는 동안 계속 유지됨)
+        if (boilingEffectPrefab != null)
+        {
+            // 지정된 위치에 이펙트 생성
+            Vector3 spawnPosition = effectSpawnPoint != null ? effectSpawnPoint.position : transform.position;
+            boilingEffectInstance = Instantiate(boilingEffectPrefab, spawnPosition, Quaternion.identity);
+
+            boilingEffectInstance.transform.SetParent(transform);  // Kettle에 이펙트가 따라가도록 설정
+        }
 
         // 타이머가 진행되는 동안 텍스트를 업데이트
         while (totalTime > 0)
@@ -96,9 +109,9 @@ public class Kettle : MonoBehaviour
         }
 
         // 타이머가 끝난 후 텍스트 갱신
-        playMinigame.UpdateText("시간이 다 됐습니다 이제 주전자를 클릭해서 차를 따라 봅시다");
+        playMinigame.UpdateText("차가 완성된 거 같습니다 이제 컵을 클릭해서 차를 따라 봅시다");
 
-        // 물 끓인 후 이동 준비 상태로 변경
+        // 물 끓인 후 이동 준비 상태로 변경 (이펙트는 계속 유지)
         isReadyToMove = true;
     }
 
@@ -116,6 +129,9 @@ public class Kettle : MonoBehaviour
 
         // 3초 후 지정된 오브젝트 교체
         ReplaceObject();
+
+        // 텍스트 갱신
+        playMinigame.UpdateText("이제 완성된 차를 클릭해서 평가를 받아봅시다");
 
         // 원래 위치로 이동 및 원래 회전값 복귀를 동시에 진행
         StartCoroutine(MoveToPosition(originalPosition, 1f));
@@ -139,8 +155,6 @@ public class Kettle : MonoBehaviour
 
             // 새로운 프리팹을 교체 위치에 생성
             Instantiate(replacementPrefab, replacePosition, replaceRotation);
-
-            playMinigame.UpdateText("차가 완성됐습니다 이제 차를 클릭해서 잘 만들었는지 평가를 받아봅시다");
         }
     }
 

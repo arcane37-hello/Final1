@@ -7224,6 +7224,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 610336979}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &623129897 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7540198976214230237, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
+    type: 3}
+  m_PrefabInstance: {fileID: 1065679125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &633297514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12004,27 +12010,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4040757206218150615, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
-        type: 3}
-      propertyPath: firstPrefab
-      value: 
-      objectReference: {fileID: 1726083361}
     - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
         type: 3}
       propertyPath: playMinigame
       value: 
       objectReference: {fileID: 159402177}
-    - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
-        type: 3}
-      propertyPath: secondPrefab
-      value: 
-      objectReference: {fileID: 41699605767591986, guid: 81fef7cb06af8134f96a8098e9f7f35e,
-        type: 3}
     - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
         type: 3}
       propertyPath: targetPosition
@@ -12037,15 +12027,25 @@ PrefabInstance:
       objectReference: {fileID: 1726083361}
     - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
         type: 3}
-      propertyPath: replacementPrefab
+      propertyPath: effectSpawnPoint
       value: 
-      objectReference: {fileID: 41699605767591986, guid: 81fef7cb06af8134f96a8098e9f7f35e,
-        type: 3}
+      objectReference: {fileID: 623129897}
     - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
         type: 3}
-      propertyPath: secondTargetPosition
+      propertyPath: boilingEffectPrefab
       value: 
-      objectReference: {fileID: 700187912}
+      objectReference: {fileID: 1642322455942316, guid: d26aaf76e6e2409448242b9a2d66f31f,
+        type: 3}
+    - target: {fileID: 7540198976214230237, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1802
+      objectReference: {fileID: 0}
+    - target: {fileID: 7540198976214230237, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0553
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
