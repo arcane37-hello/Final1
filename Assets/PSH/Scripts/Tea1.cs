@@ -7,6 +7,8 @@ public class Tea1 : MonoBehaviour
     public float moveSpeed = 3f;  // 이동 속도
     private Transform targetPoint;  // 목표 지점 (TeaTestPoint)
     private Transform cameraTargetPoint;  // 카메라 목표 지점 (CameraPoint1)
+    private PlayMinigame playMinigame; // PlayMinigame 스크립트 참조 (자동으로 찾음)
+    private Result result;  // Result 스크립트 참조 (평가 후 호출)
 
     void Start()
     {
@@ -30,6 +32,20 @@ public class Tea1 : MonoBehaviour
         else
         {
             Debug.LogError("CameraPoint1 오브젝트를 찾을 수 없습니다.");
+        }
+
+        // PlayMinigame 스크립트를 찾아서 설정
+        playMinigame = FindObjectOfType<PlayMinigame>();
+        if (playMinigame == null)
+        {
+            Debug.LogError("PlayMinigame 스크립트를 찾을 수 없습니다.");
+        }
+
+        // Result 스크립트를 찾아서 설정
+        result = FindObjectOfType<Result>();
+        if (result == null)
+        {
+            Debug.LogError("Result 스크립트를 찾을 수 없습니다.");
         }
     }
 
@@ -72,6 +88,22 @@ public class Tea1 : MonoBehaviour
         }
 
         Debug.Log("Tea1 오브젝트가 TeaTestPoint에 도착했습니다.");
+
+        // 이동 완료 후 텍스트 갱신
+        if (playMinigame != null)
+        {
+            playMinigame.UpdateText("평가 중...");
+
+            // 5초 대기 후 텍스트 갱신
+            yield return new WaitForSeconds(5f);
+            playMinigame.UpdateText("완벽하게 만드셨네요 잘하셨습니다");
+
+            // Result 스크립트의 OnEvaluationComplete() 호출
+            if (result != null)
+            {
+                result.OnEvaluationComplete();  // Result 스크립트로 넘어감
+            }
+        }
     }
 
     // 카메라를 CameraPoint1로 이동시키는 코루틴

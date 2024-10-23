@@ -25,7 +25,16 @@ public class PlayMinigame : MonoBehaviour
         yield return new WaitForSeconds(3f);  // 3초 대기
 
         // 두 번째 텍스트 출력
+        dialogueText.text = "처음이시니 튜토리얼을 시작하겠습니다";
+        yield return new WaitForSeconds(3f);  // 3초 대기
+
+
+        // 세 번째 텍스트 출력
         dialogueText.text = "먼저 말린 수세미를 주전자에 넣어 볼까요?";
+        yield return new WaitForSeconds(3f);  // 3초 대기
+
+        // 네 번째 텍스트 출력
+        dialogueText.text = "수세미 조각 한 개 당 15g 입니다 5개를 넣어야 합니다";
         yield return new WaitForSeconds(3f);  // 3초 대기
 
         // GrabObject 스크립트 활성화
