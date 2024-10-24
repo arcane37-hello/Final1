@@ -2067,7 +2067,6 @@ GameObject:
   m_Component:
   - component: {fileID: 159402178}
   - component: {fileID: 159402177}
-  - component: {fileID: 159402179}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2101,7 +2100,8 @@ MonoBehaviour:
   - {fileID: 265558261}
   yesButton: {fileID: 831354735}
   noButton: {fileID: 1780810322}
-  realGame: {fileID: 0}
+  realGame: {fileID: 2133370472}
+  kettle: {fileID: 1277376079}
 --- !u!4 &159402178
 Transform:
   m_ObjectHideFlags: 0
@@ -2117,21 +2117,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &159402179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 159402176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7089685a2bfae8a478c182b3e8eee6bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetText: {fileID: 507244673}
-  nextText: "\uD29C\uD1A0\uB9AC\uC5BC\uC774 \uB05D\uB0AC\uC2B5\uB2C8\uB2E4 \uC774\uC81C
-    \uC9C1\uC811 \uB9CC\uB4E4\uC5B4\uBD05\uC2DC\uB2E4"
 --- !u!1001 &159770602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3047,6 +3032,53 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 207105668}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &218629408
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 218629410}
+  - component: {fileID: 218629409}
+  m_Layer: 0
+  m_Name: ResultManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &218629409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218629408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7089685a2bfae8a478c182b3e8eee6bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetText: {fileID: 507244673}
+  nextText: "\uD29C\uD1A0\uB9AC\uC5BC\uC774 \uB05D\uB0AC\uC2B5\uB2C8\uB2E4 \uC774\uC81C
+    \uC9C1\uC811 \uB9CC\uB4E4\uC5B4\uBD05\uC2DC\uB2E4"
+--- !u!4 &218629410
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218629408}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &233983769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21638,7 +21670,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1780810323}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 159402177}
+        m_TargetAssemblyTypeName: PlayMinigame, Assembly-CSharp
+        m_MethodName: StartExperienceMode
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1780810323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25151,7 +25195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2133370473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25177,6 +25221,12 @@ MonoBehaviour:
   - {fileID: 1954334585}
   - {fileID: 265558261}
   kettle: {fileID: 1277376079}
+  boilingEffectPrefab: {fileID: 1642322455942316, guid: d26aaf76e6e2409448242b9a2d66f31f,
+    type: 3}
+  effectSpawnPoint: {fileID: 623129897}
+  objectToReplace: {fileID: 1726083361}
+  replacementPrefab: {fileID: 41699605767591986, guid: 78c4053f670ec364799549a3ed40409a,
+    type: 3}
 --- !u!4 &2133370474
 Transform:
   m_ObjectHideFlags: 0
@@ -41224,6 +41274,7 @@ SceneRoots:
   - {fileID: 1876280397}
   - {fileID: 159402178}
   - {fileID: 2133370474}
+  - {fileID: 218629410}
   - {fileID: 700187912}
   - {fileID: 1167398635}
   - {fileID: 1691495349}
