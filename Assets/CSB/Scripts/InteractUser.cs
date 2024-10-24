@@ -7,6 +7,7 @@ public class InteractUser : MonoBehaviour
 {
     public Text chatBox;
     public GameObject csv;
+    string url = "";
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +26,10 @@ public class InteractUser : MonoBehaviour
         //foreach (Datatable table in csv.GetComponent<CSVReader>().datatable)
         for(int i = 0; i < datas.Count; i++)
         {
-            print(i);
-            print(datas[i].symptom);
             if (symptom.Contains(datas[i].symptom.ToString()))
             {
-                print("11111111111111111");
-                string msg = $"음... 그러시군요. {datas[i].herb}이(가) {datas[i].symptom}에 좋은데요, \n{datas[i].description}";
+                string msg = $"음... 그러시군요. {datas[i].herb}이(가) {datas[i].symptom}에 좋은데요,\n{datas[i].recipe}\n{datas[i].description}";
+                url = datas[i].link;
                 StartCoroutine(PrintChat(msg));
             }
         }
@@ -60,6 +59,13 @@ public class InteractUser : MonoBehaviour
 
     public void ButtonGoToOpenURL()
     {
-        Application.OpenURL("https://youtu.be/eNztXV8p4CI?si=9UJZiQGMCic9RwXH");
+        if(url == "")
+        {
+            string msg = "증상을 먼저 입력해 주세요.";
+            StartCoroutine(PrintChat(msg));
+            return;
+        }
+        //Application.OpenURL("https://youtu.be/eNztXV8p4CI?si=9UJZiQGMCic9RwXH");
+        Application.OpenURL(url);
     }
 }
