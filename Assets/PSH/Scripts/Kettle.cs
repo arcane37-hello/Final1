@@ -17,6 +17,10 @@ public class Kettle : MonoBehaviour
     private Quaternion originalRotation;  // Kettle의 원래 회전값
     private bool isReadyToBoil = false;  // 물을 끓일 준비가 되었는지 여부
     private bool isReadyToMove = false;  // 물을 끓인 후 이동 준비 상태
+    public bool isExperienceMode = false;  // 체험 모드 여부 확인
+    private bool hasBoiledWater = false;  // 물을 끓였는지 여부 확인
+    private bool isPouring = false;  // 차 따르기 모션 여부 확인
+    private bool isBoiling = false;  // 물 끓이기 중 여부
 
     void Start()
     {
@@ -37,8 +41,8 @@ public class Kettle : MonoBehaviour
             teaLeafStack++;
             Debug.Log("Susemi 오브젝트 파괴됨. 현재 찻잎 스택: " + teaLeafStack);
 
-            // 찻잎 스택이 5개가 되면 텍스트 갱신 및 물 끓일 준비 완료
-            if (teaLeafStack >= 5)
+            // 체험 모드가 아닐 때만 텍스트 갱신
+            if (!isExperienceMode && teaLeafStack >= 5)
             {
                 playMinigame.UpdateText("잘하셨습니다! 이제 차를 만들기 위해 물을 끓여봅시다!");
                 isReadyToBoil = true; // 물을 끓일 수 있는 상태로 변경
@@ -48,37 +52,36 @@ public class Kettle : MonoBehaviour
 
     void Update()
     {
-        // 마우스 왼쪽 버튼 클릭 시 물을 끓이는 기능
-        if (isReadyToBoil && Input.GetMouseButtonDown(0))
+        // 튜토리얼 모드와 체험 모드에 따라 물 끓이기 및 차 따르기 상호작용 구분
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             // Ray가 주전자에 맞았는지 확인
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == this.gameObject)
             {
-                if (hit.collider != null && hit.collider.gameObject == this.gameObject)
+                if (!isExperienceMode) // 튜토리얼 모드일 경우
                 {
-                    Debug.Log("물을 끓이기 시작했습니다.");
-                    StartCoroutine(BoilWater());  // 물 끓이기 코루틴 실행
+                    if (isReadyToBoil && !isBoiling)  // 물 끓일 준비가 되었고, 물을 끓이지 않은 경우
+                    {
+                        StartCoroutine(BoilWater());
+                    }
+                    else if (hasBoiledWater && !isPouring)  // 물을 끓인 후에 차 따르기 모션을 수행
+                    {
+                        StartCoroutine(PourTea());
+                    }
                 }
-            }
-        }
-
-        // 마우스 왼쪽 버튼 클릭 시 Kettle 이동 시작
-        if (isReadyToMove && Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            // Ray가 주전자에 맞았는지 확인
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (hit.collider != null && hit.collider.gameObject == this.gameObject)
+                else // 체험 모드일 경우
                 {
-                    Debug.Log("Kettle 이동 시작");
-                    StartCoroutine(MoveAndRotateKettle());  // 이동 및 회전 코루틴 실행
-                    isReadyToMove = false;  // 이동 준비 상태 해제
+                    if (!isBoiling && !hasBoiledWater)  // 체험 모드에서 물 끓이기
+                    {
+                        StartCoroutine(BoilWater());
+                    }
+                    else if (hasBoiledWater && !isPouring)  // 체험 모드에서 차 따르기 모션
+                    {
+                        StartCoroutine(PourTea());
+                    }
                 }
             }
         }
@@ -87,38 +90,55 @@ public class Kettle : MonoBehaviour
     // 물 끓이기 코루틴
     IEnumerator BoilWater()
     {
-        isReadyToBoil = false; // 물 끓이기 동작이 시작되면 다시 끓일 수 없게 설정
-        int totalTime = 15;  // 총 15초간 물을 끓임
+        isBoiling = true;
+        isReadyToBoil = false;
+
+        int totalTime = isExperienceMode ? 0 : 15;  // 체험 모드에서는 타이머 없이 바로 끓이기
 
         // 이펙트 프리팹 생성 (이펙트는 물을 끓이는 동안 계속 유지됨)
         if (boilingEffectPrefab != null)
         {
-            // 지정된 위치에 이펙트 생성
             Vector3 spawnPosition = effectSpawnPoint != null ? effectSpawnPoint.position : transform.position;
             boilingEffectInstance = Instantiate(boilingEffectPrefab, spawnPosition, Quaternion.identity);
-
             boilingEffectInstance.transform.SetParent(transform);  // Kettle에 이펙트가 따라가도록 설정
         }
 
-        // 타이머가 진행되는 동안 텍스트를 업데이트
+        // 물 끓이는 동안 텍스트 업데이트 (체험 모드는 타이머 없이 바로 진행)
         while (totalTime > 0)
         {
-            playMinigame.UpdateText($"물을 끓이는 중입니다. 0:{totalTime:D2}");
+            if (!isExperienceMode)
+            {
+                playMinigame.UpdateText($"물을 끓이는 중입니다. 0:{totalTime:D2}");
+            }
             yield return new WaitForSeconds(1f);
             totalTime--;
         }
 
-        // 타이머가 끝난 후 텍스트 갱신
-        playMinigame.UpdateText("차가 완성된 거 같습니다 이제 컵을 클릭해서 차를 따라 봅시다");
+        if (!isExperienceMode)
+        {
+            playMinigame.UpdateText("차가 완성된 거 같습니다 이제 컵을 클릭해서 차를 따라 봅시다");
+        }
 
-        // 물 끓인 후 이동 준비 상태로 변경 (이펙트는 계속 유지)
-        isReadyToMove = true;
+        hasBoiledWater = true;
+        isBoiling = false;  // 물 끓이기 완료
+    }
+
+    // 차 따르기 코루틴
+    IEnumerator PourTea()
+    {
+        isPouring = true;  // 차 따르기 중
+
+        yield return StartCoroutine(MoveAndRotateKettle());
+
+        ReplaceObject();  // 대상 오브젝트 교체
+
+        isPouring = false;
+        hasBoiledWater = false;  // 차 따르기 완료 후 다시 물 끓이기 가능
     }
 
     // Kettle 이동 및 회전 코루틴
-    IEnumerator MoveAndRotateKettle()
+    public IEnumerator MoveAndRotateKettle()
     {
-        // Kettle을 지정된 첫 번째 위치로 이동
         yield return StartCoroutine(MoveToPosition(targetPosition.position, 1f));
 
         // 45도 회전
@@ -127,33 +147,20 @@ public class Kettle : MonoBehaviour
         // 3초 대기
         yield return new WaitForSeconds(3f);
 
-        // 3초 후 지정된 오브젝트 교체
-        ReplaceObject();
-
-        // 텍스트 갱신
-        playMinigame.UpdateText("이제 완성된 차를 클릭해서 평가를 받아봅시다");
-
-        // 원래 위치로 이동 및 원래 회전값 복귀를 동시에 진행
         StartCoroutine(MoveToPosition(originalPosition, 1f));
         StartCoroutine(RotateKettle(0f, 1f, true));
 
-        // 두 코루틴이 완료될 때까지 대기
         yield return new WaitForSeconds(1f);
     }
 
     // 프리팹 교체 함수
     void ReplaceObject()
     {
-        // 대상 오브젝트가 존재할 경우에만 교체
         if (objectToReplace != null && replacementPrefab != null)
         {
             Vector3 replacePosition = objectToReplace.transform.position;
             Quaternion replaceRotation = objectToReplace.transform.rotation;
-
-            // 기존 오브젝트 삭제
             Destroy(objectToReplace);
-
-            // 새로운 프리팹을 교체 위치에 생성
             Instantiate(replacementPrefab, replacePosition, replaceRotation);
         }
     }
@@ -181,13 +188,11 @@ public class Kettle : MonoBehaviour
 
         if (toOriginalRotation)
         {
-            // 원래 회전값으로 복귀
-            endRotation = originalRotation;
+            endRotation = originalRotation;  // 원래 회전값으로 복귀
         }
         else
         {
-            // X축으로 주어진 각도만큼 회전
-            endRotation = startRotation * Quaternion.Euler(angle, 0f, 0f);
+            endRotation = startRotation * Quaternion.Euler(angle, 0f, 0f);  // X축으로 주어진 각도만큼 회전
         }
 
         float time = 0f;
