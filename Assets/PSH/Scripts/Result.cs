@@ -7,7 +7,7 @@ public class Result : MonoBehaviour
 {
     private Button retryButton;  // RetryButton 참조
     public Text targetText;  // 갱신할 텍스트 오브젝트
-    public string nextText = "튜토리얼이 끝났습니다 이제 직접 만들어봅시다";  // 갱신될 텍스트
+    public string nextText = "튜토리얼이 끝났습니다 이제 스스로 만들어봅시다";  // 갱신될 텍스트
 
     void Start()
     {
