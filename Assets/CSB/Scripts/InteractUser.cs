@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,9 @@ public class InteractUser : MonoBehaviour
     public Text chatBox;
     public GameObject csv;
     string url = "";
+    string imageDir = "";
+    public Image herbImage;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +34,8 @@ public class InteractUser : MonoBehaviour
             {
                 string msg = $"음... 그러시군요. {datas[i].herb}이(가) {datas[i].symptom}에 좋은데요,\n{datas[i].recipe}\n{datas[i].description}";
                 url = datas[i].link;
+                imageDir = Application.streamingAssetsPath + datas[i].imagePath;
+                LoadImage(imageDir);
                 StartCoroutine(PrintChat(msg));
             }
         }
@@ -68,4 +74,27 @@ public class InteractUser : MonoBehaviour
         //Application.OpenURL("https://youtu.be/eNztXV8p4CI?si=9UJZiQGMCic9RwXH");
         Application.OpenURL(url);
     }
+
+    public void LoadImage(string path)
+    {
+
+        if (File.Exists(path))
+        {
+            // 이미지 파일 읽기
+            byte[] fileData = File.ReadAllBytes(path);
+            Texture2D texture = new Texture2D(2, 2);
+            texture.LoadImage(fileData); // 이미지 로드
+
+            // Texture2D를 Sprite로 변환
+            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
+            // UI Image에 Sprite 설정
+            herbImage.sprite = sprite;
+        }
+        else
+        {
+            Debug.LogError("Image file not found at " + path);
+        }
+    }
+
 }

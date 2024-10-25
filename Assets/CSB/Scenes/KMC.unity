@@ -7280,6 +7280,7 @@ RectTransform:
   - {fileID: 865425714}
   - {fileID: 1396511484}
   - {fileID: 1611400794}
+  - {fileID: 1542147111}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7301,6 +7302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chatBox: {fileID: 865425715}
   csv: {fileID: 301899165}
+  herbImage: {fileID: 1542147113}
 --- !u!1001 &633297514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15889,7 +15891,7 @@ GameObject:
   - component: {fileID: 1391023333}
   - component: {fileID: 1391023332}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_Chatbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17823,6 +17825,96 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1540977795}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1542147110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1542147111}
+  - component: {fileID: 1542147114}
+  - component: {fileID: 1542147113}
+  - component: {fileID: 1542147112}
+  m_Layer: 5
+  m_Name: Image_Herb
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1542147111
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542147110}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 610840251}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -716, y: 291}
+  m_SizeDelta: {x: 400, y: 400}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1542147112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542147110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33bd9cc1d91000d45be0f7733b0b214b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imagePath: 
+  uiImage: {fileID: 0}
+--- !u!114 &1542147113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542147110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 9beb6c4f5297fd94d85033841f9d5b23, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1542147114
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542147110}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1544753011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18657,7 +18749,7 @@ GameObject:
   - component: {fileID: 1611400796}
   - component: {fileID: 1611400795}
   m_Layer: 5
-  m_Name: SymptomInputField
+  m_Name: InputField_Symptom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
