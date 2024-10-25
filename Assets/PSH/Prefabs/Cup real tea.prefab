@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 855672103406224008}
   - component: {fileID: 6972394134243816063}
+  - component: {fileID: -4455694492690814194}
   m_Layer: 0
   m_Name: Cup real tea
   m_TagString: Untagged
@@ -55,6 +56,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.8154135, y: 2.2268147, z: 4.3430977}
   m_Center: {x: -0.18345578, y: 0.86447537, z: 0.103551716}
+--- !u!114 &-4455694492690814194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41699605767591986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cbfdfa89fd62b44e85a09b95f8d92b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
 --- !u!1 &419514727902420323
 GameObject:
   m_ObjectHideFlags: 0

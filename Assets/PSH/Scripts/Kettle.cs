@@ -8,8 +8,8 @@ public class Kettle : MonoBehaviour
     private int teaLeafStack = 0;  // 찻잎 스택
     public PlayMinigame playMinigame; // PlayMinigame 스크립트 참조 (텍스트 갱신용)
     public Transform targetPosition;  // Kettle이 이동할 첫 번째 빈 오브젝트의 위치
-    public GameObject objectToReplace;  // 교체할 대상 오브젝트
-    public GameObject replacementPrefab; // 교체될 프리팹
+    public GameObject objectToReplace;  // 튜토리얼 모드에서 교체할 대상 오브젝트
+    public GameObject replacementPrefab; // 튜토리얼 모드에서 교체될 프리팹
     public GameObject boilingEffectPrefab; // 물 끓일 때 출력할 이펙트 프리팹
     public Transform effectSpawnPoint;  // 이펙트가 생성될 위치
     private GameObject boilingEffectInstance;  // 생성된 이펙트 인스턴스
@@ -21,6 +21,13 @@ public class Kettle : MonoBehaviour
     private bool hasBoiledWater = false;  // 물을 끓였는지 여부 확인
     private bool isPouring = false;  // 차 따르기 모션 여부 확인
     private bool isBoiling = false;  // 물 끓이기 중 여부
+
+    // 체험 모드에서 사용할 교체할 오브젝트와 교체될 프리팹을 따로 지정
+    public GameObject experienceObjectToReplace;  // 체험 모드에서 교체할 오브젝트
+    public GameObject experienceReplacementPrefab;  // 체험 모드에서 교체될 프리팹 (하이어라키에 있는 오브젝트)
+
+    // 프리팹이 이동할 목표 지점 (public으로 지정하여 유니티에서 직접 설정 가능)
+    public Transform experienceTargetPoint;  // 체험 모드에서 교체될 프리팹이 이동할 목표 지점
 
     void Start()
     {
@@ -52,7 +59,7 @@ public class Kettle : MonoBehaviour
 
     void Update()
     {
-        // 튜토리얼 모드와 체험 모드에 따라 물 끓이기 및 차 따르기 상호작용 구분
+        // 물을 끓이기 시작할 때만 상호작용, 물이 끓고 나면 차 따르기 상호작용
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -130,7 +137,14 @@ public class Kettle : MonoBehaviour
 
         yield return StartCoroutine(MoveAndRotateKettle());
 
-        ReplaceObject();  // 대상 오브젝트 교체
+        if (isExperienceMode)
+        {
+            ReplaceExperienceObject();  // 체험 모드에서의 교체
+        }
+        else
+        {
+            ReplaceObject();  // 튜토리얼 모드에서의 교체
+        }
 
         isPouring = false;
         hasBoiledWater = false;  // 차 따르기 완료 후 다시 물 끓이기 가능
@@ -147,13 +161,18 @@ public class Kettle : MonoBehaviour
         // 3초 대기
         yield return new WaitForSeconds(3f);
 
+        if (isExperienceMode)
+        {
+            ReplaceExperienceObject();  // 체험 모드에서 오브젝트 교체는 Kettle이 돌아가기 전에 수행
+        }
+
         StartCoroutine(MoveToPosition(originalPosition, 1f));
         StartCoroutine(RotateKettle(0f, 1f, true));
 
         yield return new WaitForSeconds(1f);
     }
 
-    // 프리팹 교체 함수
+    // 튜토리얼 모드에서 오브젝트 교체 함수
     void ReplaceObject()
     {
         if (objectToReplace != null && replacementPrefab != null)
@@ -162,6 +181,19 @@ public class Kettle : MonoBehaviour
             Quaternion replaceRotation = objectToReplace.transform.rotation;
             Destroy(objectToReplace);
             Instantiate(replacementPrefab, replacePosition, replaceRotation);
+        }
+    }
+
+    // 체험 모드에서 오브젝트 교체 함수 (즉시 파괴 및 나타남)
+    void ReplaceExperienceObject()
+    {
+        if (experienceObjectToReplace != null && experienceReplacementPrefab != null && experienceTargetPoint != null)
+        {
+            // 교체할 오브젝트 즉시 파괴
+            Destroy(experienceObjectToReplace);
+
+            // 하이어라키에 있는 교체할 프리팹을 바로 지정된 위치로 이동
+            experienceReplacementPrefab.transform.position = experienceTargetPoint.position;
         }
     }
 
