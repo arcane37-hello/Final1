@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Result : MonoBehaviour
 {
     private Button retryButton;  // RetryButton 참조
     public Text targetText;  // 갱신할 텍스트 오브젝트
-    public string nextText = "튜토리얼이 끝났습니다 이제 스스로 만들어봅시다";  // 갱신될 텍스트
+    public string nextText = "튜토리얼이 끝났습니다";  // 갱신될 텍스트
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class Result : MonoBehaviour
         if (retryButton != null)
         {
             retryButton.gameObject.SetActive(false); // 시작 시 비활성화
+            retryButton.onClick.AddListener(ReloadKMCScene);  // 버튼 클릭 시 씬 전환 메서드 연결
         }
         else
         {
@@ -53,5 +55,11 @@ public class Result : MonoBehaviour
         {
             retryButton.gameObject.SetActive(true);
         }
+    }
+
+    // "KMC" 씬으로 전환하는 메서드
+    public void ReloadKMCScene()
+    {
+        SceneManager.LoadScene("KMC");
     }
 }

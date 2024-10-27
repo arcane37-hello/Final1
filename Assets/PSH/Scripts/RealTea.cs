@@ -14,6 +14,8 @@ public class RealTea : MonoBehaviour
     private float boilingStopTime;  // 물 끓이기를 멈춘 시간
     private bool isBoiling = false;  // 물이 끓고 있는지 여부
 
+    private float boilingDuration;
+
     void Start()
     {
         // TeaTestPoint 오브젝트를 찾음
@@ -114,7 +116,8 @@ public class RealTea : MonoBehaviour
 
         Debug.Log("RealTea 오브젝트가 TeaTestPoint에 도착했습니다.");
 
-        // 이후에 평가 관련 기능을 추가할 수 있음
+        // 목표 지점에 도착한 후 평가 실행
+        StartCoroutine(EvaluateTea());
     }
 
     // 카메라를 CameraPoint1로 이동시키는 코루틴
@@ -129,5 +132,40 @@ public class RealTea : MonoBehaviour
         }
 
         Debug.Log("카메라가 CameraPoint1에 도착했습니다.");
+    }
+
+    // 수세미 횟수를 평가하는 함수
+    IEnumerator EvaluateTea()
+    {
+        if (realGame != null)
+        {
+            // "평가 중..." 텍스트를 3초 동안 출력
+            realGame.UpdateText("평가 중...");
+            yield return new WaitForSeconds(3f);
+
+            // 평가 결과 출력
+            if (susemiCount < 5)
+            {
+                realGame.UpdateText("재료를 덜 넣으셨네요");
+            }
+            else if (susemiCount > 5)
+            {
+                realGame.UpdateText("재료를 너무 많이 넣으셨네요");
+            }
+            else
+            {
+                realGame.UpdateText("재료를 적당히 넣으셨네요");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("RealGame 스크립트가 설정되지 않아 텍스트 갱신이 불가능합니다.");
+        }
+    }
+
+    public void RecordBoilingDuration(float duration)
+    {
+        boilingDuration = duration;
+        Debug.Log("물이 끓인 시간: " + boilingDuration + "초");
     }
 }
