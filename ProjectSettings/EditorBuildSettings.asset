@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/PSH/Scenes/KMC.unity
-    guid: b4194adeab161114fa52f1aca443f657
+    path: Assets/Main/KMC.unity
+    guid: a9087ea9a065d6f448b36e827e5b5cad
   - enabled: 1
     path: Assets/PSH/Scenes/Susemi.unity
     guid: 8438b0b6619ff534282444a2cfe38348
