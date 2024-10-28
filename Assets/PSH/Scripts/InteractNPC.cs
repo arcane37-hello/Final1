@@ -5,76 +5,81 @@ using UnityEngine.SceneManagement;
 
 public class InteractNPC : MonoBehaviour
 {
-    private bool isInInteractZone = false;  // »óÈ£ÀÛ¿ë °¡´É ¿©ºÎ
-    private GameObject currentNPC;          // ÇöÀç »óÈ£ÀÛ¿ë °¡´ÉÇÑ NPC
-    public GameObject miniGameUI;           // ¿¬°áÇÒ UI ¿ÀºêÁ§Æ® (ºñÈ°¼ºÈ­µÈ »óÅÂ¿©¾ß ÇÔ)
-    private PlayerMove playerMove;          // PlayerMove ½ºÅ©¸³Æ® ÂüÁ¶
+    private bool isInInteractZone = false;  // ìƒí˜¸ì‘ìš© ê°€ëŠ¥ ì—¬ë¶€
+    private GameObject currentNPC;          // í˜„ì¬ ìƒí˜¸ì‘ìš© ê°€ëŠ¥í•œ NPC
+    public GameObject miniGameUI;           // ì—°ê²°í•  UI ì˜¤ë¸Œì íŠ¸ (ë¹„í™œì„±í™”ëœ ìƒíƒœì—¬ì•¼ í•¨)
+    public GameObject chatUI;               // í•œì˜ì‚¬ NPCì™€ ì±„íŒ…í•˜ëŠ” ì½”ë“œ êµ¬í˜„
+    private PlayerMove playerMove;          // PlayerMove ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
 
     void Start()
     {
-        playerMove = FindObjectOfType<PlayerMove>(); // PlayerMove ½ºÅ©¸³Æ® Ã£±â
+        playerMove = FindObjectOfType<PlayerMove>(); // PlayerMove ìŠ¤í¬ë¦½íŠ¸ ì°¾ê¸°
     }
 
     void Update()
     {
-        // F Å°¸¦ ´©¸£¸é »óÈ£ÀÛ¿ë ½Ãµµ
+        // F í‚¤ë¥¼ ëˆ„ë¥´ë©´ ìƒí˜¸ì‘ìš© ì‹œë„
         if (isInInteractZone && Input.GetKeyDown(KeyCode.F))
         {
             if (currentNPC != null)
             {
-                // MinigameNPC¿Í »óÈ£ÀÛ¿ë ½Ã Æ¯Á¤ UI È°¼ºÈ­
+                // MinigameNPCì™€ ìƒí˜¸ì‘ìš© ì‹œ íŠ¹ì • UI í™œì„±í™”
                 if (currentNPC.name == "MinigameNPC")
                 {
                     miniGameUI.SetActive(true);
-                    playerMove.isMovementEnabled = false; // ÇÃ·¹ÀÌ¾î ÀÌµ¿ ºñÈ°¼ºÈ­
-                    Debug.Log("MinigameNPC¿Í »óÈ£ÀÛ¿ëÇÏ¿© UI Ã¢ È°¼ºÈ­ ¹× ÀÌµ¿ ºñÈ°¼ºÈ­");
+                    playerMove.isMovementEnabled = false; // í”Œë ˆì´ì–´ ì´ë™ ë¹„í™œì„±í™”
+                    Debug.Log("MinigameNPCì™€ ìƒí˜¸ì‘ìš©í•˜ì—¬ UI ì°½ í™œì„±í™” ë° ì´ë™ ë¹„í™œì„±í™”");
                 }
                 else if (currentNPC.CompareTag("NPC"))
                 {
-                    // NPC ÅÂ±×°¡ ÀÖ´Â ´Ù¸¥ ¿ÀºêÁ§Æ®¿Í »óÈ£ÀÛ¿ë
-                    Debug.Log(currentNPC.name + "¿Í »óÈ£ÀÛ¿ëÇß½À´Ï´Ù. (ÀÏ¹İ NPC)");
-                    // ³ªÁß¿¡ ´Ù¸¥ »óÈ£ÀÛ¿ë Ãß°¡ °¡´É
+                    // NPC íƒœê·¸ê°€ ìˆëŠ” ë‹¤ë¥¸ ì˜¤ë¸Œì íŠ¸ì™€ ìƒí˜¸ì‘ìš©
+                    chatUI.SetActive(true);
+                    playerMove.isMovementEnabled = false; // í”Œë ˆì´ì–´ ì´ë™ ë¹„í™œì„±í™”
+                    Debug.Log(currentNPC.name + "ì™€ ìƒí˜¸ì‘ìš©í–ˆìŠµë‹ˆë‹¤. (ì¼ë°˜ NPC)");
+                    // ë‚˜ì¤‘ì— ë‹¤ë¥¸ ìƒí˜¸ì‘ìš© ì¶”ê°€ ê°€ëŠ¥
+                    // currentNPC.GetComponent<InteractUser>().Chat("ë¹„ì—¼ì— ì¢‹ì€ ì•½ì¬ë¥¼ ì¶”ì²œí•´ ì£¼ì„¸ìš”.");
                 }
             }
         }
 
-        // ESC Å°¸¦ ´­·¶À» ¶§ UI Ã¢À» ºñÈ°¼ºÈ­ÇÏ°í ÇÃ·¹ÀÌ¾î ÀÌµ¿ È°¼ºÈ­
+        // ESC í‚¤ë¥¼ ëˆŒë €ì„ ë•Œ UI ì°½ì„ ë¹„í™œì„±í™”í•˜ê³  í”Œë ˆì´ì–´ ì´ë™ í™œì„±í™”
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             miniGameUI.SetActive(false);
-            playerMove.isMovementEnabled = true; // ÇÃ·¹ÀÌ¾î ÀÌµ¿ È°¼ºÈ­
-            Debug.Log("ESC Å°¸¦ ´­·¯ UI Ã¢ ºñÈ°¼ºÈ­ ¹× ÀÌµ¿ È°¼ºÈ­");
+            chatUI.SetActive(false);
+            playerMove.isMovementEnabled = true; // í”Œë ˆì´ì–´ ì´ë™ í™œì„±í™”
+            Debug.Log("ESC í‚¤ë¥¼ ëˆŒëŸ¬ UI ì°½ ë¹„í™œì„±í™” ë° ì´ë™ í™œì„±í™”");
         }
     }
 
-    // »óÈ£ÀÛ¿ë ¿µ¿ª¿¡ µé¾î¿ÔÀ» ¶§
+    // ìƒí˜¸ì‘ìš© ì˜ì—­ì— ë“¤ì–´ì™”ì„ ë•Œ
     void OnTriggerEnter(Collider other)
     {
-        // NPC ÅÂ±×°¡ ÀÖ´Â ¿ÀºêÁ§Æ®¿Í Ãæµ¹Çß´ÂÁö È®ÀÎ
+        // NPC íƒœê·¸ê°€ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì™€ ì¶©ëŒí–ˆëŠ”ì§€ í™•ì¸
         if (other.CompareTag("NPC"))
         {
             isInInteractZone = true;
             currentNPC = other.gameObject;
-            Debug.Log(currentNPC.name + "¿Í »óÈ£ÀÛ¿ë °¡´É");
+            Debug.Log(currentNPC.name + "ì™€ ìƒí˜¸ì‘ìš© ê°€ëŠ¥");
         }
     }
 
-    // »óÈ£ÀÛ¿ë ¿µ¿ª¿¡¼­ ³ª°¬À» ¶§
+    // ìƒí˜¸ì‘ìš© ì˜ì—­ì—ì„œ ë‚˜ê°”ì„ ë•Œ
     void OnTriggerExit(Collider other)
     {
-        // NPC ÅÂ±×°¡ ÀÖ´Â ¿ÀºêÁ§Æ®¿¡¼­ ³ª°¡¸é »óÈ£ÀÛ¿ë ºÒ°¡´É
+        // NPC íƒœê·¸ê°€ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì—ì„œ ë‚˜ê°€ë©´ ìƒí˜¸ì‘ìš© ë¶ˆê°€ëŠ¥
         if (other.CompareTag("NPC"))
         {
             isInInteractZone = false;
             currentNPC = null;
-            Debug.Log("»óÈ£ÀÛ¿ë ºÒ°¡");
+            Debug.Log("ìƒí˜¸ì‘ìš© ë¶ˆê°€");
         }
     }
 
-    // ¹öÆ°À» ´­·¶À» ¶§ ¾À ÀüÈ¯
+    // ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ì”¬ ì „í™˜
     public void LoadSusemiScene()
     {
-        SceneManager.LoadScene("Susemi");  // Susemi ¾ÀÀ¸·Î ÀüÈ¯
-        Debug.Log("Susemi ¾ÀÀ¸·Î ÀüÈ¯");
+        SceneManager.LoadScene("Susemi");  // Susemi ì”¬ìœ¼ë¡œ ì „í™˜
+        Debug.Log("Susemi ì”¬ìœ¼ë¡œ ì „í™˜");
     }
 }
