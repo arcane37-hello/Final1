@@ -5,30 +5,32 @@ using UnityEngine.UI;
 
 public class Kettle : MonoBehaviour
 {
-    public RealTea realTea;  // RealTea ½ºÅ©¸³Æ® ÂüÁ¶
-    public RealGame realGame; // RealGame ½ºÅ©¸³Æ® ÂüÁ¶ Ãß°¡
-    private int teaLeafStack = 0;  // ÂşÀÙ ½ºÅÃ
-    public PlayMinigame playMinigame; // PlayMinigame ½ºÅ©¸³Æ® ÂüÁ¶ (ÅØ½ºÆ® °»½Å¿ë)
-    public Transform targetPosition;  // KettleÀÌ ÀÌµ¿ÇÒ Ã¹ ¹øÂ° ºó ¿ÀºêÁ§Æ®ÀÇ À§Ä¡
-    public GameObject objectToReplace;  // Æ©Åä¸®¾ó ¸ğµå¿¡¼­ ±³Ã¼ÇÒ ´ë»ó ¿ÀºêÁ§Æ®
-    public GameObject replacementPrefab; // Æ©Åä¸®¾ó ¸ğµå¿¡¼­ ±³Ã¼µÉ ÇÁ¸®ÆÕ
-    public GameObject boilingEffectPrefab; // ¹° ²úÀÏ ¶§ Ãâ·ÂÇÒ ÀÌÆåÆ® ÇÁ¸®ÆÕ
-    public Transform effectSpawnPoint;  // ÀÌÆåÆ®°¡ »ı¼ºµÉ À§Ä¡
-    private GameObject boilingEffectInstance;  // »ı¼ºµÈ ÀÌÆåÆ® ÀÎ½ºÅÏ½º
-    private Vector3 originalPosition;  // KettleÀÇ ¿ø·¡ À§Ä¡
-    private Quaternion originalRotation;  // KettleÀÇ ¿ø·¡ È¸Àü°ª
-    private bool isReadyToBoil = false;  // ¹°À» ²úÀÏ ÁØºñ°¡ µÇ¾ú´ÂÁö ¿©ºÎ
-    private bool isReadyToMove = false;  // ¹°À» ²úÀÎ ÈÄ ÀÌµ¿ ÁØºñ »óÅÂ
-    public bool isExperienceMode = false;  // Ã¼Çè ¸ğµå ¿©ºÎ È®ÀÎ
-    private bool hasBoiledWater = false;  // ¹°À» ²ú¿´´ÂÁö ¿©ºÎ È®ÀÎ
-    private bool isPouring = false;  // Â÷ µû¸£±â ¸ğ¼Ç ¿©ºÎ È®ÀÎ
-    private bool isBoiling = false;  // ¹° ²úÀÌ±â Áß ¿©ºÎ
-    private bool stopBoilingTimer = false;  // Å¸ÀÌ¸Ó ÁßÁö ¿©ºÎ
+    public RealTea realTea;  // RealTea ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
+    public RealGame realGame; // RealGame ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡° ì¶”ê°€
+    private int teaLeafStack = 0;  // ì°»ì ìŠ¤íƒ
+    public PlayMinigame playMinigame; // PlayMinigame ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡° (í…ìŠ¤íŠ¸ ê°±ì‹ ìš©)
+    public Transform targetPosition;  // Kettleì´ ì´ë™í•  ì²« ë²ˆì§¸ ë¹ˆ ì˜¤ë¸Œì íŠ¸ì˜ ìœ„ì¹˜
+    public GameObject objectToReplace;  // íŠœí† ë¦¬ì–¼ ëª¨ë“œì—ì„œ êµì²´í•  ëŒ€ìƒ ì˜¤ë¸Œì íŠ¸
+    public GameObject replacementPrefab; // íŠœí† ë¦¬ì–¼ ëª¨ë“œì—ì„œ êµì²´ë  í”„ë¦¬íŒ¹
+    public GameObject boilingEffectPrefab; // ë¬¼ ë“ì¼ ë•Œ ì¶œë ¥í•  ì´í™íŠ¸ í”„ë¦¬íŒ¹
+    public Transform effectSpawnPoint;  // ì´í™íŠ¸ê°€ ìƒì„±ë  ìœ„ì¹˜
+    private GameObject boilingEffectInstance;  // ìƒì„±ëœ ì´í™íŠ¸ ì¸ìŠ¤í„´ìŠ¤
+    private Vector3 originalPosition;  // Kettleì˜ ì›ë˜ ìœ„ì¹˜
+    private Quaternion originalRotation;  // Kettleì˜ ì›ë˜ íšŒì „ê°’
+    private bool isReadyToBoil = false;  // ë¬¼ì„ ë“ì¼ ì¤€ë¹„ê°€ ë˜ì—ˆëŠ”ì§€ ì—¬ë¶€
+    private bool isReadyToMove = false;  // ë¬¼ì„ ë“ì¸ í›„ ì´ë™ ì¤€ë¹„ ìƒíƒœ
+    public bool isExperienceMode = false;  // ì²´í—˜ ëª¨ë“œ ì—¬ë¶€ í™•ì¸
+    private bool hasBoiledWater = false;  // ë¬¼ì„ ë“ì˜€ëŠ”ì§€ ì—¬ë¶€ í™•ì¸
+    private bool isPouring = false;  // ì°¨ ë”°ë¥´ê¸° ëª¨ì…˜ ì—¬ë¶€ í™•ì¸
+    private bool isBoiling = false;  // ë¬¼ ë“ì´ê¸° ì¤‘ ì—¬ë¶€
+    private bool stopBoilingTimer = false;  // íƒ€ì´ë¨¸ ì¤‘ì§€ ì—¬ë¶€
+    private float boilingStartTime; // ì²´í—˜ ëª¨ë“œì—ì„œ ë“ì´ê¸° ì‹œì‘ ì‹œê°„
+    private float boilingStopTime;  // ì²´í—˜ ëª¨ë“œì—ì„œ ë“ì´ê¸° ì¤‘ë‹¨ ì‹œê°„
 
-    // Ã¼Çè ¸ğµå¿¡¼­ »ç¿ëÇÒ ±³Ã¼ÇÒ ¿ÀºêÁ§Æ®¿Í ±³Ã¼µÉ ÇÁ¸®ÆÕÀ» µû·Î ÁöÁ¤
-    public GameObject experienceObjectToReplace;  // Ã¼Çè ¸ğµå¿¡¼­ ±³Ã¼ÇÒ ¿ÀºêÁ§Æ®
-    public GameObject experienceReplacementPrefab;  // Ã¼Çè ¸ğµå¿¡¼­ ±³Ã¼µÉ ÇÁ¸®ÆÕ (ÇÏÀÌ¾î¶óÅ°¿¡ ÀÖ´Â ¿ÀºêÁ§Æ®)
-    public Transform experienceTargetPoint;  // Ã¼Çè ¸ğµå¿¡¼­ ±³Ã¼µÉ ÇÁ¸®ÆÕÀÌ ÀÌµ¿ÇÒ ¸ñÇ¥ ÁöÁ¡
+    // ì²´í—˜ ëª¨ë“œì—ì„œ ì‚¬ìš©í•  êµì²´í•  ì˜¤ë¸Œì íŠ¸ì™€ êµì²´ë  í”„ë¦¬íŒ¹ì„ ë”°ë¡œ ì§€ì •
+    public GameObject experienceObjectToReplace;  // ì²´í—˜ ëª¨ë“œì—ì„œ êµì²´í•  ì˜¤ë¸Œì íŠ¸
+    public GameObject experienceReplacementPrefab;  // ì²´í—˜ ëª¨ë“œì—ì„œ êµì²´ë  í”„ë¦¬íŒ¹ (í•˜ì´ì–´ë¼í‚¤ì— ìˆëŠ” ì˜¤ë¸Œì íŠ¸)
+    public Transform experienceTargetPoint;  // ì²´í—˜ ëª¨ë“œì—ì„œ êµì²´ë  í”„ë¦¬íŒ¹ì´ ì´ë™í•  ëª©í‘œ ì§€ì 
 
     void Start()
     {
@@ -37,12 +39,12 @@ public class Kettle : MonoBehaviour
 
         if (realTea == null)
         {
-            Debug.LogError("RealTea ½ºÅ©¸³Æ®°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("RealTea ìŠ¤í¬ë¦½íŠ¸ê°€ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
 
         if (realGame == null)
         {
-            Debug.LogError("RealGame ½ºÅ©¸³Æ®°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            Debug.LogError("RealGame ìŠ¤í¬ë¦½íŠ¸ê°€ í• ë‹¹ë˜ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
         }
     }
 
@@ -52,7 +54,7 @@ public class Kettle : MonoBehaviour
         {
             Destroy(collision.gameObject);
             teaLeafStack++;
-            Debug.Log("Susemi ¿ÀºêÁ§Æ® ÆÄ±«µÊ. ÇöÀç ÂşÀÙ ½ºÅÃ: " + teaLeafStack);
+            Debug.Log("Susemi ì˜¤ë¸Œì íŠ¸ íŒŒê´´ë¨. í˜„ì¬ ì°»ì ìŠ¤íƒ: " + teaLeafStack);
 
             if (isExperienceMode && realTea != null)
             {
@@ -61,7 +63,7 @@ public class Kettle : MonoBehaviour
 
             if (!isExperienceMode && teaLeafStack >= 5)
             {
-                playMinigame.UpdateText("ÀßÇÏ¼Ì½À´Ï´Ù! ÀÌÁ¦ Â÷¸¦ ¸¸µé±â À§ÇØ ¹°À» ²ú¿©º¾½Ã´Ù!");
+                playMinigame.UpdateText("ì˜í•˜ì…¨ìŠµë‹ˆë‹¤! ì´ì œ ì°¨ë¥¼ ë§Œë“¤ê¸° ìœ„í•´ ë¬¼ì„ ë“ì—¬ë´…ì‹œë‹¤!");
                 isReadyToBoil = true;
             }
         }
@@ -108,6 +110,11 @@ public class Kettle : MonoBehaviour
         isReadyToBoil = false;
         stopBoilingTimer = false;
 
+        if (isExperienceMode)
+        {
+            boilingStartTime = Time.time; // ì²´í—˜ ëª¨ë“œì—ì„œ ë“ì´ê¸° ì‹œì‘ ì‹œê°„ ê¸°ë¡
+        }
+
         int totalTime = isExperienceMode ? 0 : 15;
 
         if (boilingEffectPrefab != null)
@@ -121,7 +128,7 @@ public class Kettle : MonoBehaviour
         {
             if (!isExperienceMode && realGame != null)
             {
-                realGame.UpdateBoilingText($"¹°À» ²úÀÌ´Â ÁßÀÔ´Ï´Ù. 0:{totalTime:D2}");
+                realGame.UpdateBoilingText($"ë¬¼ì„ ë“ì´ëŠ” ì¤‘ì…ë‹ˆë‹¤. 0:{totalTime:D2}");
             }
             yield return new WaitForSeconds(1f);
             totalTime--;
@@ -129,7 +136,7 @@ public class Kettle : MonoBehaviour
 
         if (!isExperienceMode && !stopBoilingTimer)
         {
-            playMinigame.UpdateText("Â÷°¡ ¿Ï¼ºµÈ °Í °°½À´Ï´Ù. ÁÖÀüÀÚ¸¦ Å¬¸¯ÇØ¼­ Â÷¸¦ µû¶ó º¾½Ã´Ù");
+            playMinigame.UpdateText("ì°¨ê°€ ì™„ì„±ëœ ê²ƒ ê°™ìŠµë‹ˆë‹¤. ì£¼ì „ìë¥¼ í´ë¦­í•´ì„œ ì°¨ë¥¼ ë”°ë¼ ë´…ì‹œë‹¤");
         }
 
         hasBoiledWater = true;
@@ -139,11 +146,22 @@ public class Kettle : MonoBehaviour
     IEnumerator PourTea()
     {
         isPouring = true;
-        stopBoilingTimer = true;  // Å¸ÀÌ¸Ó ÁßÁö
+        stopBoilingTimer = true;  // íƒ€ì´ë¨¸ ì¤‘ì§€
 
-        if (!isExperienceMode)
+        if (isExperienceMode)
         {
-            realGame.UpdateText("Â÷¸¦ µû¸£´Â Áß...");
+            boilingStopTime = Time.time;  // ì²´í—˜ ëª¨ë“œì—ì„œ ë“ì´ê¸° ì¤‘ë‹¨ ì‹œê°„ ê¸°ë¡
+
+            if (realTea != null)
+            {
+                realTea.RecordBoilingDuration(boilingStopTime - boilingStartTime);
+            }
+        }
+
+        if (realGame != null)
+        {
+            realGame.StopBoiling();  // BoilWater ì½”ë£¨í‹´ ì¢…ë£Œ
+            realGame.UpdateText("ì°¨ë¥¼ ë”°ë¥´ëŠ” ì¤‘...");
         }
 
         yield return StartCoroutine(MoveAndRotateKettle());
@@ -155,14 +173,14 @@ public class Kettle : MonoBehaviour
         else
         {
             ReplaceObject();
-            realGame.UpdateText("Â÷°¡ ¿Ï¼ºµÆ½À´Ï´Ù ÂşÀÜÀ» Å¬¸¯ÇØ¼­ Æò°¡¸¦ ¹Ş¾Æº¾½Ã´Ù");
+            realGame.UpdateText("ì°¨ê°€ ì™„ì„±ëìŠµë‹ˆë‹¤ ì°»ì”ì„ í´ë¦­í•´ì„œ í‰ê°€ë¥¼ ë°›ì•„ë´…ì‹œë‹¤");
         }
 
         if (isExperienceMode && realGame != null)
         {
-            realGame.UpdateText("Â÷¸¦ µû¸£´Â Áß...");
+            realGame.UpdateText("ì°¨ë¥¼ ë”°ë¥´ëŠ” ì¤‘...");
             yield return new WaitForSeconds(3f);
-            realGame.UpdateText("Â÷°¡ ¿Ï¼ºµÆ½À´Ï´Ù ÂşÀÜÀ» Å¬¸¯ÇØ¼­ Æò°¡¸¦ ¹Ş¾Æº¾½Ã´Ù");
+            realGame.UpdateText("ì°¨ê°€ ì™„ì„±ëìŠµë‹ˆë‹¤ ì°»ì”ì„ í´ë¦­í•´ì„œ í‰ê°€ë¥¼ ë°›ì•„ë´…ì‹œë‹¤");
         }
 
         isPouring = false;
@@ -186,7 +204,7 @@ public class Kettle : MonoBehaviour
 
     void ReplaceObject()
     {
-        if (objectToReplace != null && replacementPrefab != null)
+        if (!isExperienceMode && objectToReplace != null && replacementPrefab != null)
         {
             Vector3 replacePosition = objectToReplace.transform.position;
             Quaternion replaceRotation = objectToReplace.transform.rotation;
@@ -197,10 +215,15 @@ public class Kettle : MonoBehaviour
 
     void ReplaceExperienceObject()
     {
-        if (experienceObjectToReplace != null && experienceReplacementPrefab != null && experienceTargetPoint != null)
+        if (experienceObjectToReplace != null)
         {
-            Destroy(experienceObjectToReplace);
-            experienceReplacementPrefab.transform.position = experienceTargetPoint.position;
+            if (realTea != null && experienceTargetPoint != null)
+            {
+                realTea.transform.position = experienceTargetPoint.position;  // ì²´í—˜ ëª¨ë“œì—ì„œ RealTea ì˜¤ë¸Œì íŠ¸ ìœ„ì¹˜ ì´ë™
+            }
+
+            Destroy(experienceObjectToReplace);  // íŠ¹ì • ì˜¤ë¸Œì íŠ¸ë¥¼ íŒŒê´´
+            Debug.Log("ì²´í—˜ ëª¨ë“œì—ì„œ RealTea ì˜¤ë¸Œì íŠ¸ê°€ ëª©í‘œ ì§€ì ìœ¼ë¡œ ì´ë™í•˜ê³  ê¸°ì¡´ ì˜¤ë¸Œì íŠ¸ê°€ íŒŒê´´ë˜ì—ˆìŠµë‹ˆë‹¤.");
         }
     }
 
@@ -221,17 +244,7 @@ public class Kettle : MonoBehaviour
     IEnumerator RotateKettle(float angle, float duration, bool toOriginalRotation = false)
     {
         Quaternion startRotation = transform.rotation;
-        Quaternion endRotation;
-
-        if (toOriginalRotation)
-        {
-            endRotation = originalRotation;
-        }
-        else
-        {
-            endRotation = startRotation * Quaternion.Euler(angle, 0f, 0f);
-        }
-
+        Quaternion endRotation = toOriginalRotation ? originalRotation : startRotation * Quaternion.Euler(angle, 0f, 0f);
         float time = 0f;
 
         while (time < duration)

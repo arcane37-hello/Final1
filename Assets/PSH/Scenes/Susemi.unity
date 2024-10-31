@@ -25446,9 +25446,6 @@ MonoBehaviour:
   boilingEffectPrefab: {fileID: 1642322455942316, guid: d26aaf76e6e2409448242b9a2d66f31f,
     type: 3}
   effectSpawnPoint: {fileID: 623129897}
-  objectToReplace: {fileID: 1726083361}
-  replacementPrefab: {fileID: 41699605767591986, guid: 78c4053f670ec364799549a3ed40409a,
-    type: 3}
   isBoiling: 0
 --- !u!4 &2133370474
 Transform:

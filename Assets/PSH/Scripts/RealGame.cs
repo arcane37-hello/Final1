@@ -10,13 +10,11 @@ public class RealGame : MonoBehaviour
     public Kettle kettle;
     public GameObject boilingEffectPrefab;
     public Transform effectSpawnPoint;
-    public GameObject objectToReplace;
-    public GameObject replacementPrefab;
 
     private bool isReadyToBoil = false;
-    public bool isBoiling = false;  // ¹° ²úÀÌ±â Áß ¿©ºÎ
+    public bool isBoiling = false;  // ë¬¼ ë“ì´ê¸° ì¤‘ ì—¬ë¶€
     private bool isReadyToPour = false;
-    private int susemiCount = 0;  // ¼ö¼¼¹Ì Ãß°¡ È½¼ö
+    private int susemiCount = 0;  // ìˆ˜ì„¸ë¯¸ ì¶”ê°€ íšŸìˆ˜
     private float boilingStartTime;
     private float boilingStopTime;
 
@@ -26,13 +24,13 @@ public class RealGame : MonoBehaviour
         StartCoroutine(StartExperienceMode());
     }
 
-    // Ã¼Çè ¸ğµå ½ÃÀÛ ½Ã ¼øÂ÷ÀûÀ¸·Î µ¿ÀÛÇÏ´Â ÄÚ·çÆ¾
+    // ì²´í—˜ ëª¨ë“œ ì‹œì‘ ì‹œ ìˆœì°¨ì ìœ¼ë¡œ ë™ì‘í•˜ëŠ” ì½”ë£¨í‹´
     IEnumerator StartExperienceMode()
     {
-        dialogueText.text = "Ã¼Çè ¸ğµå¸¦ ½ÃÀÛÇÏ°Ú½À´Ï´Ù.";
+        dialogueText.text = "ì²´í—˜ ëª¨ë“œë¥¼ ì‹œì‘í•˜ê² ìŠµë‹ˆë‹¤.";
         yield return new WaitForSeconds(3f);
 
-        dialogueText.text = "¼ö¼¼¹ÌÂ÷¸¦ ¸¸µé¾îº¾½Ã´Ù.";
+        dialogueText.text = "ìˆ˜ì„¸ë¯¸ì°¨ë¥¼ ë§Œë“¤ì–´ë´…ì‹œë‹¤.";
         yield return new WaitForSeconds(3f);
 
         ToggleGrabObjects(true);
@@ -43,14 +41,14 @@ public class RealGame : MonoBehaviour
         }
     }
 
-    // ¼ö¼¼¹Ì Ãß°¡ ½Ã È£ÃâµÇ´Â ¸Ş¼­µå
+    // ìˆ˜ì„¸ë¯¸ ì¶”ê°€ ì‹œ í˜¸ì¶œë˜ëŠ” ë©”ì„œë“œ
     public void AddSusemi()
     {
         susemiCount++;
-        Debug.Log("¼ö¼¼¹Ì°¡ Ãß°¡µÇ¾ú½À´Ï´Ù. ÇöÀç ¼ö¼¼¹Ì °³¼ö: " + susemiCount);
+        Debug.Log("ìˆ˜ì„¸ë¯¸ê°€ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤. í˜„ì¬ ìˆ˜ì„¸ë¯¸ ê°œìˆ˜: " + susemiCount);
     }
 
-    // GrabObject ½ºÅ©¸³Æ®°¡ È°¼ºÈ­µÇ°Å³ª ºñÈ°¼ºÈ­µÇµµ·Ï ¼³Á¤ÇÏ´Â ÇÔ¼ö
+    // GrabObject ìŠ¤í¬ë¦½íŠ¸ê°€ í™œì„±í™”ë˜ê±°ë‚˜ ë¹„í™œì„±í™”ë˜ë„ë¡ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜
     void ToggleGrabObjects(bool isActive)
     {
         foreach (GameObject obj in grabObjects)
@@ -92,7 +90,7 @@ public class RealGame : MonoBehaviour
                 {
                     boilingStopTime = Time.time;
                     StopBoiling();
-                    StartCoroutine(PourTeaAndReplaceObject());
+                    StartCoroutine(PourTea());
                     isReadyToPour = false;
                 }
             }
@@ -112,7 +110,7 @@ public class RealGame : MonoBehaviour
 
         while (isBoiling)
         {
-            dialogueText.text = "¹°ÀÌ ²ú´Â ÁßÀÔ´Ï´Ù. " + (timer / 60).ToString("D2") + ":" + (timer % 60).ToString("D2");
+            dialogueText.text = "ë¬¼ì´ ë“ëŠ” ì¤‘ì…ë‹ˆë‹¤. " + (timer / 60).ToString("D2") + ":" + (timer % 60).ToString("D2");
             yield return new WaitForSeconds(1f);
             timer++;
         }
@@ -120,14 +118,21 @@ public class RealGame : MonoBehaviour
 
     public void StopBoiling()
     {
+        if (!isBoiling) return;  // ì´ë¯¸ ë“ì´ê¸° ì¤‘ì§€ëœ ê²½ìš° ë‹¤ì‹œ ì‹¤í–‰í•˜ì§€ ì•ŠìŒ
+
         isBoiling = false;
-        dialogueText.text = "Â÷°¡ ¿Ï¼ºµÇ¾ú½À´Ï´Ù. Æò°¡¸¦ ¹Ş¾Æº¾½Ã´Ù!";
-        Debug.Log("¹°ÀÌ ²ú´Â ½Ã°£ÀÌ ±â·ÏµÇ¾ú½À´Ï´Ù: " + (boilingStopTime - boilingStartTime) + "ÃÊ");
+        boilingStopTime = Time.time;
+
+        // ì‹œê°„ ì°¨ì´ ê³„ì‚° í›„, ì‹œê°„ì´ ìŒìˆ˜ì¼ ê²½ìš° 0ìœ¼ë¡œ ì„¤ì •
+        float boilingDuration = Mathf.Max(boilingStopTime - boilingStartTime, 0);
+        Debug.Log("ë¬¼ì´ ë“ëŠ” ì‹œê°„ì´ ê¸°ë¡ë˜ì—ˆìŠµë‹ˆë‹¤: " + boilingDuration + "ì´ˆ");
+
+        dialogueText.text = "ì°¨ê°€ ì™„ì„±ë˜ì—ˆìŠµë‹ˆë‹¤. í‰ê°€ë¥¼ ë°›ì•„ë´…ì‹œë‹¤!";
         isReadyToPour = true;
 
         if (kettle.realTea != null)
         {
-            kettle.realTea.RecordBoilingDuration(boilingStopTime - boilingStartTime);
+            kettle.realTea.RecordBoilingDuration(boilingDuration);
         }
     }
 
@@ -139,20 +144,10 @@ public class RealGame : MonoBehaviour
         }
     }
 
-    IEnumerator PourTeaAndReplaceObject()
+    IEnumerator PourTea()
     {
         yield return StartCoroutine(kettle.MoveAndRotateKettle());
-
-        if (objectToReplace != null && replacementPrefab != null)
-        {
-            Vector3 replacePosition = objectToReplace.transform.position;
-            Quaternion replaceRotation = objectToReplace.transform.rotation;
-
-            Destroy(objectToReplace);
-            Instantiate(replacementPrefab, replacePosition, replaceRotation);
-        }
-
-        dialogueText.text = "Â÷°¡ ¿Ï¼ºµÇ¾ú½À´Ï´Ù!";
+        dialogueText.text = "ì°¨ê°€ ì™„ì„±ë˜ì—ˆìŠµë‹ˆë‹¤!";
     }
 
     public void UpdateText(string newText)
