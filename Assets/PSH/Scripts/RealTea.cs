@@ -138,6 +138,10 @@ public class RealTea : MonoBehaviour
             {
                 realGame.UpdateText("재료를 적당히 넣으셨네요");
             }
+
+            // EvaluateTea가 끝난 후 3초 대기 후 끓인 시간 평가
+            yield return new WaitForSeconds(3f);
+            StartCoroutine(DisplayBoilingEvaluation());
         }
         else
         {
@@ -149,13 +153,10 @@ public class RealTea : MonoBehaviour
     {
         boilingDuration = duration;
         Debug.Log("물이 끓인 시간: " + boilingDuration + "초");
-        StartCoroutine(DisplayBoilingEvaluation());
     }
 
     IEnumerator DisplayBoilingEvaluation()
     {
-        yield return new WaitForSeconds(3f);
-
         if (boilingDuration < 15f)
         {
             realGame.UpdateText("차를 덜 우러났네요");
@@ -168,5 +169,6 @@ public class RealTea : MonoBehaviour
         {
             realGame.UpdateText("차를 너무 오랫동안 끓였네요");
         }
+        yield break;
     }
 }
