@@ -1,3 +1,4 @@
 ﻿id,symptom,herb,tea,recipe,description,link,imagePath
 int,string,string,string,string,string,string,string
-1001,비염,수세미,수세미차,건조 수세미 15g을 1L 물에 넣고 20분간 끓이면 됩니다. 수시로 마시면 좋습니다.,,https://youtu.be/eNztXV8p4CI?si=9UJZiQGMCic9RwXH,/CSB/susemi.jpg
+1001,비염,수세미,수세미차,건조 수세미 15g을 1L 물에 넣고 20분간 끓이면 됩니다. 수시로 마시면 좋습니다.,,https://youtu.be/eNztXV8p4CI?si=QNQcP1SQ-uYpexMz&t=193,/CSB/img_susemi.jpg
+1002,피로,쌍화차,쌍화차,물 1L에 백작약 10g 숙지황 황기 당귀 천궁 생강 대추 4g 계피 감초 3g을 넣고 40분 달이면 됩니다.,,https://youtu.be/2v6m4dkt4C4?si=7sSr7K9WxsKWoOls,/CSB/img_ssanghwacha.jpg
