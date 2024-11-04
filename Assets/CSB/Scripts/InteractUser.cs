@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +12,14 @@ public class InteractUser : MonoBehaviour
     string url = "";
     string imageDir = "";
     public Image herbImage;
+    public Button prevButton;
+    public Button nextButton;
+    string descriptionPath = "";
+
+
+    private List<string> pages;              // 페이지 단위로 나눠진 텍스트 저장 리스트
+    private int currentPage = 0;             // 현재 페이지 인덱스
+    private int maxCharsPerPage = 90;       // 한 페이지에 표시할 최대 문자 수
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +41,16 @@ public class InteractUser : MonoBehaviour
         {
             if (symptom.Contains(datas[i].symptom.ToString()))
             {
-                string msg = $"음... 그러시군요. {datas[i].herb}이(가) {datas[i].symptom}에 좋은데요,\n{datas[i].recipe}\n{datas[i].description}";
+                string msg = $"음... 그러시군요. {datas[i].herb}이(가) {datas[i].symptom}에 좋은데요,\n{datas[i].recipe}";
+                descriptionPath = Application.streamingAssetsPath + datas[i].description;
                 url = datas[i].link;
                 imageDir = Application.streamingAssetsPath + datas[i].imagePath;
                 LoadImage(imageDir);
+
                 StartCoroutine(PrintChat(msg));
             }
         }
+
 
         //if (symptom.Contains("비염"))
         //{
@@ -75,6 +87,14 @@ public class InteractUser : MonoBehaviour
         Application.OpenURL(url);
     }
 
+    public void ButtonShowDescription()
+    {
+        LoadTextFromFile(descriptionPath);
+        UpdateChatbox();
+        prevButton.onClick.AddListener(ShowPreviousPage);
+        nextButton.onClick.AddListener(ShowNextPage);
+    }
+
     public void LoadImage(string path)
     {
 
@@ -97,4 +117,63 @@ public class InteractUser : MonoBehaviour
         }
     }
 
+
+    private void LoadTextFromFile(string path)
+    {
+        pages = new List<string>();
+
+        if (File.Exists(path))
+        {
+            string content = File.ReadAllText(path);
+            int contentLength = content.Length;
+
+            for (int i = 0; i < contentLength; i += maxCharsPerPage)
+            {
+                int length = Mathf.Min(maxCharsPerPage, contentLength - i);
+                string pageContent = content.Substring(i, length);
+                pages.Add(content.Substring(i, length));
+                Debug.Log("Page added: " + pageContent); // 각 페이지의 내용을 확인
+            }
+        }
+        else
+        {
+            Debug.LogError("File not found at: " + path);
+        }
+    }
+
+
+    private void UpdateChatbox()
+    {
+        Debug.Log("Updating chatbox for page: " + currentPage);
+        if (pages.Count > 0)
+        {
+            chatBox.text = pages[currentPage];
+            Debug.Log("Displaying page content: " + chatBox.text); // 표시 중인 페이지 내용 확인
+            UpdateButtonState();
+        }
+    }
+
+    private void ShowPreviousPage()
+    {
+        if (currentPage > 0)
+        {
+            currentPage--;
+            UpdateChatbox();
+        }
+    }
+
+    private void ShowNextPage()
+    {
+        if (currentPage < pages.Count - 1)
+        {
+            currentPage++;
+            UpdateChatbox();
+        }
+    }
+
+    private void UpdateButtonState()
+    {
+        prevButton.interactable = currentPage > 0;
+        nextButton.interactable = currentPage < pages.Count - 1;
+    }
 }
