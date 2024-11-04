@@ -6,6 +6,7 @@ public class Cabinet : MonoBehaviour
 {
     private bool isInInteractZone = false;  // 상호작용 가능 여부
     private GameObject currentCabinet;      // 현재 상호작용 가능한 Cabinet 오브젝트
+    private Herb herbComponent;             // Herb 스크립트 참조
 
     void Update()
     {
@@ -14,6 +15,12 @@ public class Cabinet : MonoBehaviour
         {
             if (currentCabinet != null)
             {
+                // 상호작용 시 Herb 스크립트의 Interact 메서드를 호출
+                herbComponent = currentCabinet.GetComponent<Herb>();
+                if (herbComponent != null)
+                {
+                    herbComponent.Interact();
+                }
                 Debug.Log(currentCabinet.name + "에서 상호작용을 시작합니다.");
             }
         }

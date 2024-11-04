@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1804841859256777997}
   - component: {fileID: 4533120767836129735}
   - component: {fileID: 4242341623314632791}
+  - component: {fileID: 7236420257211063124}
   m_Layer: 0
   m_Name: SM_cabinet
   m_TagString: Cabinet
@@ -113,6 +114,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0416849, y: 1.9836863, z: 0.69765395}
   m_Center: {x: -0.0000004498464, y: 0.9918472, z: 0.07416354}
+--- !u!114 &7236420257211063124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2731465206210111506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bdbbae139087246b45a97d7d89e2cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3282356264834113563
 GameObject:
   m_ObjectHideFlags: 0
