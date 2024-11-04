@@ -15912,6 +15912,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_New
       objectReference: {fileID: 0}
+    - target: {fileID: 3505299522626843525, guid: 7d72879ba54738d42887f83754ca3b26,
+        type: 3}
+      propertyPath: m_TagString
+      value: Table
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22921,6 +22926,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0146b1dbd535ea4cac7e96c1b960551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabToSpawn: {fileID: 6014212971576355070, guid: f5f3122ca02886c4a9f7bd24795b9c66,
+    type: 3}
 --- !u!1001 &1990427873
 PrefabInstance:
   m_ObjectHideFlags: 0

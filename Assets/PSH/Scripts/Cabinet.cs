@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Cabinet : MonoBehaviour
 {
-    private bool isInInteractZone = false;  // 상호작용 가능 여부
-    private GameObject currentCabinet;      // 현재 상호작용 가능한 Cabinet 오브젝트
-    private Herb herbComponent;             // Herb 스크립트 참조
+    public GameObject prefabToSpawn;      // 소환할 프리팹
+    private bool isInInteractZone = false; // 상호작용 가능 여부
+    private GameObject currentCabinet;     // 현재 상호작용 가능한 Cabinet 오브젝트
+    private Herb herbComponent;            // Herb 스크립트 참조
 
     void Update()
     {
@@ -15,7 +16,6 @@ public class Cabinet : MonoBehaviour
         {
             if (currentCabinet != null)
             {
-                // 상호작용 시 Herb 스크립트의 Interact 메서드를 호출
                 herbComponent = currentCabinet.GetComponent<Herb>();
                 if (herbComponent != null)
                 {
@@ -34,6 +34,12 @@ public class Cabinet : MonoBehaviour
             isInInteractZone = true;
             currentCabinet = other.gameObject;
             Debug.Log(currentCabinet.name + "와 상호작용 가능");
+        }
+        // Table 태그의 오브젝트와 상호작용 시 스택이 있다면 프리팹을 소환
+        else if (other.CompareTag("Table") && herbComponent != null && herbComponent.HasStack())
+        {
+            Instantiate(prefabToSpawn, other.transform.position, Quaternion.identity);
+            Debug.Log("프리팹이 소환되었습니다.");
         }
     }
 
