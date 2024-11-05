@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 708999972676172060}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1802, z: 0.0553}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -178,9 +178,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d48d1f6a79db2b143ad391518355b923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  realTea: {fileID: 0}
+  realGame: {fileID: 0}
   playMinigame: {fileID: 0}
   targetPosition: {fileID: 0}
   objectToReplace: {fileID: 0}
   replacementPrefab: {fileID: 41699605767591986, guid: 81fef7cb06af8134f96a8098e9f7f35e,
     type: 3}
-  boilingEffectPrefab: {fileID: 0}
+  boilingEffectPrefab: {fileID: 1642322455942316, guid: d26aaf76e6e2409448242b9a2d66f31f,
+    type: 3}
+  effectSpawnPoint: {fileID: 7540198976214230237}
+  isExperienceMode: 0
+  experienceObjectToReplace: {fileID: 0}
+  experienceReplacementPrefab: {fileID: 0}
+  experienceTargetPoint: {fileID: 0}

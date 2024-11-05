@@ -12732,17 +12732,6 @@ PrefabInstance:
       objectReference: {fileID: 1726083361}
     - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
         type: 3}
-      propertyPath: effectSpawnPoint
-      value: 
-      objectReference: {fileID: 623129897}
-    - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
-        type: 3}
-      propertyPath: boilingEffectPrefab
-      value: 
-      objectReference: {fileID: 1642322455942316, guid: d26aaf76e6e2409448242b9a2d66f31f,
-        type: 3}
-    - target: {fileID: 5320322454303491665, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
-        type: 3}
       propertyPath: experienceTargetPoint
       value: 
       objectReference: {fileID: 945752541}
@@ -12756,16 +12745,6 @@ PrefabInstance:
       propertyPath: experienceReplacementPrefab
       value: 
       objectReference: {fileID: 1154408285}
-    - target: {fileID: 7540198976214230237, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.1802
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540198976214230237, guid: 57e3a8d1a8f7945468f6f50ed41c0385,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0553
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
