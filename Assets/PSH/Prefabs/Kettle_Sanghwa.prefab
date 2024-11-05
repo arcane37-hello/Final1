@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 757586001737055842}
   - component: {fileID: 2116668129304294746}
   - component: {fileID: 4040757206218150615}
+  - component: {fileID: 4974964675062471931}
   m_Layer: 0
   m_Name: Kettle_Sanghwa
   m_TagString: Kettle
@@ -165,3 +166,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &4974964675062471931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261993076855398327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422e7e4accbc5fb4d8ba17fa73bde971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

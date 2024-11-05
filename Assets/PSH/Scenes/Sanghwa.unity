@@ -1842,6 +1842,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 135427155}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &142406061 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3003886997024921086, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1094228691}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &157963091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1966,6 +1972,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 507244673}
+  cameraTargetPoint: {fileID: 1346479790}
+  player: {fileID: 142406061}
 --- !u!1001 &159770602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12626,7 +12634,7 @@ PrefabInstance:
         type: 3}
       propertyPath: plateTriggerZone
       value: 
-      objectReference: {fileID: 1285039085}
+      objectReference: {fileID: 0}
     - target: {fileID: 4629512661627270611, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
         type: 3}
       propertyPath: spawnPoints.Array.data[0]
@@ -15358,12 +15366,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1281384213}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1285039085 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 2332440608297175244, guid: 5c25fbb7b2a978d4a97d97cb90ac8887,
-    type: 3}
-  m_PrefabInstance: {fileID: 2074975151}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1297895496
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15937,6 +15939,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1327011295}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1346479789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1346479790}
+  m_Layer: 0
+  m_Name: TeaMakePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1346479790
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346479789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.37883434, y: 0, z: 0, w: 0.9254645}
+  m_LocalPosition: {x: -2.77, y: 1.616, z: -0.716}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 44.523, y: 0, z: 0}
 --- !u!1001 &1351233602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40821,3 +40854,4 @@ SceneRoots:
   - {fileID: 1943131966}
   - {fileID: 522133355}
   - {fileID: 1998632226}
+  - {fileID: 1346479790}
