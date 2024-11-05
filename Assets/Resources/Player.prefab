@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 689925306797630719}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 2632332267172669712}
   - component: {fileID: 6357029440354956567}
   - component: {fileID: 5255901814071164541}
+  - component: {fileID: 4629512661627270611}
   m_Layer: 0
   m_Name: InteractZone
   m_TagString: Untagged
@@ -179,6 +180,24 @@ CapsuleCollider:
   m_Height: 3.02288
   m_Direction: 1
   m_Center: {x: 0.033759177, y: -0.0072306395, z: 0.080706775}
+--- !u!114 &4629512661627270611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9058652757010993087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0146b1dbd535ea4cac7e96c1b960551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1001 &2021489478328664496
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -241,6 +260,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: mini chibi kid animations
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200417707930478897, guid: 9f0b5713b7412ab4eb37110128bbc164,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

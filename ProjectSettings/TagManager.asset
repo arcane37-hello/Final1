@@ -9,6 +9,8 @@ TagManager:
   - Susemi
   - Cabinet
   - Table
+  - Plate
+  - Herb
   layers:
   - Default
   - TransparentFX
