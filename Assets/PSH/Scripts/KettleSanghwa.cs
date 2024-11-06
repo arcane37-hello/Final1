@@ -30,9 +30,10 @@ public class KettleSanghwa : MonoBehaviour
         originalRotation = transform.rotation;
     }
 
-    void Update()
+    void OnMouseDown()
     {
-        if (canInteract && Input.GetMouseButtonDown(0) && !isBoiling && !isPouring)
+        // 오브젝트가 클릭될 때만 상호작용이 가능하도록 설정
+        if (canInteract && !isBoiling && !isPouring)
         {
             if (!boilingComplete)
             {
@@ -118,10 +119,8 @@ public class KettleSanghwa : MonoBehaviour
         // 주전자를 목표 위치로 이동 및 회전
         yield return StartCoroutine(MoveAndRotateKettle(targetPosition.position, targetPosition.rotation));
 
-        // 3초 대기
+        // 3초 대기 후 오브젝트 교체
         yield return new WaitForSeconds(3f);
-
-        // 오브젝트 교체
         ReplaceObject();
 
         // 원래 위치로 돌아오기

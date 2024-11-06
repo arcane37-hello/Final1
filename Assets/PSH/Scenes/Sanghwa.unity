@@ -1974,6 +1974,8 @@ MonoBehaviour:
   dialogueText: {fileID: 507244673}
   cameraTargetPoint: {fileID: 1346479790}
   player: {fileID: 142406061}
+  cameraMoveScript: {fileID: 0}
+  playerMoveScript: {fileID: 0}
 --- !u!1001 &159770602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12644,11 +12646,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 4629512661627270611, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
-        type: 3}
-      propertyPath: plateTriggerZone
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4629512661627270611, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
         type: 3}

@@ -34,6 +34,7 @@ Transform:
   - {fileID: 8739820686942951697}
   - {fileID: 2632332267172669712}
   - {fileID: 7559404657976603195}
+  - {fileID: 4402340288894069198}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1360687580920528802
@@ -109,6 +110,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8950425794740587624}
   m_LocalEulerAnglesHint: {x: 45.44, y: 0, z: 0}
+--- !u!1 &6648751694905399579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4402340288894069198}
+  m_Layer: 0
+  m_Name: TeaMovePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4402340288894069198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648751694905399579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.154, z: 0.993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8950425794740587624}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9058652757010993087
 GameObject:
   m_ObjectHideFlags: 0

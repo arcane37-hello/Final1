@@ -9,8 +9,8 @@ public class Minigame2 : MonoBehaviour
     public Transform cameraTargetPoint;      // 카메라가 이동할 목표 지점
     public GameObject player;                // 플레이어 오브젝트
     private Camera mainCamera;               // 메인 카메라
-    private CameraMove cameraMoveScript;     // CameraMove 스크립트 참조
-    private PlayerMove playerMoveScript;     // PlayerMove 스크립트 참조
+    public CameraMove cameraMoveScript;     // CameraMove 스크립트 참조
+    public PlayerMove playerMoveScript;     // PlayerMove 스크립트 참조
     private float checkInterval = 1f;        // 재료 개수 확인 간격
     private float timer = 0f;
     private bool textUpdateStopped = false;  // 텍스트 갱신 중지 여부
