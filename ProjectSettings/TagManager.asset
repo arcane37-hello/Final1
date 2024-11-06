@@ -11,6 +11,10 @@ TagManager:
   - Table
   - Plate
   - Herb
+  - Herb2
+  - Herb3
+  - Herb4
+  - Herb5
   layers:
   - Default
   - TransparentFX
