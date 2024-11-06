@@ -10,10 +10,16 @@ public class InteractUser : MonoBehaviour
     public Text chatBox;
     public GameObject csv;
     string url = "";
-    string imageDir = "";
+    List<string> imageDirs = new List<string>();
+    int currentImageIndex = 0;
+    
     public Image herbImage;
     public Button prevButton;
     public Button nextButton;
+
+    public Button prevImageButton;
+    public Button nextImageButton;
+
     string descriptionPath = "";
 
 
@@ -24,6 +30,8 @@ public class InteractUser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        prevImageButton.onClick.AddListener(ShowPreviousImage);
+        nextImageButton.onClick.AddListener(ShowNextImage);
 
     }
 
@@ -44,8 +52,15 @@ public class InteractUser : MonoBehaviour
                 string msg = $"음... 그러시군요. {datas[i].herb}이(가) {datas[i].symptom}에 좋은데요,\n{datas[i].recipe}";
                 descriptionPath = Application.streamingAssetsPath + datas[i].description;
                 url = datas[i].link;
-                imageDir = Application.streamingAssetsPath + datas[i].imagePath;
-                LoadImage(imageDir);
+
+                imageDirs.Clear();
+
+                imageDirs.Add(Application.streamingAssetsPath + datas[i].imagePath);
+                imageDirs.Add(Application.streamingAssetsPath + datas[i].imagePath2);
+                imageDirs.Add(Application.streamingAssetsPath + datas[i].imagePath3);
+
+                currentImageIndex = 0; // Reset to show the first image
+                LoadImage();
 
                 StartCoroutine(PrintChat(msg));
             }
@@ -95,13 +110,13 @@ public class InteractUser : MonoBehaviour
         nextButton.onClick.AddListener(ShowNextPage);
     }
 
-    public void LoadImage(string path)
+    public void LoadImage()
     {
 
-        if (File.Exists(path))
+        if (File.Exists(imageDirs[currentImageIndex]))
         {
             // 이미지 파일 읽기
-            byte[] fileData = File.ReadAllBytes(path);
+            byte[] fileData = File.ReadAllBytes(imageDirs[currentImageIndex]);
             Texture2D texture = new Texture2D(2, 2);
             texture.LoadImage(fileData); // 이미지 로드
 
@@ -113,9 +128,34 @@ public class InteractUser : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Image file not found at " + path);
+            Debug.LogError("Image file not found at " + imageDirs[currentImageIndex]);
         }
     }
+
+    public void ShowPreviousImage()
+    {
+        if (currentImageIndex > 0)
+        {
+            currentImageIndex--;
+            LoadImage();
+        }
+    }
+
+    public void ShowNextImage()
+    {
+        if (currentImageIndex < imageDirs.Count - 1)
+        {
+            currentImageIndex++;
+            LoadImage();
+        }
+    }
+
+    private void UpdateImageButtonState()
+    {
+        prevImageButton.interactable = currentImageIndex > 0;
+        nextImageButton.interactable = currentImageIndex < imageDirs.Count - 1;
+    }
+
 
 
     private void LoadTextFromFile(string path)
