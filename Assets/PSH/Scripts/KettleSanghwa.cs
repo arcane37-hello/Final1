@@ -32,7 +32,6 @@ public class KettleSanghwa : MonoBehaviour
 
     void OnMouseDown()
     {
-        // 오브젝트가 클릭될 때만 상호작용이 가능하도록 설정
         if (canInteract && !isBoiling && !isPouring)
         {
             if (!boilingComplete)
@@ -74,28 +73,26 @@ public class KettleSanghwa : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        if (herbStack >= 2 && herb2Stack >= 2 && herb3Stack >= 2 && herb4Stack >= 2 && herb5Stack >= 2)
+        // 필요한 모든 재료가 2개 이상일 때만 상호작용 가능 상태로 전환하며 한 번만 갱신
+        if (!canInteract && herbStack >= 2 && herb2Stack >= 2 && herb3Stack >= 2 && herb4Stack >= 2 && herb5Stack >= 2)
         {
             canInteract = true;
             dialogueText.text = "이제 주전자를 클릭해서 물을 끓여봅시다.";
         }
     }
 
-    // 물 끓이는 상호작용 코루틴
     private IEnumerator StartBoiling()
     {
         isBoiling = true;
-        canInteract = false; // 타이머 동안 상호작용 비활성화
+        canInteract = false;
         int timer = 15;
 
-        // 이펙트 생성
         if (boilingEffectPrefab != null && effectSpawnPoint != null)
         {
             GameObject effectInstance = Instantiate(boilingEffectPrefab, effectSpawnPoint.position, Quaternion.identity);
             effectInstance.transform.SetParent(transform);
         }
 
-        // 타이머 갱신
         while (timer > 0)
         {
             dialogueText.text = "물이 끓는 중입니다. 0:" + timer.ToString("D2");
@@ -103,34 +100,33 @@ public class KettleSanghwa : MonoBehaviour
             timer--;
         }
 
-        // 물 끓이기 완료 시 텍스트 갱신 및 상호작용 가능
         dialogueText.text = "차가 완성된 것 같군요. 이제 주전자를 클릭해서 차를 완성합시다!";
-        boilingComplete = true; // 물 끓이기 완료 상태로 전환
-        canInteract = true; // 타이머 종료 후 상호작용 재활성화
+        boilingComplete = true;
+        canInteract = true;
         isBoiling = false;
     }
 
-    // 차 따르기 동작 코루틴
     private IEnumerator PourTea()
     {
         isPouring = true;
         canInteract = false;
 
-        // 주전자를 목표 위치로 이동 및 회전
         yield return StartCoroutine(MoveAndRotateKettle(targetPosition.position, targetPosition.rotation));
 
-        // 3초 대기 후 오브젝트 교체
         yield return new WaitForSeconds(3f);
+
         ReplaceObject();
 
-        // 원래 위치로 돌아오기
+        // 오브젝트 교체 후 텍스트 갱신
+        dialogueText.text = "차가 완성됐습니다. 찻잔을 클릭해서 평가를 받아봅시다.";
+        canInteract = true;
+
         yield return StartCoroutine(MoveAndRotateKettle(originalPosition, originalRotation));
 
         isPouring = false;
-        canInteract = true; // 동작이 끝나면 상호작용 가능
+        
     }
 
-    // 주전자를 특정 위치로 이동 및 회전시키는 코루틴
     private IEnumerator MoveAndRotateKettle(Vector3 targetPos, Quaternion targetRot)
     {
         Vector3 startPosition = transform.position;
@@ -150,7 +146,6 @@ public class KettleSanghwa : MonoBehaviour
         transform.rotation = targetRot;
     }
 
-    // 특정 오브젝트를 파괴하고 동일한 위치에 프리팹 소환
     private void ReplaceObject()
     {
         if (objectToReplace != null && replacementPrefab != null)

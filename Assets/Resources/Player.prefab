@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8950425794740587624}
   - component: {fileID: 1360687580920528802}
   - component: {fileID: 689925306797630719}
+  - component: {fileID: -5388335925245029090}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -79,6 +80,29 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &-5388335925245029090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3003886997024921086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 1360687580920528802}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &4812472197913445027
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,6 +177,7 @@ GameObject:
   - component: {fileID: 6357029440354956567}
   - component: {fileID: 5255901814071164541}
   - component: {fileID: 4629512661627270611}
+  - component: {fileID: 2966865992516867670}
   m_Layer: 0
   m_Name: InteractZone
   m_TagString: Untagged
@@ -224,12 +249,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0146b1dbd535ea4cac7e96c1b960551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  teaStackPrefab: {fileID: 41699605767591986, guid: f703db9e46fbff74baf9b085d3a87650,
+    type: 3}
+  teaStackSpawnPoint: {fileID: 0}
+  dialogueText: {fileID: 0}
+--- !u!114 &2966865992516867670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9058652757010993087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &2021489478328664496
 PrefabInstance:
   m_ObjectHideFlags: 0

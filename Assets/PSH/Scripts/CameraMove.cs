@@ -1,40 +1,65 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class CameraMove : MonoBehaviour
+public class CameraMove : MonoBehaviourPun
 {
-    public Transform player;        // Player Transform
-    public Transform cameraPoint;   // PlayerÀÇ CameraPoint Transform
-    public LayerMask collisionMask; // Ãæµ¹ÇÒ ·¹ÀÌ¾î¸¦ ¼³Á¤ (º® °°Àº Àå¾Ö¹°)
+    private Transform player;            // ë¡œì»¬ í”Œë ˆì´ì–´ì˜ Transform
+    public Transform cameraPoint;        // ë¡œì»¬ í”Œë ˆì´ì–´ì˜ ì¹´ë©”ë¼ í¬ì¸íŠ¸ Transform
+    public LayerMask collisionMask;      // ì¶©ëŒí•  ë ˆì´ì–´ (ì¥ì• ë¬¼ ë“±)
+    private bool isInitialized = false;  // ì¹´ë©”ë¼ ì´ˆê¸°í™” ìƒíƒœ í™•ì¸
 
-    private Vector3 offset;         // Camera¿Í Player »çÀÌÀÇ ÃÊ±â °Å¸®
+    private Vector3 offset;              // ì¹´ë©”ë¼ì™€ í”Œë ˆì´ì–´ ì‚¬ì´ì˜ ì´ˆê¸° ê±°ë¦¬
 
-    void Start()
+    void Update()
     {
-        // Camera¿Í Player »çÀÌÀÇ ÃÊ±â °Å¸® °è»ê
-        offset = cameraPoint.position - player.position;
+        if (!isInitialized)
+        {
+            InitializeCamera();
+        }
+    }
+
+    private void InitializeCamera()
+    {
+        // ë¡œì»¬ í”Œë ˆì´ì–´ í™•ì¸ ë° ì¹´ë©”ë¼ í• ë‹¹
+        var localPlayers = GameObject.FindGameObjectsWithTag("Player");
+        foreach (var localPlayer in localPlayers)
+        {
+            var photonView = localPlayer.GetComponent<PhotonView>();
+            if (photonView != null && photonView.IsMine)
+            {
+                player = localPlayer.transform;
+                cameraPoint = player.Find("CameraPoint");  // CameraPointê°€ í”Œë ˆì´ì–´ í•˜ìœ„ì— ìˆë‹¤ê³  ê°€ì •
+
+                // ì¹´ë©”ë¼ ì„¤ì •
+                Camera.main.transform.SetParent(cameraPoint);
+                Camera.main.transform.localPosition = Vector3.zero;
+                Camera.main.transform.localRotation = Quaternion.identity;
+
+                isInitialized = true;  // ì´ˆê¸°í™” ì™„ë£Œ
+                break;
+            }
+        }
     }
 
     void LateUpdate()
     {
-        // ±âº» Ä«¸Ş¶ó À§Ä¡ °è»ê (Ä«¸Ş¶ó Æ÷ÀÎÆ® µû¶ó°¡±â)
+        if (!isInitialized) return;
+
+        // ì¹´ë©”ë¼ ìœ„ì¹˜ ê³„ì‚°
         Vector3 desiredPosition = cameraPoint.position;
 
-        // ÇÃ·¹ÀÌ¾î¿Í Ä«¸Ş¶ó »çÀÌ¿¡ Àå¾Ö¹°ÀÌ ÀÖ´ÂÁö °¨Áö
+        // í”Œë ˆì´ì–´ì™€ ì¹´ë©”ë¼ ì‚¬ì´ì— ì¥ì• ë¬¼ì´ ìˆëŠ”ì§€ ê°ì§€
         RaycastHit hit;
         if (Physics.Linecast(player.position, desiredPosition, out hit, collisionMask))
         {
-            // Àå¾Ö¹°ÀÌ ÀÖÀ¸¸é Ä«¸Ş¶ó¸¦ Àå¾Ö¹° ¾ÕÂÊÀ¸·Î ÀÌµ¿
             transform.position = hit.point;
         }
         else
         {
-            // Àå¾Ö¹°ÀÌ ¾øÀ¸¸é CameraPointÀÇ À§Ä¡·Î ÀÌµ¿
             transform.position = desiredPosition;
         }
 
-        // Ä«¸Ş¶óÀÇ È¸ÀüÀº Ç×»ó Ä«¸Ş¶ó Æ÷ÀÎÆ®ÀÇ È¸ÀüÀ» µû¶ó°¨
+        // ì¹´ë©”ë¼ì˜ íšŒì „ì€ ì¹´ë©”ë¼ í¬ì¸íŠ¸ì˜ íšŒì „ì„ ë”°ë¦„
         transform.rotation = cameraPoint.rotation;
     }
 }

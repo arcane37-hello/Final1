@@ -15,6 +15,9 @@ TagManager:
   - Herb3
   - Herb4
   - Herb5
+  - TeaTest
+  - Spawnpoint
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
