@@ -251,7 +251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teaStackPrefab: {fileID: 41699605767591986, guid: f703db9e46fbff74baf9b085d3a87650,
     type: 3}
-  dialogueText: {fileID: 0}
 --- !u!114 &2966865992516867670
 MonoBehaviour:
   m_ObjectHideFlags: 0
