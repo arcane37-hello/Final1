@@ -5296,7 +5296,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 442341673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0a90f0744c291c43bda4427ada3b5b6, type: 3}
+  m_Script: {fileID: 11500000, guid: dbdf2e9813dfdd5449098b9107402e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1964833981}
@@ -7539,6 +7539,10 @@ MonoBehaviour:
   chatBox: {fileID: 865425715}
   csv: {fileID: 301899165}
   herbImage: {fileID: 1542147113}
+  prevButton: {fileID: 0}
+  nextButton: {fileID: 0}
+  prevImageButton: {fileID: 0}
+  nextImageButton: {fileID: 0}
 --- !u!1001 &633297514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23057,8 +23061,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1964833981}
-  - component: {fileID: 1964833980}
   - component: {fileID: 1964833979}
+  - component: {fileID: 1964833982}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -23093,21 +23097,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1964833980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1964833978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4548c252451fed449af7beacaff3f72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1.5
-  turnSpeed: 100
-  isMovementEnabled: 1
 --- !u!4 &1964833981
 Transform:
   m_ObjectHideFlags: 0
@@ -23126,6 +23115,21 @@ Transform:
   - {fileID: 755072147}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1964833982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964833978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd3447514891df94f85a886e303b7ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  turnSpeed: 100
+  isMovementEnabled: 1
 --- !u!1001 &1972832038
 PrefabInstance:
   m_ObjectHideFlags: 0
