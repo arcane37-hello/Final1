@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class RealTea : MonoBehaviour
 {
-    public float moveSpeed = 3f;  // ÀÌµ¿ ¼Óµµ
-    private Transform targetPoint;  // ¸ñÇ¥ ÁöÁ¡ (TeaTestPoint)
-    private Transform cameraTargetPoint;  // Ä«¸Ş¶ó ¸ñÇ¥ ÁöÁ¡ (CameraPoint1)
-    public RealGame realGame;  // RealGame ½ºÅ©¸³Æ® ÂüÁ¶ (ÀÌÁ¦ publicÀ¸·Î ¼³Á¤ÇÏ¿© Unity ¿¡µğÅÍ¿¡¼­ ¼öµ¿À¸·Î ÇÒ´ç °¡´É)
+    public float moveSpeed = 3f;  // ì´ë™ ì†ë„
+    private Transform targetPoint;  // ëª©í‘œ ì§€ì  (TeaTestPoint)
+    private Transform cameraTargetPoint;  // ì¹´ë©”ë¼ ëª©í‘œ ì§€ì  (CameraPoint1)
+    public RealGame realGame;  // RealGame ìŠ¤í¬ë¦½íŠ¸ ì°¸ì¡°
 
-    private int susemiCount = 0;  // ¼ö¼¼¹Ì¸¦ ³ÖÀº È½¼ö
-    private float boilingStartTime;  // ¹°ÀÌ ²ú±â ½ÃÀÛÇÑ ½Ã°£
-    private float boilingStopTime;  // ¹° ²úÀÌ±â¸¦ ¸ØÃá ½Ã°£
-    private bool isBoiling = false;  // ¹°ÀÌ ²ú°í ÀÖ´ÂÁö ¿©ºÎ
-
+    private int susemiCount = 0;  // ìˆ˜ì„¸ë¯¸ë¥¼ ë„£ì€ íšŸìˆ˜
+    private float boilingStartTime;  // ë¬¼ì´ ë“ê¸° ì‹œì‘í•œ ì‹œê°„
+    private float boilingStopTime;  // ë¬¼ ë“ì´ê¸°ë¥¼ ë©ˆì¶˜ ì‹œê°„
+    private bool isBoiling = false;  // ë¬¼ì´ ë“ê³  ìˆëŠ”ì§€ ì—¬ë¶€
     private float boilingDuration;
 
     void Start()
     {
-        // TeaTestPoint ¿ÀºêÁ§Æ®¸¦ Ã£À½
         GameObject targetObject = GameObject.Find("TeaTestPoint");
         if (targetObject != null)
         {
@@ -26,10 +24,9 @@ public class RealTea : MonoBehaviour
         }
         else
         {
-            Debug.LogError("TeaTestPoint ¿ÀºêÁ§Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("TeaTestPoint ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
 
-        // CameraPoint1 ¿ÀºêÁ§Æ®¸¦ Ã£À½
         GameObject cameraObject = GameObject.Find("CameraPoint1");
         if (cameraObject != null)
         {
@@ -37,38 +34,33 @@ public class RealTea : MonoBehaviour
         }
         else
         {
-            Debug.LogError("CameraPoint1 ¿ÀºêÁ§Æ®¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("CameraPoint1 ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
 
-        // realGameÀÌ ¼öµ¿À¸·Î ÇÒ´çµÇÁö ¾Ê¾ÒÀ» °æ¿ì, ¿À·ù¸¦ Ãâ·Â
         if (realGame == null)
         {
-            Debug.LogError("RealGame ½ºÅ©¸³Æ®¸¦ ÇÒ´çÇØÁÖ¼¼¿ä.");
+            Debug.LogError("RealGame ìŠ¤í¬ë¦½íŠ¸ë¥¼ í• ë‹¹í•´ì£¼ì„¸ìš”.");
         }
 
-        susemiCount = 0;  // ¼ö¼¼¹Ì È½¼ö ÃÊ±âÈ­
+        susemiCount = 0;  // ìˆ˜ì„¸ë¯¸ íšŸìˆ˜ ì´ˆê¸°í™”
     }
 
     void Update()
     {
-        // ¸¶¿ì½º ¿ŞÂÊ ¹öÆ° Å¬¸¯ °¨Áö
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // Ray°¡ RealTea ¿ÀºêÁ§Æ®¿¡ ¸Â¾Ò´ÂÁö È®ÀÎ
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.collider != null && hit.collider.gameObject == this.gameObject)
                 {
-                    // TeaTestPoint·Î ÀÌµ¿ ½ÃÀÛ
                     if (targetPoint != null)
                     {
                         StartCoroutine(MoveToTarget());
                     }
 
-                    // Ä«¸Ş¶óµµ CameraPoint1·Î ÀÌµ¿
                     if (cameraTargetPoint != null)
                     {
                         StartCoroutine(MoveCameraToPoint());
@@ -78,34 +70,30 @@ public class RealTea : MonoBehaviour
         }
     }
 
-    // ¼ö¼¼¹Ì¸¦ Kettle¿¡ ³ÖÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö
     public void AddSusemi()
     {
         susemiCount++;
-        Debug.Log("¼ö¼¼¹Ì Ãß°¡: " + susemiCount);
+        Debug.Log("ìˆ˜ì„¸ë¯¸ ì¶”ê°€: " + susemiCount);
     }
 
-    // Kettle ¿ÀºêÁ§Æ®°¡ ¹°À» ²úÀÌ±â ½ÃÀÛÇÒ ¶§ È£ÃâµÇ´Â ÇÔ¼ö
     public void StartBoiling()
     {
-        boilingStartTime = Time.time;  // ¹° ²úÀÌ±â ½ÃÀÛ ½Ã°£ ±â·Ï
+        boilingStartTime = Time.time;
         isBoiling = true;
-        Debug.Log("¹°ÀÌ ²ú±â ½ÃÀÛÇß½À´Ï´Ù.");
+        Debug.Log("ë¬¼ì´ ë“ê¸° ì‹œì‘í–ˆìŠµë‹ˆë‹¤.");
     }
 
-    // Kettle ¿ÀºêÁ§Æ®¸¦ ´Ù½Ã Å¬¸¯ÇØ¼­ ¹° ²úÀÌ±â¸¦ ¸ØÃâ ¶§ È£ÃâµÇ´Â ÇÔ¼ö
     public void StopBoiling()
     {
         if (isBoiling)
         {
-            boilingStopTime = Time.time;  // ¹° ²úÀÌ±â Áß´Ü ½Ã°£ ±â·Ï
-            float boilingDuration = boilingStopTime - boilingStartTime;
+            boilingStopTime = Time.time;
+            boilingDuration = boilingStopTime - boilingStartTime;
             isBoiling = false;
-            Debug.Log("¹°ÀÌ ²úÀº ½Ã°£: " + boilingDuration + "ÃÊ");
+            Debug.Log("ë¬¼ì´ ë“ì€ ì‹œê°„: " + boilingDuration + "ì´ˆ");
         }
     }
 
-    // TeaTestPoint·Î ÀÌµ¿ÇÏ´Â ÄÚ·çÆ¾
     IEnumerator MoveToTarget()
     {
         while (Vector3.Distance(transform.position, targetPoint.position) > 0.1f)
@@ -114,13 +102,10 @@ public class RealTea : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("RealTea ¿ÀºêÁ§Æ®°¡ TeaTestPoint¿¡ µµÂøÇß½À´Ï´Ù.");
-
-        // ¸ñÇ¥ ÁöÁ¡¿¡ µµÂøÇÑ ÈÄ Æò°¡ ½ÇÇà
+        Debug.Log("RealTea ì˜¤ë¸Œì íŠ¸ê°€ TeaTestPointì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.");
         StartCoroutine(EvaluateTea());
     }
 
-    // Ä«¸Ş¶ó¸¦ CameraPoint1·Î ÀÌµ¿½ÃÅ°´Â ÄÚ·çÆ¾
     IEnumerator MoveCameraToPoint()
     {
         Camera mainCamera = Camera.main;
@@ -131,41 +116,59 @@ public class RealTea : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Ä«¸Ş¶ó°¡ CameraPoint1¿¡ µµÂøÇß½À´Ï´Ù.");
+        Debug.Log("ì¹´ë©”ë¼ê°€ CameraPoint1ì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.");
     }
 
-    // ¼ö¼¼¹Ì È½¼ö¸¦ Æò°¡ÇÏ´Â ÇÔ¼ö
     IEnumerator EvaluateTea()
     {
         if (realGame != null)
         {
-            // "Æò°¡ Áß..." ÅØ½ºÆ®¸¦ 3ÃÊ µ¿¾È Ãâ·Â
-            realGame.UpdateText("Æò°¡ Áß...");
+            realGame.UpdateText("í‰ê°€ ì¤‘...");
             yield return new WaitForSeconds(3f);
 
-            // Æò°¡ °á°ú Ãâ·Â
             if (susemiCount < 5)
             {
-                realGame.UpdateText("Àç·á¸¦ ´ú ³ÖÀ¸¼Ì³×¿ä");
+                realGame.UpdateText("ì¬ë£Œë¥¼ ëœ ë„£ìœ¼ì…¨ë„¤ìš”");
             }
             else if (susemiCount > 5)
             {
-                realGame.UpdateText("Àç·á¸¦ ³Ê¹« ¸¹ÀÌ ³ÖÀ¸¼Ì³×¿ä");
+                realGame.UpdateText("ì¬ë£Œë¥¼ ë„ˆë¬´ ë§ì´ ë„£ìœ¼ì…¨ë„¤ìš”");
             }
             else
             {
-                realGame.UpdateText("Àç·á¸¦ Àû´çÈ÷ ³ÖÀ¸¼Ì³×¿ä");
+                realGame.UpdateText("ì¬ë£Œë¥¼ ì ë‹¹íˆ ë„£ìœ¼ì…¨ë„¤ìš”");
             }
+
+            // EvaluateTeaê°€ ëë‚œ í›„ 3ì´ˆ ëŒ€ê¸° í›„ ë“ì¸ ì‹œê°„ í‰ê°€
+            yield return new WaitForSeconds(3f);
+            StartCoroutine(DisplayBoilingEvaluation());
         }
         else
         {
-            Debug.LogWarning("RealGame ½ºÅ©¸³Æ®°¡ ¼³Á¤µÇÁö ¾Ê¾Æ ÅØ½ºÆ® °»½ÅÀÌ ºÒ°¡´ÉÇÕ´Ï´Ù.");
+            Debug.LogWarning("RealGame ìŠ¤í¬ë¦½íŠ¸ê°€ ì„¤ì •ë˜ì§€ ì•Šì•„ í…ìŠ¤íŠ¸ ê°±ì‹ ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤.");
         }
     }
 
     public void RecordBoilingDuration(float duration)
     {
         boilingDuration = duration;
-        Debug.Log("¹°ÀÌ ²úÀÎ ½Ã°£: " + boilingDuration + "ÃÊ");
+        Debug.Log("ë¬¼ì´ ë“ì¸ ì‹œê°„: " + boilingDuration + "ì´ˆ");
+    }
+
+    IEnumerator DisplayBoilingEvaluation()
+    {
+        if (boilingDuration < 15f)
+        {
+            realGame.UpdateText("ì°¨ë¥¼ ëœ ìš°ëŸ¬ë‚¬ë„¤ìš”");
+        }
+        else if (boilingDuration <= 16f)
+        {
+            realGame.UpdateText("ì°¨ë¥¼ ì™„ë²½í•˜ê²Œ ë§Œë“œì…¨ë„¤ìš”");
+        }
+        else
+        {
+            realGame.UpdateText("ì°¨ë¥¼ ë„ˆë¬´ ì˜¤ë«ë™ì•ˆ ë“ì˜€ë„¤ìš”");
+        }
+        yield break;
     }
 }

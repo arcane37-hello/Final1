@@ -7,6 +7,17 @@ TagManager:
   - NPC
   - Kettle
   - Susemi
+  - Cabinet
+  - Table
+  - Plate
+  - Herb
+  - Herb2
+  - Herb3
+  - Herb4
+  - Herb5
+  - TeaTest
+  - Spawnpoint
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX

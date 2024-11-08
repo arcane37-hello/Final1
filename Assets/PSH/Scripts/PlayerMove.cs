@@ -1,82 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public float moveSpeed = 5f;         // ÀÌµ¿ ¼Óµµ
-    public float turnSpeed = 100f;       // È¸Àü ¼Óµµ
+    public float moveSpeed = 5f;         // ì´ë™ ì†ë„
+    public float turnSpeed = 100f;       // íšŒì „ ì†ë„
     private Rigidbody rb;
-    private Animator animator;           // Animator ÄÄÆ÷³ÍÆ®
-    public bool isMovementEnabled = true; // ÀÌµ¿ °¡´É ¿©ºÎ
+    private Animator animator;
+    public bool isMovementEnabled = true;
+
+    private Vector3 networkPosition;     // ë„¤íŠ¸ì›Œí¬ ìƒì˜ ìœ„ì¹˜
+    private Quaternion networkRotation;  // ë„¤íŠ¸ì›Œí¬ ìƒì˜ íšŒì „
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        // ÀÚ½Ä ¿ÀºêÁ§Æ®¿¡¼­ Animator ÄÄÆ÷³ÍÆ® Ã£±â
         animator = GetComponentInChildren<Animator>();
 
-        // Animator°¡ ¾øÀ» °æ¿ì °æ°í ¸Ş½ÃÁö Ãâ·Â
-        if (animator == null)
+        if (!photonView.IsMine)
         {
-            Debug.LogWarning("Animator°¡ PlayerÀÇ ÀÚ½Ä ¿ÀºêÁ§Æ®¿¡ Ãß°¡µÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+            // ë¡œì»¬ í”Œë ˆì´ì–´ê°€ ì•„ë‹Œ ê²½ìš° ì…ë ¥ì„ ë¹„í™œì„±í™”
+            rb.isKinematic = true; // ë¬¼ë¦¬ íš¨ê³¼ë¥¼ ë§‰ê¸° ìœ„í•´ kinematic ì„¤ì •
         }
     }
 
     void Update()
     {
-        if (isMovementEnabled)
+        if (photonView.IsMine && isMovementEnabled)
         {
             MovePlayer();
+        }
+        else
+        {
+            // ë„¤íŠ¸ì›Œí¬ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì™€ íšŒì „ ë™ê¸°í™”
+            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
+            transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 10);
         }
     }
 
     void MovePlayer()
     {
-        // È¸Àü ÀÔ·Â (A, D Å°·Î È¸Àü)
+        // íšŒì „ ì…ë ¥ (A, D í‚¤ë¡œ íšŒì „)
         float turn = 0f;
-        if (Input.GetKey(KeyCode.A))
-        {
-            turn = -1f; // ¿ŞÂÊ È¸Àü
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            turn = 1f; // ¿À¸¥ÂÊ È¸Àü
-        }
-
-        // ÇÃ·¹ÀÌ¾î È¸Àü (YÃà È¸Àü)
+        if (Input.GetKey(KeyCode.A)) turn = -1f;
+        if (Input.GetKey(KeyCode.D)) turn = 1f;
         transform.Rotate(0f, turn * turnSpeed * Time.deltaTime, 0f);
 
-        // ÀÌµ¿ ÀÔ·Â (W, S Å°·Î ÀÌµ¿)
+        // ì´ë™ ì…ë ¥ (W, S í‚¤ë¡œ ì´ë™)
         float move = 0f;
-
         if (Input.GetKey(KeyCode.W))
         {
-            move = 1f; // ÀüÁø
-            if (animator != null)
-            {
-                animator.SetBool("isWalking", true); // Walk ¾Ö´Ï¸ŞÀÌ¼Ç ½ÃÀÛ
-            }
+            move = 1f;
+            if (animator != null) animator.SetBool("isWalking", true);
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            move = -1f; // ÈÄÁø
-            if (animator != null)
-            {
-                animator.SetBool("isWalking", true); // Walk ¾Ö´Ï¸ŞÀÌ¼Ç ½ÃÀÛ
-            }
+            move = -1f;
+            if (animator != null) animator.SetBool("isWalking", true);
+        }
+        else if (animator != null) animator.SetBool("isWalking", false);
+
+        // ì´ë™
+        Vector3 moveDirection = transform.forward * move * moveSpeed * Time.deltaTime;
+        rb.MovePosition(rb.position + moveDirection);
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // ë¡œì»¬ í”Œë ˆì´ì–´ ë°ì´í„° ì „ì†¡
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
         }
         else
         {
-            if (animator != null)
-            {
-                animator.SetBool("isWalking", false); // Walk ¾Ö´Ï¸ŞÀÌ¼Ç ÁßÁö
-            }
+            // ì›ê²© í”Œë ˆì´ì–´ì˜ ë°ì´í„° ìˆ˜ì‹ 
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
         }
-
-        // ÇÃ·¹ÀÌ¾î ÀüÈÄ ÀÌµ¿ (ZÃà ¹æÇâÀ¸·Î ÀÌµ¿)
-        Vector3 moveDirection = transform.forward * move * moveSpeed * Time.deltaTime;
-        rb.MovePosition(rb.position + moveDirection);
     }
 }
