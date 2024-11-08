@@ -7,19 +7,40 @@ using Photon.Pun;
 public class Cabinet : MonoBehaviourPunCallbacks
 {
     public GameObject teaStackPrefab;          // TeaStack 소모 시 소환될 프리팹
-    public Transform teaStackSpawnPoint;       // TeaStack 소모 시 소환될 위치
-    public Text dialogueText;                  // 텍스트 UI
+    private Text dialogueText;                 // 텍스트 UI (코드로 지정)
     private bool isInInteractZone = false;     // 상호작용 가능 여부
     private GameObject currentCabinet;         // 현재 상호작용 가능한 Cabinet 오브젝트
     private GameObject currentTeaTest;         // TeaTest 상호작용 오브젝트
     private GameObject currentTable;           // Table 상호작용 오브젝트
     private Herb herbComponent;                // Herb 스크립트 참조
     private int teaStack = 0;                  // TeaStack을 관리할 변수
-
     private List<Transform> spawnPoints = new List<Transform>();  // 스폰 포인트 목록
+    private Transform teaStackSpawnPoint;      // TeaStack 소환 위치
 
     void Start()
     {
+        // TeaTestPoint 오브젝트를 찾아 TeaStackSpawnPoint로 지정
+        GameObject teaTestPoint = GameObject.Find("TeaTestPoint");
+        if (teaTestPoint != null)
+        {
+            teaStackSpawnPoint = teaTestPoint.transform;
+        }
+        else
+        {
+            Debug.LogWarning("TeaTestPoint를 찾을 수 없습니다. TeaStackPrefab의 소환 위치를 설정하지 못했습니다.");
+        }
+
+        // InfoText 오브젝트를 찾아 dialogueText로 지정
+        GameObject infoTextObject = GameObject.Find("InfoText");
+        if (infoTextObject != null)
+        {
+            dialogueText = infoTextObject.GetComponent<Text>();
+        }
+        else
+        {
+            Debug.LogWarning("InfoText 오브젝트를 찾을 수 없습니다. 텍스트 UI를 설정하지 못했습니다.");
+        }
+
         // 태그가 "SpawnPoint"인 모든 오브젝트를 찾아서 spawnPoints 리스트에 추가
         foreach (GameObject point in GameObject.FindGameObjectsWithTag("SpawnPoint"))
         {
@@ -124,13 +145,14 @@ public class Cabinet : MonoBehaviourPunCallbacks
 
     private void ConsumeTeaStack()
     {
+        // teaStackSpawnPoint와 teaStackPrefab이 Null이 아닐 때만 실행
         if (teaStackSpawnPoint != null && teaStackPrefab != null)
         {
             PhotonNetwork.Instantiate(teaStackPrefab.name, teaStackSpawnPoint.position, teaStackSpawnPoint.rotation);
             teaStack--;  // TeaStack 소모
             Debug.Log("TeaStack 소모됨. 현재 TeaStack: " + teaStack);
 
-            dialogueText.text = " ";
+            dialogueText.text = " ";  // 텍스트 초기화
         }
         else
         {

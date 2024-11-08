@@ -5216,7 +5216,7 @@ Transform:
   m_GameObject: {fileID: 442341673}
   serializedVersion: 2
   m_LocalRotation: {x: 0.37883756, y: -0, z: -0, w: 0.9254632}
-  m_LocalPosition: {x: -2.77, y: 1.616, z: -0.716}
+  m_LocalPosition: {x: -2.77, y: 2.028, z: -1.579}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6461,8 +6461,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC30D\uD654\uCC28 \uB9CC\uB4E4\uAE30 \uCCB4\uD5D8\uC5D0 \uC624\uC2E0
-    \uAC78 \uD658\uC601\uD569\uB2C8\uB2E4."
+  m_Text: "\uD50C\uB808\uC774\uC5B4 \uB300\uAE30 \uC911..."
 --- !u!222 &507244674
 CanvasRenderer:
   m_ObjectHideFlags: 0
