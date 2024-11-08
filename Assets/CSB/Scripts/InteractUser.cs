@@ -216,4 +216,5 @@ public class InteractUser : MonoBehaviour
         prevButton.interactable = currentPage > 0;
         nextButton.interactable = currentPage < pages.Count - 1;
     }
+
 }
