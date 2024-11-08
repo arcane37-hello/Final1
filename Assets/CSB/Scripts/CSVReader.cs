@@ -15,6 +15,8 @@ public class Datatable
     public string description;
     public string link;
     public string imagePath;
+    public string imagePath2;
+    public string imagePath3;
 }
 
 public class CSVReader : MonoBehaviour
@@ -56,7 +58,9 @@ public class CSVReader : MonoBehaviour
                     recipe = row[4].Trim('\"'),
                     description = row[5].Trim('\"'),
                     link = row[6],
-                    imagePath = row[7]
+                    imagePath = row[7],
+                    imagePath2 = row[8],
+                    imagePath3 = row[9]
                 };
                 datatable.Add(table);
             }
