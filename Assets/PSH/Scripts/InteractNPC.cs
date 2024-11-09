@@ -9,11 +9,11 @@ public class InteractNPC : MonoBehaviour
     private GameObject currentNPC;          // 현재 상호작용 가능한 NPC
     public GameObject miniGameUI;           // 연결할 UI 오브젝트 (비활성화된 상태여야 함)
     public GameObject chatUI;               // 한의사 NPC와 채팅하는 코드 구현
-    private PlayerMove playerMove;          // PlayerMove 스크립트 참조
+    private PlayerMoveNph playerMove;          // PlayerMove 스크립트 참조
 
     void Start()
     {
-        playerMove = FindObjectOfType<PlayerMove>(); // PlayerMove 스크립트 찾기
+        playerMove = FindObjectOfType<PlayerMoveNph>(); // PlayerMove 스크립트 찾기
     }
 
     void Update()
