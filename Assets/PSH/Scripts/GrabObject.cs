@@ -1,72 +1,100 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class GrabObject : MonoBehaviour
+public class GrabObject : MonoBehaviourPun, IPunObservable
 {
-    private Camera mainCamera;  // ¸ŞÀÎ Ä«¸Ş¶ó ÂüÁ¶
-    private GameObject selectedObject;  // ÇöÀç ¼±ÅÃµÈ ¿ÀºêÁ§Æ®
-    private bool isObjectGrabbed = false; // ¿ÀºêÁ§Æ®°¡ ÀâÈù »óÅÂÀÎÁö ¿©ºÎ
-    private float objectZDistance; // Ä«¸Ş¶ó¿Í ¿ÀºêÁ§Æ® °£ÀÇ °Å¸®
-    private float fixedYPosition;  // ¿ÀºêÁ§Æ®ÀÇ Y ÁÂÇ¥¸¦ °íÁ¤ÇÏ±â À§ÇÑ º¯¼ö
+    private Camera mainCamera;
+    private bool isObjectGrabbed = false;
+    private Vector3 networkPosition;
+    private Quaternion networkRotation;
+    private float objectZDistance;
+    private float fixedYPosition;
 
     void Start()
     {
-        // ¸ŞÀÎ Ä«¸Ş¶ó ÀÚµ¿ ¼³Á¤
         mainCamera = Camera.main;
-
-        // ¸ŞÀÎ Ä«¸Ş¶ó°¡ ¾øÀ» °æ¿ì °æ°í ¸Ş½ÃÁö Ãâ·Â
-        if (mainCamera == null)
-        {
-            Debug.LogError("¸ŞÀÎ Ä«¸Ş¶ó°¡ ¾À¿¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù. Ä«¸Ş¶ó¿¡ 'Main Camera' ÅÂ±×°¡ ÀÖ´ÂÁö È®ÀÎÇÏ¼¼¿ä.");
-        }
+        networkPosition = transform.position;
+        networkRotation = transform.rotation;
     }
 
     void Update()
     {
-        // ¸¶¿ì½º ¿ŞÂÊ ¹öÆ°À» ´­·¶À» ¶§
+        if (isObjectGrabbed)
+        {
+            DragObject();
+        }
+        else
+        {
+            // ë„¤íŠ¸ì›Œí¬ ìƒì˜ ìœ„ì¹˜ì™€ íšŒì „ìœ¼ë¡œ ë³´ê°„, ë–¨ë¦¼ì„ ì¤„ì´ê¸° ìœ„í•´ ë³´ê°„ ì†ë„ë¥¼ ì¡°ì •
+            transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 5);
+            transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 5);
+        }
+
+        // ë§ˆìš°ìŠ¤ ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ ë“œë˜ê·¸ ì‹œì‘
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
-
-            // Ray¸¦ Ä«¸Ş¶ó¿¡¼­ ¸¶¿ì½º À§Ä¡·Î ¹ß»ç
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            // ¿ÀºêÁ§Æ®°¡ Å¬¸¯µÇ¾ú´ÂÁö È®ÀÎ
-            if (Physics.Raycast(ray, out hit))
-            {
-                // ÇØ´ç ¿ÀºêÁ§Æ®¿¡ GrabObject ½ºÅ©¸³Æ®°¡ ÀÖ´ÂÁö È®ÀÎ
-                GrabObject grabScript = hit.collider.GetComponent<GrabObject>();
-
-                if (grabScript != null && grabScript == this)  // ÇöÀç ½ºÅ©¸³Æ®°¡ ºÙÀº ¿ÀºêÁ§Æ®¸¸ ÀÌµ¿ °¡´É
-                {
-                    // ¿ÀºêÁ§Æ®¸¦ ¼±ÅÃÇÏ°í, Ä«¸Ş¶ó¿ÍÀÇ ZÃà °Å¸® °è»ê
-                    selectedObject = hit.collider.gameObject;
-                    objectZDistance = Vector3.Distance(mainCamera.transform.position, selectedObject.transform.position);
-                    fixedYPosition = selectedObject.transform.position.y;  // ¼±ÅÃÇÑ ¿ÀºêÁ§Æ®ÀÇ Y ÁÂÇ¥ °íÁ¤
-                    isObjectGrabbed = true;
-                }
-            }
+            TryStartDrag();
         }
 
-        // ¸¶¿ì½º ¿ŞÂÊ ¹öÆ°À» ´©¸£°í ÀÖ´Â µ¿¾È ¿ÀºêÁ§Æ®¸¦ ÀÌµ¿
-        if (Input.GetMouseButton(0) && isObjectGrabbed && selectedObject != null)
-        {
-            // ¸¶¿ì½º À§Ä¡¸¦ µû¶ó ¿ÀºêÁ§Æ®¸¦ ÀÌµ¿ (Ä«¸Ş¶ó ¾ÕÂÊÀ¸·Î ÀÏÁ¤ °Å¸® À¯Áö)
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = objectZDistance; // ¿ÀºêÁ§Æ®¿Í Ä«¸Ş¶ó °£ÀÇ °Å¸® À¯Áö
-
-            // ¸¶¿ì½º À§Ä¡¿¡ ¸Â°Ô ¿ÀºêÁ§Æ®¸¦ ¿òÁ÷ÀÌµÇ, Y ÁÂÇ¥´Â °íÁ¤
-            Vector3 objectPosition = mainCamera.ScreenToWorldPoint(mousePosition);
-            objectPosition.y = fixedYPosition;  // Y ÁÂÇ¥¸¦ °íÁ¤ÇÏ¿© ÀÌµ¿ÇÏÁö ¾Êµµ·Ï ÇÔ
-            selectedObject.transform.position = objectPosition;
-        }
-
-        // ¸¶¿ì½º ¿ŞÂÊ ¹öÆ°À» ¶ÃÀ» ¶§ ¿ÀºêÁ§Æ®¸¦ ³»·Á³õÀ½
+        // ë§ˆìš°ìŠ¤ ë²„íŠ¼ì„ ë†“ì•˜ì„ ë•Œ ë“œë˜ê·¸ ì¢…ë£Œ
         if (Input.GetMouseButtonUp(0) && isObjectGrabbed)
         {
-            isObjectGrabbed = false;
-            selectedObject = null; // ¿ÀºêÁ§Æ® ¼±ÅÃ ÇØÁ¦
+            EndDrag();
+        }
+    }
+
+    private void TryStartDrag()
+    {
+        RaycastHit hit;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == this.gameObject)
+        {
+            // ë“œë˜ê·¸ ìƒíƒœë¡œ ì „í™˜
+            isObjectGrabbed = true;
+            objectZDistance = Vector3.Distance(mainCamera.transform.position, transform.position);
+            fixedYPosition = transform.position.y; // Y ì¢Œí‘œ ê³ ì •
+        }
+    }
+
+    private void DragObject()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = objectZDistance;
+
+        Vector3 objectPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+        objectPosition.y = fixedYPosition;
+        transform.position = objectPosition;
+
+        // ë“œë˜ê·¸ ì¤‘ ìœ„ì¹˜ì™€ íšŒì „ ê°±ì‹ 
+        photonView.RPC("UpdatePositionAndRotation", RpcTarget.Others, transform.position, transform.rotation);
+    }
+
+    private void EndDrag()
+    {
+        isObjectGrabbed = false;
+    }
+
+    [PunRPC]
+    private void UpdatePositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        networkPosition = position;
+        networkRotation = rotation;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // í˜„ì¬ ìœ„ì¹˜ì™€ íšŒì „ì„ ë„¤íŠ¸ì›Œí¬ì— ì „ì†¡
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            // ë„¤íŠ¸ì›Œí¬ì—ì„œ ìœ„ì¹˜ì™€ íšŒì „ì„ ìˆ˜ì‹ 
+            networkPosition = (Vector3)stream.ReceiveNext();
+            networkRotation = (Quaternion)stream.ReceiveNext();
         }
     }
 }

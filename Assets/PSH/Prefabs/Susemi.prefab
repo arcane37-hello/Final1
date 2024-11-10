@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6498036620632025355}
   - component: {fileID: 1657078503658088569}
   - component: {fileID: 4628969978186754807}
-  - component: {fileID: 8392426626393761127}
+  - component: {fileID: 3399541639809585624}
   m_Layer: 0
   m_Name: Susemi
   m_TagString: Susemi
@@ -135,7 +135,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8392426626393761127
+--- !u!114 &3399541639809585624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6014212971576355070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c5d82cd9bdf3e141ac142689bc159e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 53294d1906c3ed542b7eab50ff4478f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1141854886625182362
