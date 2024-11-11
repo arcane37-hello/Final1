@@ -12,6 +12,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 networkPosition;     // 네트워크 상의 위치
     private Quaternion networkRotation;  // 네트워크 상의 회전
     private bool isCurrentlyMoving = false;
+    private bool isMovingNetwork;        // 네트워크를 통해 수신된 애니메이션 상태
 
     void Start()
     {
@@ -20,7 +21,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!photonView.IsMine)
         {
-            rb.isKinematic = true; // 물리 효과를 막기 위해 kinematic 설정
+            rb.isKinematic = true; // 로컬 플레이어가 아닐 경우 물리 효과를 막기 위해 kinematic 설정
         }
     }
 
@@ -35,6 +36,12 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
             // 네트워크 플레이어의 위치와 회전 동기화
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 10);
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 10);
+
+            // 네트워크에서 받은 애니메이션 상태 적용
+            if (animator != null)
+            {
+                UpdateAnimation(isMovingNetwork);
+            }
         }
     }
 
@@ -91,12 +98,14 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
             // 로컬 플레이어 데이터 전송
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+            stream.SendNext(isCurrentlyMoving); // 애니메이션 상태 전송
         }
         else
         {
             // 원격 플레이어의 데이터 수신
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
+            isMovingNetwork = (bool)stream.ReceiveNext(); // 원격 플레이어의 애니메이션 상태 수신
         }
     }
 }
