@@ -82,4 +82,10 @@ public class InteractNPC : MonoBehaviour
         SceneManager.LoadScene("Susemi");  // Susemi 씬으로 전환
         Debug.Log("Susemi 씬으로 전환");
     }
+
+    public void LoadSanghwaScene()
+    {
+        SceneManager.LoadScene("Sanghwa");  // Susemi 씬으로 전환
+        Debug.Log("Sanghwa 씬으로 전환");
+    }
 }

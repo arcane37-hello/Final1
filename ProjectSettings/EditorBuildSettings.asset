@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/PSH/Scenes/Susemi.unity
     guid: 8438b0b6619ff534282444a2cfe38348
+  - enabled: 1
+    path: Assets/PSH/Scenes/Sanghwa.unity
+    guid: 48bf834d6d43f2c418351b2f4cbbaa29
   m_configObjects: {}
