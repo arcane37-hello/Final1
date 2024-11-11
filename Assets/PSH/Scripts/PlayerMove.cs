@@ -11,6 +11,7 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
 
     private Vector3 networkPosition;     // 네트워크 상의 위치
     private Quaternion networkRotation;  // 네트워크 상의 회전
+    private bool isCurrentlyMoving = false;
 
     void Start()
     {
@@ -19,7 +20,6 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
 
         if (!photonView.IsMine)
         {
-            // 로컬 플레이어가 아닌 경우 입력을 비활성화
             rb.isKinematic = true; // 물리 효과를 막기 위해 kinematic 설정
         }
     }
@@ -40,29 +40,48 @@ public class PlayerMove : MonoBehaviourPunCallbacks, IPunObservable
 
     void MovePlayer()
     {
+        float move = 0f;
+        bool isWalking = false;
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            move = 1f;
+            isWalking = true;
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            move = -1f;
+            isWalking = true;
+        }
+
+        UpdateAnimation(isWalking);
+
         // 회전 입력 (A, D 키로 회전)
         float turn = 0f;
         if (Input.GetKey(KeyCode.A)) turn = -1f;
         if (Input.GetKey(KeyCode.D)) turn = 1f;
         transform.Rotate(0f, turn * turnSpeed * Time.deltaTime, 0f);
 
-        // 이동 입력 (W, S 키로 이동)
-        float move = 0f;
-        if (Input.GetKey(KeyCode.W))
-        {
-            move = 1f;
-            if (animator != null) animator.SetBool("isWalking", true);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            move = -1f;
-            if (animator != null) animator.SetBool("isWalking", true);
-        }
-        else if (animator != null) animator.SetBool("isWalking", false);
-
         // 이동
         Vector3 moveDirection = transform.forward * move * moveSpeed * Time.deltaTime;
         rb.MovePosition(rb.position + moveDirection);
+    }
+
+    void UpdateAnimation(bool isWalking)
+    {
+        if (animator != null)
+        {
+            if (isWalking && !isCurrentlyMoving)
+            {
+                animator.Play("Korean_Male_Walk");  // 걷기 애니메이션 실행
+                isCurrentlyMoving = true;
+            }
+            else if (!isWalking && isCurrentlyMoving)
+            {
+                animator.Play("Korean_Male_Stand"); // 서 있는 애니메이션으로 전환
+                isCurrentlyMoving = false;
+            }
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

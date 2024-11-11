@@ -5299,7 +5299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a90f0744c291c43bda4427ada3b5b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1964833981}
   cameraPoint: {fileID: 990334757}
   collisionMask:
     serializedVersion: 2
@@ -7539,6 +7538,10 @@ MonoBehaviour:
   chatBox: {fileID: 865425715}
   csv: {fileID: 301899165}
   herbImage: {fileID: 1542147113}
+  prevButton: {fileID: 0}
+  nextButton: {fileID: 0}
+  prevImageButton: {fileID: 0}
+  nextImageButton: {fileID: 0}
 --- !u!1001 &633297514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22891,12 +22894,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1960179998}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1964833981 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8950425794740587624, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 4375073765530042488}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1972832038
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32392,6 +32389,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5388335925245029090, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966865992516867670, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3003886997024921086, guid: 46dc62a1971a9f544b4c27b5a1a8d6d9,
         type: 3}
       propertyPath: m_Name

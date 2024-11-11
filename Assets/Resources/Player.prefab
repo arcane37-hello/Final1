@@ -233,10 +233,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.5114399
-  m_Height: 3.02288
+  m_Radius: 1.5604641
+  m_Height: 3.7698164
   m_Direction: 1
-  m_Center: {x: 0.033759177, y: -0.0072306395, z: 0.080706775}
+  m_Center: {x: 0.033759177, y: 0.3172134, z: 0.103993714}
 --- !u!114 &4629512661627270611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +285,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Korean Male_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3739871028571505322, guid: 613197d990b88d14cbce49c18f4a7d51,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3739871028571505322, guid: 613197d990b88d14cbce49c18f4a7d51,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3739871028571505322, guid: 613197d990b88d14cbce49c18f4a7d51,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3739871028571505322, guid: 613197d990b88d14cbce49c18f4a7d51,
         type: 3}
