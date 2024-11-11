@@ -8166,7 +8166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatBox: {fileID: 865425715}
-  csv: {fileID: 0}
+  csv: {fileID: 301899165}
   herbImage: {fileID: 1542147113}
   prevButton: {fileID: 4146339}
   nextButton: {fileID: 365270991}
@@ -17690,7 +17690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miniGameUI: {fileID: 1830279019}
-  chatUI: {fileID: 0}
+  chatUI: {fileID: 610840247}
 --- !u!136 &1407337575
 CapsuleCollider:
   m_ObjectHideFlags: 0
