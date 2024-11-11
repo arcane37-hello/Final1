@@ -42,6 +42,10 @@ MonoBehaviour:
   - SyncInitialPosition
   - UpdatePositionAndRotation
   - SyncPositionAndRotation
+  - PourTeaRPC
+  - StartBoilingRPC
+  - OnInteractWithSanghwaTea
+  - HandleInteraction
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -1,28 +1,29 @@
+using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class KettleSanghwa : MonoBehaviour
+public class KettleSanghwa : MonoBehaviourPun
 {
-    public Transform effectSpawnPoint;       // 이펙트가 생성될 위치
-    public GameObject boilingEffectPrefab;   // 물 끓일 때 출력할 이펙트 프리팹
-    public Text dialogueText;                // 텍스트 UI
-    public Transform targetPosition;         // 주전자가 이동할 위치
-    public GameObject objectToReplace;       // 파괴될 오브젝트
-    public GameObject replacementPrefab;     // 소환될 프리팹
+    public Transform effectSpawnPoint;
+    public GameObject boilingEffectPrefab;
+    public Text dialogueText;
+    public Transform targetPosition;
+    public GameObject objectToReplace;
+    public string cupObjectName = "Cup Sanghwa";   // 이동할 오브젝트 이름
+    public string spawnPointName = "TeaSpawn";     // 이동할 위치 이름
 
-    private Vector3 originalPosition;        // 주전자의 원래 위치
-    private Quaternion originalRotation;     // 주전자의 원래 회전값
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
     private int herbStack = 0;
     private int herb2Stack = 0;
     private int herb3Stack = 0;
     private int herb4Stack = 0;
     private int herb5Stack = 0;
-    private bool canInteract = false;        // 상호작용 가능 여부
-    private bool isBoiling = false;          // 물 끓이는 중 여부
-    private bool isPouring = false;          // 차 따르기 모션 여부
-    private bool boilingComplete = false;    // 물 끓이기 완료 여부
+    private bool canInteract = false;
+    private bool isBoiling = false;
+    private bool isPouring = false;
+    private bool boilingComplete = false;
 
     void Start()
     {
@@ -32,15 +33,17 @@ public class KettleSanghwa : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (!photonView.IsMine) return;
+
         if (canInteract && !isBoiling && !isPouring)
         {
             if (!boilingComplete)
             {
-                StartCoroutine(StartBoiling());
+                photonView.RPC("StartBoilingRPC", RpcTarget.All);
             }
             else
             {
-                StartCoroutine(PourTea());
+                photonView.RPC("PourTeaRPC", RpcTarget.All);
             }
         }
     }
@@ -73,12 +76,17 @@ public class KettleSanghwa : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        // 필요한 모든 재료가 2개 이상일 때만 상호작용 가능 상태로 전환하며 한 번만 갱신
         if (!canInteract && herbStack >= 2 && herb2Stack >= 2 && herb3Stack >= 2 && herb4Stack >= 2 && herb5Stack >= 2)
         {
             canInteract = true;
             dialogueText.text = "이제 주전자를 클릭해서 물을 끓여봅시다.";
         }
+    }
+
+    [PunRPC]
+    private void StartBoilingRPC()
+    {
+        StartCoroutine(StartBoiling());
     }
 
     private IEnumerator StartBoiling()
@@ -106,6 +114,12 @@ public class KettleSanghwa : MonoBehaviour
         isBoiling = false;
     }
 
+    [PunRPC]
+    private void PourTeaRPC()
+    {
+        StartCoroutine(PourTea());
+    }
+
     private IEnumerator PourTea()
     {
         isPouring = true;
@@ -117,14 +131,12 @@ public class KettleSanghwa : MonoBehaviour
 
         ReplaceObject();
 
-        // 오브젝트 교체 후 텍스트 갱신
-        dialogueText.text = "차가 완성됐습니다. 찻잔을 클릭해서 평가를 받아봅시다.";
+        dialogueText.text = "차가 완성됐습니다. 찻잔을 클릭해서 평가를 받아봅시다!";
         canInteract = true;
 
         yield return StartCoroutine(MoveAndRotateKettle(originalPosition, originalRotation));
 
         isPouring = false;
-        
     }
 
     private IEnumerator MoveAndRotateKettle(Vector3 targetPos, Quaternion targetRot)
@@ -148,13 +160,22 @@ public class KettleSanghwa : MonoBehaviour
 
     private void ReplaceObject()
     {
-        if (objectToReplace != null && replacementPrefab != null)
+        if (objectToReplace != null)
         {
-            Vector3 replacePosition = objectToReplace.transform.position;
-            Quaternion replaceRotation = objectToReplace.transform.rotation;
-
             Destroy(objectToReplace);
-            Instantiate(replacementPrefab, replacePosition, replaceRotation);
+
+            GameObject cupObject = GameObject.Find(cupObjectName);
+            Transform spawnPoint = GameObject.Find(spawnPointName)?.transform;
+
+            if (cupObject != null && spawnPoint != null)
+            {
+                cupObject.transform.position = spawnPoint.position;
+                cupObject.transform.rotation = spawnPoint.rotation;
+            }
+            else
+            {
+                Debug.LogWarning("Cup Sanghwa 또는 TeaSpawn을 찾을 수 없습니다.");
+            }
         }
     }
 }
