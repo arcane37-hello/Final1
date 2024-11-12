@@ -55,6 +55,10 @@ MonoBehaviour:
   - DisconnectAllPlayers
   - SetRecipeAlpha
   - ToggleRecipeImage
+  - PlayGrabSound
+  - PlayBGM
+  - StopBGM
+  - PlayCompletionSound
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

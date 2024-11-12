@@ -10,11 +10,18 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
     private float objectZDistance;
     private float fixedYPosition;
 
+    public AudioClip grabSound; // 클릭 시 재생할 사운드
+    private AudioSource audioSource;
+
     void Start()
     {
         mainCamera = Camera.main;
         networkPosition = transform.position;
         networkRotation = transform.rotation;
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = grabSound;
+        audioSource.playOnAwake = false;
     }
 
     void Update()
@@ -25,18 +32,15 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         }
         else
         {
-            // 네트워크 상의 위치와 회전으로 보간, 떨림을 줄이기 위해 보간 속도를 조정
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.deltaTime * 5);
             transform.rotation = Quaternion.Lerp(transform.rotation, networkRotation, Time.deltaTime * 5);
         }
 
-        // 마우스 버튼을 눌렀을 때 드래그 시작
         if (Input.GetMouseButtonDown(0))
         {
             TryStartDrag();
         }
 
-        // 마우스 버튼을 놓았을 때 드래그 종료
         if (Input.GetMouseButtonUp(0) && isObjectGrabbed)
         {
             EndDrag();
@@ -50,10 +54,10 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
 
         if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == this.gameObject)
         {
-            // 드래그 상태로 전환
             isObjectGrabbed = true;
             objectZDistance = Vector3.Distance(mainCamera.transform.position, transform.position);
-            fixedYPosition = transform.position.y; // Y 좌표 고정
+            fixedYPosition = transform.position.y;
+            photonView.RPC("PlayGrabSound", RpcTarget.All); // 모든 플레이어에게 사운드 재생
         }
     }
 
@@ -66,7 +70,6 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         objectPosition.y = fixedYPosition;
         transform.position = objectPosition;
 
-        // 드래그 중 위치와 회전 갱신
         photonView.RPC("UpdatePositionAndRotation", RpcTarget.Others, transform.position, transform.rotation);
     }
 
@@ -82,17 +85,24 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         networkRotation = rotation;
     }
 
+    [PunRPC]
+    private void PlayGrabSound()
+    {
+        if (audioSource != null && grabSound != null)
+        {
+            audioSource.Play();
+        }
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            // 현재 위치와 회전을 네트워크에 전송
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
         }
         else
         {
-            // 네트워크에서 위치와 회전을 수신
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
         }
