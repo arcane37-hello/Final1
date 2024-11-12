@@ -1,27 +1,37 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
 public class Minigame2 : MonoBehaviourPunCallbacks
 {
-    public Text dialogueText;                // 텍스트 UI 참조
-    public Transform cameraTargetPoint;      // 카메라가 이동할 목표 지점
-    public GameObject player;                // 플레이어 오브젝트
-    private Camera mainCamera;               // 메인 카메라
-    public CameraMove cameraMoveScript;      // CameraMove 스크립트 참조
-    public PlayerMove playerMoveScript;      // PlayerMove 스크립트 참조
-    private float checkInterval = 1f;        // 재료 개수 확인 간격
+    public Text dialogueText;
+    public Transform cameraTargetPoint;
+    public GameObject player;
+    private Camera mainCamera;
+    public CameraMove cameraMoveScript;
+    public PlayerMove playerMoveScript;
+    public CanvasGroup recipeCanvasGroup;
+    private float checkInterval = 1f;
     private float timer = 0f;
-    private bool textUpdateStopped = false;  // 텍스트 갱신 중지 여부
-    private bool isPlayerCountReady = false; // 플레이어 수 체크 여부
+    private bool textUpdateStopped = false;
+    private bool isPlayerCountReady = false;
 
     void Start()
     {
         mainCamera = Camera.main;
         cameraMoveScript = mainCamera.GetComponent<CameraMove>();
         playerMoveScript = player.GetComponent<PlayerMove>();
+
+        if (recipeCanvasGroup != null)
+        {
+            recipeCanvasGroup.alpha = 0;
+            recipeCanvasGroup.blocksRaycasts = false;
+        }
+        else
+        {
+            Debug.LogError("CanvasGroup을 찾을 수 없습니다.");
+        }
 
         dialogueText.text = "플레이어 대기 중...";
         StartCoroutine(CheckPlayerCountAndStart());
@@ -38,18 +48,20 @@ public class Minigame2 : MonoBehaviourPunCallbacks
                 CheckHerbCounts();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.G) && recipeCanvasGroup != null)
+        {
+            ToggleRecipeImage();  // Photon RPC 대신 로컬 호출
+        }
     }
 
-    // 두 명의 플레이어가 입장하면 텍스트 갱신 시작
     IEnumerator CheckPlayerCountAndStart()
     {
-        // 룸에 입장할 때까지 대기
         while (!PhotonNetwork.InRoom)
         {
             yield return null;
         }
 
-        // 두 명의 플레이어가 입장할 때까지 대기
         while (PhotonNetwork.CurrentRoom.PlayerCount < 2)
         {
             yield return new WaitForSeconds(1f);
@@ -63,11 +75,37 @@ public class Minigame2 : MonoBehaviourPunCallbacks
     IEnumerator UpdateDialogueText()
     {
         yield return new WaitForSeconds(3f);
-        dialogueText.text = "우선 왼쪽에 있는 서랍장에서 재료들을 가져와봅시다.";
+        dialogueText.text = "일단 쌍화차를 만드는 방법을 알려드리겠습니다.";
+
         yield return new WaitForSeconds(3f);
-        dialogueText.text = "필요한 재료는 총 10개입니다.";
+        photonView.RPC("SetRecipeAlpha", RpcTarget.All, 1f);  // 이미지 알파를 1로 설정하여 출력
+
+        dialogueText.text = "레시피를 숙지하셨다면 G 키를 눌러주세요.";
+
+        yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.G));
+
+        SetRecipeAlpha(0f);  // G 키 입력 후 알파값 0
+        dialogueText.text = "레시피를 다시 보고 싶으시다면 G 키를 누르면 언제든지 볼 수 있습니다.";
+
         yield return new WaitForSeconds(3f);
-        dialogueText.text = "각각의 서랍장에서 재료를 2개씩 가져옵시다.";
+        dialogueText.text = "그러면 먼저 재료들을 가져옵시다.";
+        yield return new WaitForSeconds(3f);
+        dialogueText.text = "재료는 왼쪽에 위치한 서랍장에서 얻을 수 있습니다.";
+        yield return new WaitForSeconds(3f);
+        dialogueText.text = "각각의 서랍장에서 재료를 2개씩 챙깁시다.";
+    }
+
+    private void ToggleRecipeImage()
+    {
+        recipeCanvasGroup.alpha = recipeCanvasGroup.alpha == 1f ? 0f : 1f;
+        recipeCanvasGroup.blocksRaycasts = recipeCanvasGroup.alpha == 1f;
+    }
+
+    [PunRPC]
+    private void SetRecipeAlpha(float alpha)
+    {
+        recipeCanvasGroup.alpha = alpha;
+        recipeCanvasGroup.blocksRaycasts = alpha == 1f;
     }
 
     void CheckHerbCounts()

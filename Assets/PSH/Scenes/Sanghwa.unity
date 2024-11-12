@@ -1939,6 +1939,7 @@ GameObject:
   - component: {fileID: 159402179}
   - component: {fileID: 159402180}
   - component: {fileID: 159402181}
+  - component: {fileID: 159402182}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1978,6 +1979,7 @@ MonoBehaviour:
   player: {fileID: 142406061}
   cameraMoveScript: {fileID: 0}
   playerMoveScript: {fileID: 0}
+  recipeCanvasGroup: {fileID: 1955573776}
 --- !u!114 &159402180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2002,6 +2004,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d563b622d293f246a5e3ad534e777f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &159402182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159402176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 13
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &159770602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23258,7 +23282,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 3145a92c8929a414b9fb4b743a0955e1, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -23321,13 +23345,15 @@ GameObject:
   - component: {fileID: 1955573773}
   - component: {fileID: 1955573775}
   - component: {fileID: 1955573774}
+  - component: {fileID: 1955573776}
+  - component: {fileID: 1955573777}
   m_Layer: 5
   m_Name: Image (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1955573773
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23386,6 +23412,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955573772}
   m_CullTransparentMesh: 1
+--- !u!225 &1955573776
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955573772}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1955573777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955573772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 12
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1960179998
 PrefabInstance:
   m_ObjectHideFlags: 0
