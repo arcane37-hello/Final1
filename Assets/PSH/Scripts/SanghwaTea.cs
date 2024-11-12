@@ -12,10 +12,7 @@ public class SanghwaTea : MonoBehaviourPun
 
     void Start()
     {
-        // Minigame2 스크립트를 찾아서 참조
         minigame2Script = FindObjectOfType<Minigame2>();
-
-        // InfoText 오브젝트를 찾아서 텍스트 참조
         GameObject infoTextObject = GameObject.Find("InfoText");
         if (infoTextObject != null)
         {
@@ -29,7 +26,6 @@ public class SanghwaTea : MonoBehaviourPun
 
     void Update()
     {
-        // Cabinet 스크립트가 할당되지 않은 경우에만 시도
         if (cabinetScript == null)
         {
             cabinetScript = FindObjectOfType<Cabinet>();
@@ -44,7 +40,6 @@ public class SanghwaTea : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
-        // 클릭 시 Minigame2의 스크립트 활성화하고 TeaStack 추가 후 오브젝트 제거
         if (minigame2Script != null)
         {
             minigame2Script.cameraMoveScript.enabled = true;
@@ -56,11 +51,28 @@ public class SanghwaTea : MonoBehaviourPun
             cabinetScript.AddTeaStack();
         }
 
-        if (dialogueText != null)
-        {
-            dialogueText.text = "오른쪽에 있는 NPC에게 이동하면 평가를 받을 수 있습니다";
-        }
+        photonView.RPC("UpdateDialogueText", RpcTarget.All, "오른쪽에 있는 NPC에게 이동하면 평가를 받을 수 있습니다");
+        photonView.RPC("RestoreCamera", RpcTarget.All);
 
         PhotonNetwork.Destroy(gameObject);
+    }
+
+    [PunRPC]
+    private void RestoreCamera()
+    {
+        if (minigame2Script != null)
+        {
+            minigame2Script.cameraMoveScript.enabled = true;
+            minigame2Script.playerMoveScript.enabled = true;
+        }
+    }
+
+    [PunRPC]
+    private void UpdateDialogueText(string message)
+    {
+        if (dialogueText != null)
+        {
+            dialogueText.text = message;
+        }
     }
 }

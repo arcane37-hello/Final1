@@ -46,6 +46,12 @@ MonoBehaviour:
   - StartBoilingRPC
   - OnInteractWithSanghwaTea
   - HandleInteraction
+  - ActivatePlayerControls
+  - IncreaseTeaStackRPC
+  - RestoreCamera
+  - UpdateDialogueText
+  - ConsumeTeaStack
+  - ActivateRetryButton
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
