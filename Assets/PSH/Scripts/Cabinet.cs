@@ -6,20 +6,20 @@ using Photon.Pun;
 
 public class Cabinet : MonoBehaviourPunCallbacks
 {
-    public GameObject teaStackPrefab;          // TeaStack 소모 시 소환될 프리팹
-    private Text dialogueText;                 // 텍스트 UI (코드로 지정)
-    private bool isInInteractZone = false;     // 상호작용 가능 여부
-    private GameObject currentCabinet;         // 현재 상호작용 가능한 Cabinet 오브젝트
-    private GameObject currentTeaTest;         // TeaTest 상호작용 오브젝트
-    private GameObject currentTable;           // Table 상호작용 오브젝트
-    private Herb herbComponent;                // Herb 스크립트 참조
-    private int teaStack = 0;                  // TeaStack을 관리할 변수
-    private List<Transform> spawnPoints = new List<Transform>();  // 스폰 포인트 목록
-    private Transform teaStackSpawnPoint;      // TeaStack 소환 위치
+    public GameObject teaStackPrefab;
+    private Text dialogueText;
+    private bool isInInteractZone = false;
+    private GameObject currentCabinet;
+    private GameObject currentTeaTest;
+    private GameObject currentTable;
+    private Herb herbComponent;
+    private int teaStack = 0;
+    private List<Transform> spawnPoints = new List<Transform>();
+    private Transform teaStackSpawnPoint;
+    private CanvasGroup retryButtonCanvasGroup;
 
     void Start()
     {
-        // TeaTestPoint 오브젝트를 찾아 TeaStackSpawnPoint로 지정
         GameObject teaTestPoint = GameObject.Find("TeaTestPoint");
         if (teaTestPoint != null)
         {
@@ -27,10 +27,9 @@ public class Cabinet : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogWarning("TeaTestPoint를 찾을 수 없습니다. TeaStackPrefab의 소환 위치를 설정하지 못했습니다.");
+            Debug.LogWarning("TeaTestPoint를 찾을 수 없습니다.");
         }
 
-        // InfoText 오브젝트를 찾아 dialogueText로 지정
         GameObject infoTextObject = GameObject.Find("InfoText");
         if (infoTextObject != null)
         {
@@ -38,18 +37,32 @@ public class Cabinet : MonoBehaviourPunCallbacks
         }
         else
         {
-            Debug.LogWarning("InfoText 오브젝트를 찾을 수 없습니다. 텍스트 UI를 설정하지 못했습니다.");
+            Debug.LogWarning("InfoText 오브젝트를 찾을 수 없습니다.");
         }
 
-        // 태그가 "SpawnPoint"인 모든 오브젝트를 찾아서 spawnPoints 리스트에 추가
         foreach (GameObject point in GameObject.FindGameObjectsWithTag("SpawnPoint"))
         {
             spawnPoints.Add(point.transform);
         }
 
-        if (spawnPoints.Count == 0)
+        GameObject retryButton = GameObject.Find("RetryButton");
+        if (retryButton != null)
         {
-            Debug.LogWarning("SpawnPoint 태그를 가진 오브젝트가 없습니다.");
+            retryButtonCanvasGroup = retryButton.GetComponent<CanvasGroup>();
+            if (retryButtonCanvasGroup != null)
+            {
+                retryButtonCanvasGroup.alpha = 0f;       // 투명하게 처리하여 보이지 않도록 설정
+                retryButtonCanvasGroup.interactable = false;
+                retryButtonCanvasGroup.blocksRaycasts = false;
+            }
+            else
+            {
+                Debug.LogWarning("RetryButton에 CanvasGroup 컴포넌트가 없습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("RetryButton 오브젝트를 찾을 수 없습니다.");
         }
     }
 
@@ -69,12 +82,12 @@ public class Cabinet : MonoBehaviourPunCallbacks
 
             if (currentTeaTest != null && teaStack > 0)
             {
-                ConsumeTeaStack();
+                photonView.RPC("ConsumeTeaStack", RpcTarget.All);
             }
 
             if (currentTable != null && herbComponent != null && herbComponent.HasStack())
             {
-                int stackCount = herbComponent.GetStackCount(); // 스택 개수 확인
+                int stackCount = herbComponent.GetStackCount();
                 if (spawnPoints.Count > 0 && herbComponent.spawnPrefab != null)
                 {
                     for (int i = 0; i < stackCount; i++)
@@ -82,7 +95,7 @@ public class Cabinet : MonoBehaviourPunCallbacks
                         Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
                         PhotonNetwork.Instantiate(herbComponent.spawnPrefab.name, randomSpawnPoint.position, randomSpawnPoint.rotation);
                     }
-                    herbComponent.ClearStack();  // 스택 모두 소모
+                    herbComponent.ClearStack();
                     Debug.Log(stackCount + "개의 프리팹이 랜덤 위치에 소환되었습니다.");
                 }
                 else if (herbComponent.spawnPrefab == null)
@@ -143,20 +156,40 @@ public class Cabinet : MonoBehaviourPunCallbacks
         Debug.Log("현재 TeaStack 개수: " + teaStack);
     }
 
+    [PunRPC]
     private void ConsumeTeaStack()
     {
-        // teaStackSpawnPoint와 teaStackPrefab이 Null이 아닐 때만 실행
         if (teaStackSpawnPoint != null && teaStackPrefab != null)
         {
             PhotonNetwork.Instantiate(teaStackPrefab.name, teaStackSpawnPoint.position, teaStackSpawnPoint.rotation);
-            teaStack--;  // TeaStack 소모
+            teaStack--;
             Debug.Log("TeaStack 소모됨. 현재 TeaStack: " + teaStack);
-
-            dialogueText.text = " ";  // 텍스트 초기화
+            photonView.RPC("UpdateDialogueText", RpcTarget.All, "쌍화차 제작 체험을 완료하셨습니다. 수고하셨습니다.");
+            photonView.RPC("ActivateRetryButton", RpcTarget.All); // RetryButton 활성화
         }
         else
         {
             Debug.LogWarning("TeaStack 소모를 위한 프리팹 또는 소환 위치가 설정되지 않았습니다.");
+        }
+    }
+
+    [PunRPC]
+    private void UpdateDialogueText(string message)
+    {
+        if (dialogueText != null)
+        {
+            dialogueText.text = message;
+        }
+    }
+
+    [PunRPC]
+    private void ActivateRetryButton()
+    {
+        if (retryButtonCanvasGroup != null)
+        {
+            retryButtonCanvasGroup.alpha = 1f;
+            retryButtonCanvasGroup.interactable = true;
+            retryButtonCanvasGroup.blocksRaycasts = true;
         }
     }
 

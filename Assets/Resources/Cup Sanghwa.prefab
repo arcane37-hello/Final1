@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 855672103406224008}
   - component: {fileID: 6972394134243816063}
   - component: {fileID: 4458003130801747627}
+  - component: {fileID: -117029298987593278}
   m_Layer: 0
   m_Name: Cup Sanghwa
   m_TagString: Untagged
@@ -68,6 +69,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c089048ca35284c41adf8d8e43f2df70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-117029298987593278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41699605767591986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &419514727902420323
 GameObject:
   m_ObjectHideFlags: 0
