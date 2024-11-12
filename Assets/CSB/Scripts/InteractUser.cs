@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class InteractUser : MonoBehaviour
@@ -12,13 +13,15 @@ public class InteractUser : MonoBehaviour
     string url = "";
     List<string> imageDirs = new List<string>();
     int currentImageIndex = 0;
-    
+
     public Image herbImage;
     public Button prevButton;
     public Button nextButton;
 
     public Button prevImageButton;
     public Button nextImageButton;
+
+    public AudioSource audioSource;
 
     string descriptionPath = "";
 
@@ -32,6 +35,7 @@ public class InteractUser : MonoBehaviour
     {
         prevImageButton.onClick.AddListener(ShowPreviousImage);
         nextImageButton.onClick.AddListener(ShowNextImage);
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -63,6 +67,7 @@ public class InteractUser : MonoBehaviour
                 LoadImage();
 
                 StartCoroutine(PrintChat(msg));
+                PlayAudio(Application.dataPath + datas[i].audioPath);
             }
         }
 
@@ -217,4 +222,35 @@ public class InteractUser : MonoBehaviour
         nextButton.interactable = currentPage < pages.Count - 1;
     }
 
+
+    public void PlayAudio(string audioPath)
+    {
+        if (File.Exists(audioPath))
+        {
+            StartCoroutine(LoadAudio(audioPath));
+        }
+        //else
+        //{
+        //    Debug.LogError("Audio file not found at: " + audioPath);
+        //}
+    }
+
+    private IEnumerator LoadAudio(string audioPath)
+    {
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(audioPath, AudioType.MPEG))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(www.error);
+            }
+            else
+            {
+                AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+                audioSource.clip = clip;
+                audioSource.Play();
+            }
+        }
+    }
 }
