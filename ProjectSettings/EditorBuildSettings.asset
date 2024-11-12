@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/CSB/Scenes/StartScene.unity
+    guid: ac8b80cd68713cf499ea45e1e8343b02
+  - enabled: 1
     path: Assets/Main/KMC.unity
     guid: a9087ea9a065d6f448b36e827e5b5cad
   - enabled: 1

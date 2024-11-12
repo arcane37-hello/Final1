@@ -17,6 +17,7 @@ public class Datatable
     public string imagePath;
     public string imagePath2;
     public string imagePath3;
+    public string audioPath;
 }
 
 public class CSVReader : MonoBehaviour
@@ -60,7 +61,9 @@ public class CSVReader : MonoBehaviour
                     link = row[6],
                     imagePath = row[7],
                     imagePath2 = row[8],
-                    imagePath3 = row[9]
+                    imagePath3 = row[9],
+                    audioPath = row[10]
+
                 };
                 datatable.Add(table);
             }

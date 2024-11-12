@@ -1,13 +1,14 @@
-﻿id,symptom,herb,tea,recipe,description,link,imagePath,imagePath2,imagePath3
-int,string,string,string,string,string,string,string,string,string
-1001,비염,수세미,수세미차,건조 수세미 15g을 1L 물에 넣고 20분간 끓이면 됩니다. 수시로 마시면 좋습니다.,/CSB/desc_susemi.txt,https://youtu.be/eNztXV8p4CI?si=QNQcP1SQ-uYpexMz&t=193,/CSB/img_susemi.jpg,/CSB/img_susemi2.jpg,/CSB/img_susemi3.jpg
-1002,피로,쌍화차,쌍화차,물 1L에 백작약 10g 숙지황 황기 당귀 천궁 생강 대추 4g 계피 감초 3g을 넣고 40분 달이면 됩니다.,,https://youtu.be/2v6m4dkt4C4?si=7sSr7K9WxsKWoOls,/CSB/img_ssanghwacha.jpg,/CSB/img_ssanghwacha2.jpg,/CSB/img_ssanghwacha3.jpg
-1003,아토피,어성초,어성초차,물 1L에 말린 어성초 20g를 넣고 40분간 끓이면 됩니다.,,https://youtu.be/IJG1k5rNOzo?si=bRp47iIEq4Vz-6Z2,/CSB/img_fishmint.jpg,na,na
-1004,불면증,대추,대추차,na,na,na,/CSB/img_jujube.jpg,na,na
-1005,감기,생강,생강차,na,na,na,na,na,na
-1006,스트레스,용안육,용안육차,물 2L에 용안육 100g을 넣고 약한 불로 한시간동안 끓입니다.,,https://youtu.be/qTROeUA9ak0?si=tDJ9-kIVL-RzKf7n&t=110,/CSB/img_yonganyook.jpg,/CSB/img_yonganyook2.jpg,/CSB/img_yonganyook3.jpg
-1007,소화불량,산사,산사차,물 500ml에 산사 20g 계피 20g을 넣고 끓여 물이 반이 될 때까지 졸이면 됩니다.,,https://youtu.be/ARqlDMnxchQ?si=treg3zbp8hoB53DY&t=17,na,na,na
-1008,화병,치자,치자차,na,na,na,na,na,na
-1009,두통,곽향,곽향차,물 1L에 곽향 30g 진피 10g를 넣고 약불에서 10분간 끓입니다.,,,,,
-1010,인삼,인삼,인삼차,물 1L에 인삼 30g,na,na,na,na,na
-1011,관절염,우슬,우슬차,na,na,na,na,na,na
+﻿id,symptom,herb,tea,recipe,description,link,imagePath,imagePath2,imagePath3,audioPath
+int,string,string,string,string,string,string,string,string,string,string
+1001,비염,수세미,수세미차,건조 수세미 15g을 1L 물에 넣고 20분간 끓이면 됩니다. 수시로 마시면 좋습니다.,/CSB/desc_susemi.txt,https://youtu.be/eNztXV8p4CI?si=QNQcP1SQ-uYpexMz&t=193,/CSB/img_susemi.jpg,/CSB/img_susemi2.jpg,/CSB/img_susemi3.jpg,/CSB/sounds/audio_susemi.mp3
+1002,피로,쌍화차,쌍화차,물 1L에 백작약 10g 숙지황 황기 당귀 천궁 생강 대추 4g 계피 감초 3g을 넣고 40분 달이면 됩니다.,,https://youtu.be/2v6m4dkt4C4?si=7sSr7K9WxsKWoOls,/CSB/img_ssanghwacha.jpg,/CSB/img_ssanghwacha2.jpg,/CSB/img_ssanghwacha3.jpg,/CSB/sounds/audio_ssanghwacha.mp3
+1003,아토피,어성초,어성초차,물 1L에 말린 어성초 20g를 넣고 40분간 끓이면 됩니다.,,https://youtu.be/IJG1k5rNOzo?si=bRp47iIEq4Vz-6Z2,/CSB/img_fishmint.jpg,na,na,/CSB/sounds/audio_fishmint.mp3
+1004,불면증,대추,대추차,na,na,na,/CSB/img_jujube.jpg,na,na,
+1005,감기,생강,생강차,na,na,na,na,na,na,
+1006,스트레스,용안육,용안육차,물 2L에 용안육 100g을 넣고 약한 불로 한시간동안 끓이면 됩니다.,,https://youtu.be/qTROeUA9ak0?si=tDJ9-kIVL-RzKf7n&t=110,/CSB/img_yonganyook.jpg,/CSB/img_yonganyook2.jpg,/CSB/img_yonganyook3.jpg,/CSB/sounds/audio_yonganyook.mp3
+1007,소화불량,산사,산사차,물 500ml에 산사 20g 계피 20g을 넣고 끓여 물이 반이 될 때까지 졸이면 됩니다.,,https://youtu.be/ARqlDMnxchQ?si=treg3zbp8hoB53DY&t=17,na,na,na,
+1008,화병,치자,치자차,na,na,na,na,na,na,
+1009,두통,곽향,곽향차,물 1L에 곽향 30g 진피 10g를 넣고 약불에서 10분간 끓입니다.,,,,,,
+1010,인삼,인삼,인삼차,물 1L에 인삼 30g,na,na,na,na,na,
+1011,관절염,우슬,우슬차,na,na,na,na,na,na,
+1012,콜레스테롤,뽕잎,뽕잎차,물 1L에 말린 뽕잎 15g을 넣어 3~4분간 우려내면 됩니다.,,https://youtu.be/Dzu_OehmmZQ?si=IUeth8prItq89hR4&t=177,/CSB/img_bbongipcha.jpg,/CSB/img_bbongipcha2.jpg,/CSB/img_bbongipcha3.jpg,/CSB/sounds/audio_bbongipcha.mp3
