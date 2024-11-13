@@ -28,7 +28,7 @@ public class InteractUser : MonoBehaviour
 
     private List<string> pages;              // 페이지 단위로 나눠진 텍스트 저장 리스트
     private int currentPage = 0;             // 현재 페이지 인덱스
-    private int maxCharsPerPage = 90;       // 한 페이지에 표시할 최대 문자 수
+    private int maxCharsPerPage = 85;       // 한 페이지에 표시할 최대 문자 수
 
     // Start is called before the first frame update
     void Start()
