@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class Cabinet : MonoBehaviourPunCallbacks
 {
+    private GameObject interactionImage; // 상호작용 이미지를 위한 GameObject
     public GameObject teaStackPrefab;
     private Text dialogueText;
     private bool isInInteractZone = false;
@@ -20,6 +21,17 @@ public class Cabinet : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        // "FIcon"이라는 이름으로 상호작용 이미지 오브젝트를 찾아서 할당
+        interactionImage = GameObject.Find("FIcon");
+        if (interactionImage != null)
+        {
+            interactionImage.SetActive(false); // 이미지 비활성화 상태로 시작
+        }
+        else
+        {
+            Debug.LogWarning("FIcon 오브젝트를 찾을 수 없습니다.");
+        }
+
         GameObject teaTestPoint = GameObject.Find("TeaTestPoint");
         if (teaTestPoint != null)
         {
@@ -51,7 +63,7 @@ public class Cabinet : MonoBehaviourPunCallbacks
             retryButtonCanvasGroup = retryButton.GetComponent<CanvasGroup>();
             if (retryButtonCanvasGroup != null)
             {
-                retryButtonCanvasGroup.alpha = 0f;       // 투명하게 처리하여 보이지 않도록 설정
+                retryButtonCanvasGroup.alpha = 0f;
                 retryButtonCanvasGroup.interactable = false;
                 retryButtonCanvasGroup.blocksRaycasts = false;
             }
@@ -113,6 +125,12 @@ public class Cabinet : MonoBehaviourPunCallbacks
             isInInteractZone = true;
             currentCabinet = other.gameObject;
             Debug.Log(currentCabinet.name + "와 상호작용 가능");
+
+            // 로컬 플레이어일 경우에만 이미지 활성화
+            if (photonView.IsMine && interactionImage != null)
+            {
+                interactionImage.SetActive(true);
+            }
         }
         else if (other.CompareTag("TeaTest"))
         {
@@ -135,6 +153,12 @@ public class Cabinet : MonoBehaviourPunCallbacks
             isInInteractZone = false;
             currentCabinet = null;
             Debug.Log("상호작용 불가");
+
+            // 로컬 플레이어일 경우에만 이미지 비활성화
+            if (photonView.IsMine && interactionImage != null)
+            {
+                interactionImage.SetActive(false);
+            }
         }
         else if (other.CompareTag("TeaTest"))
         {
