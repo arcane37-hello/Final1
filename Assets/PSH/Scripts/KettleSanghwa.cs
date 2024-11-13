@@ -1,18 +1,21 @@
-using Photon.Pun;
 using System.Collections;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.UI;
 
 public class KettleSanghwa : MonoBehaviourPun
 {
     public Transform effectSpawnPoint;
     public GameObject boilingEffectPrefab;
+    public AudioClip boilingSound;       // 물을 끓일 때 반복 재생할 사운드
+    public AudioClip completionSound;    // 15초 후 재생할 완료 사운드
     public Text dialogueText;
     public Transform targetPosition;
     public GameObject objectToReplace;
-    public string cupObjectName = "Cup Sanghwa";   // 이동할 오브젝트 이름
-    public string spawnPointName = "TeaSpawn";     // 이동할 위치 이름
+    public string cupObjectName = "Cup Sanghwa";
+    public string spawnPointName = "TeaSpawn";
 
+    private AudioSource audioSource;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private int herbStack = 0;
@@ -27,6 +30,7 @@ public class KettleSanghwa : MonoBehaviourPun
 
     void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
         originalPosition = transform.position;
         originalRotation = transform.rotation;
     }
@@ -95,12 +99,20 @@ public class KettleSanghwa : MonoBehaviourPun
         canInteract = false;
         int timer = 15;
 
+        // 물을 끓이는 효과와 사운드 시작
         if (boilingEffectPrefab != null && effectSpawnPoint != null)
         {
-            GameObject effectInstance = Instantiate(boilingEffectPrefab, effectSpawnPoint.position, Quaternion.identity);
-            effectInstance.transform.SetParent(transform);
+            Instantiate(boilingEffectPrefab, effectSpawnPoint.position, Quaternion.identity, transform);
         }
 
+        if (boilingSound != null)
+        {
+            audioSource.clip = boilingSound;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+
+        // 15초 타이머
         while (timer > 0)
         {
             dialogueText.text = "물이 끓는 중입니다. 0:" + timer.ToString("D2");
@@ -108,10 +120,23 @@ public class KettleSanghwa : MonoBehaviourPun
             timer--;
         }
 
+        // 타이머 종료 후 물 끓이기 사운드 멈춤 및 완료 사운드 재생
+        audioSource.Stop(); // 물 끓이기 사운드 멈춤
+        photonView.RPC("PlayCompletionSound", RpcTarget.All); // 모든 플레이어에게 완료 사운드 재생
+
         dialogueText.text = "차가 완성된 것 같군요. 이제 주전자를 클릭해서 차를 완성합시다!";
         boilingComplete = true;
         canInteract = true;
         isBoiling = false;
+    }
+
+    [PunRPC]
+    private void PlayCompletionSound()
+    {
+        if (completionSound != null)
+        {
+            audioSource.PlayOneShot(completionSound);
+        }
     }
 
     [PunRPC]

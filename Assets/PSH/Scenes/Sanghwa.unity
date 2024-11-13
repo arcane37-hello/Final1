@@ -2164,6 +2164,7 @@ GameObject:
   - component: {fileID: 159402180}
   - component: {fileID: 159402181}
   - component: {fileID: 159402182}
+  - component: {fileID: 159402183}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2250,6 +2251,19 @@ MonoBehaviour:
   sceneViewId: 13
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &159402183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159402176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b5de5ae644f1b43bafc346ea54f6c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundMusic: {fileID: 8300000, guid: 0e47444239721254fba4cd2b8f9c19c9, type: 3}
 --- !u!1001 &159770602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3257,6 +3271,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6014212971576355070, guid: c2decce1091fc754b8aaad7121cfdf2a,
         type: 3}
+    - target: {fileID: 7236420257211063124, guid: 4995dd91264436a49863978e55f96784,
+        type: 3}
+      propertyPath: interactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e00137a2a1155ca49bc2297e69fc7435, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6003,6 +6022,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6014212971576355070, guid: 950d275bb5f389d4eb7b07ec41f6c0d4,
         type: 3}
+    - target: {fileID: 7236420257211063124, guid: 4995dd91264436a49863978e55f96784,
+        type: 3}
+      propertyPath: interactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e00137a2a1155ca49bc2297e69fc7435, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6660,6 +6684,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6014212971576355070, guid: f5f3122ca02886c4a9f7bd24795b9c66,
         type: 3}
+    - target: {fileID: 7236420257211063124, guid: 4995dd91264436a49863978e55f96784,
+        type: 3}
+      propertyPath: interactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e00137a2a1155ca49bc2297e69fc7435, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6971,7 +7000,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 3145a92c8929a414b9fb4b743a0955e1, type: 3}
-    m_FontSize: 50
+    m_FontSize: 45
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -14456,6 +14485,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6014212971576355070, guid: baec30d70d7d8b14482dcd27a4306176,
         type: 3}
+    - target: {fileID: 7236420257211063124, guid: 4995dd91264436a49863978e55f96784,
+        type: 3}
+      propertyPath: interactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e00137a2a1155ca49bc2297e69fc7435, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25853,6 +25887,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6014212971576355070, guid: 57b3ad1c4bce3a749addaff787e2c34d,
         type: 3}
+    - target: {fileID: 7236420257211063124, guid: 4995dd91264436a49863978e55f96784,
+        type: 3}
+      propertyPath: interactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e00137a2a1155ca49bc2297e69fc7435, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35405,6 +35444,8 @@ MonoBehaviour:
   effectSpawnPoint: {fileID: 7540198975822707290}
   boilingEffectPrefab: {fileID: 1642322455942316, guid: d26aaf76e6e2409448242b9a2d66f31f,
     type: 3}
+  boilingSound: {fileID: 8300000, guid: b3fe1dad2edbd5f42a267162720852b4, type: 3}
+  completionSound: {fileID: 8300000, guid: e854e0e5f788035429120f7a27437e26, type: 3}
   dialogueText: {fileID: 507244673}
   targetPosition: {fileID: 1691495349}
   objectToReplace: {fileID: 1668214834}
