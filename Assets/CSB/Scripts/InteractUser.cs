@@ -21,7 +21,7 @@ public class InteractUser : MonoBehaviour
     public Button prevImageButton;
     public Button nextImageButton;
 
-    public AudioSource audioSource;
+    AudioSource audioSource;
 
     string descriptionPath = "";
 
@@ -67,7 +67,8 @@ public class InteractUser : MonoBehaviour
                 LoadImage();
 
                 StartCoroutine(PrintChat(msg));
-                PlayAudio(Application.dataPath + datas[i].audioPath);
+                //PlayAudio(Application.dataPath + datas[i].audioPath);
+                StartCoroutine(PlayAudio(Application.streamingAssetsPath + datas[i].audioPath));
             }
         }
 
@@ -223,16 +224,43 @@ public class InteractUser : MonoBehaviour
     }
 
 
-    public void PlayAudio(string audioPath)
+    //public void PlayAudio(string audioPath)
+    //{
+    //    if (File.Exists(audioPath))
+    //    {
+    //        StartCoroutine(LoadAudio(audioPath));
+    //    }
+    //    //else
+    //    //{
+    //    //    Debug.LogError("Audio file not found at: " + audioPath);
+    //    //}
+    //}
+
+    private IEnumerator PlayAudio(string audioPath)
     {
         if (File.Exists(audioPath))
         {
-            StartCoroutine(LoadAudio(audioPath));
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(audioPath, AudioType.MPEG))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.LogError(www.error);
+                }
+                else
+                {
+                    AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+                    audioSource.clip = clip;
+                    audioSource.Play();
+                }
+            }
         }
-        //else
-        //{
-        //    Debug.LogError("Audio file not found at: " + audioPath);
-        //}
+
+        else
+        {
+            Debug.LogError("Audio file not found at: " + audioPath);
+        }
     }
 
     private IEnumerator LoadAudio(string audioPath)
