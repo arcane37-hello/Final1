@@ -33,6 +33,9 @@ public class InteractUser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        prevImageButton.onClick.RemoveAllListeners();
+        nextImageButton.onClick.RemoveAllListeners();
+
         prevImageButton.onClick.AddListener(ShowPreviousImage);
         nextImageButton.onClick.AddListener(ShowNextImage);
         audioSource = GetComponent<AudioSource>();
@@ -47,7 +50,18 @@ public class InteractUser : MonoBehaviour
 
     public void Chat(string symptom)
     {
+        // 초기화
+        if (pages != null)
+        {
+            pages.Clear();
+            currentPage = 0;
+            imageDirs.Clear();
+            currentImageIndex = 0;
+        }
+
         List<Datatable> datas = csv.GetComponent<CSVReader>().datatable;
+        currentPage = 0;
+        
         //foreach (Datatable table in csv.GetComponent<CSVReader>().datatable)
         for(int i = 0; i < datas.Count; i++)
         {
@@ -110,6 +124,10 @@ public class InteractUser : MonoBehaviour
 
     public void ButtonShowDescription()
     {
+        // 기존 이벤트 리스너 제거
+        prevButton.onClick.RemoveAllListeners();
+        nextButton.onClick.RemoveAllListeners();
+
         LoadTextFromFile(descriptionPath);
         UpdateChatbox();
         prevButton.onClick.AddListener(ShowPreviousPage);
