@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class Cabinet : MonoBehaviourPunCallbacks
 {
     public GameObject teaStackPrefab;
-    public GameObject herb6Prefab; // Herb6 프리팹 참조
     private Text dialogueText;
     private bool isInInteractZone = false;
     private GameObject currentCabinet;
@@ -86,59 +85,44 @@ public class Cabinet : MonoBehaviourPunCallbacks
                 photonView.RPC("ConsumeTeaStack", RpcTarget.All);
             }
 
-            // Herb6에 대한 독립 처리
+            // Herb6인 경우 특별 처리
             if (currentTable != null && herbComponent != null && herbComponent.HasStack())
             {
                 if (herbComponent.stackName == "Herb6")
                 {
-                    photonView.RPC("SpawnHerb6RPC", RpcTarget.All); // 네트워크 소환 호출
-                    herbComponent.ClearStack(); // 중복 소환 방지
+                    SpawnHerb6Directly(); // Herb6 프리팹 직접 소환
+                    herbComponent.ClearStack(); // Herb6 소환 후 스택 초기화
                 }
                 else
                 {
-                    // 기존 spawnPoints 기반 소환 처리
+                    // Herb6이 아닌 경우 기존 로직 유지
                     SpawnOtherHerbs();
                 }
             }
         }
     }
 
-    private void SpawnOtherHerbs()
+    private void SpawnHerb6Directly()
     {
-        int stackCount = herbComponent.GetStackCount();
-        if (spawnPoints.Count > 0 && herbComponent.spawnPrefab != null)
-        {
-            for (int i = 0; i < stackCount; i++)
-            {
-                Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-                PhotonNetwork.Instantiate(herbComponent.spawnPrefab.name, randomSpawnPoint.position, randomSpawnPoint.rotation);
-            }
-            herbComponent.ClearStack();
-            Debug.Log($"{stackCount}개의 프리팹이 랜덤 위치에 소환되었습니다.");
-        }
-        else if (herbComponent.spawnPrefab == null)
-        {
-            Debug.LogWarning("소환할 프리팹이 설정되지 않았습니다.");
-        }
-    }
+        // Resources 폴더에서 프리팹 동적 로드
+        GameObject herb6Prefab = Resources.Load<GameObject>("Prefabs/Herb6");
 
-    [PunRPC]
-    private void SpawnHerb6RPC()
-    {
+        if (herb6Prefab == null)
+        {
+            Debug.LogError("Herb6 프리팹을 Resources 폴더에서 찾을 수 없습니다.");
+            return;
+        }
+
         GameObject herbCutObject = GameObject.FindWithTag("HerbCut");
 
         if (herbCutObject != null)
         {
-            if (herb6Prefab != null)
-            {
-                // Herb6 프리팹을 HerbCut 위치에 소환
-                Instantiate(herb6Prefab, herbCutObject.transform.position, herbCutObject.transform.rotation);
-                Debug.Log($"Herb6 프리팹이 {herbCutObject.name} 위치에 소환되었습니다.");
-            }
-            else
-            {
-                Debug.LogWarning("Herb6 프리팹이 설정되지 않았습니다.");
-            }
+            // Herb6 프리팹을 소환
+            GameObject spawnedHerb6 = Instantiate(herb6Prefab, herbCutObject.transform.position, herbCutObject.transform.rotation);
+
+            // 태그 강제 설정
+            spawnedHerb6.tag = "Herb6";
+            Debug.Log($"소환된 Herb6의 최종 태그: {spawnedHerb6.tag}, 위치: {spawnedHerb6.transform.position}");
         }
         else
         {
@@ -146,6 +130,26 @@ public class Cabinet : MonoBehaviourPunCallbacks
         }
     }
 
+
+    private void SpawnOtherHerbs()
+    {
+        Debug.Log("SpawnOtherHerbs 호출됨");
+        int stackCount = herbComponent.GetStackCount();
+        if (spawnPoints.Count > 0 && herbComponent.spawnPrefab != null)
+        {
+            for (int i = 0; i < stackCount; i++)
+            {
+                Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+                PhotonNetwork.Instantiate(herbComponent.spawnPrefab.name, randomSpawnPoint.position, randomSpawnPoint.rotation);
+                Debug.Log($"Herb6이 아닌 재료가 {randomSpawnPoint.position} 위치에서 소환됨");
+            }
+            herbComponent.ClearStack();
+        }
+        else if (herbComponent.spawnPrefab == null)
+        {
+            Debug.LogWarning("소환할 프리팹이 설정되지 않았습니다.");
+        }
+    }
 
 
     void OnTriggerEnter(Collider other)
