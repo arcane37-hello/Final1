@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Cabinet : MonoBehaviourPunCallbacks
 {
-    private GameObject interactionImage; // 상호작용 이미지를 위한 GameObject
     public GameObject teaStackPrefab;
+    public GameObject herb6Prefab; // Herb6 프리팹 참조
     private Text dialogueText;
     private bool isInInteractZone = false;
     private GameObject currentCabinet;
@@ -21,17 +21,6 @@ public class Cabinet : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        // "FIcon"이라는 이름으로 상호작용 이미지 오브젝트를 찾아서 할당
-        interactionImage = GameObject.Find("FIcon");
-        if (interactionImage != null)
-        {
-            interactionImage.SetActive(false); // 이미지 비활성화 상태로 시작
-        }
-        else
-        {
-            Debug.LogWarning("FIcon 오브젝트를 찾을 수 없습니다.");
-        }
-
         GameObject teaTestPoint = GameObject.Find("TeaTestPoint");
         if (teaTestPoint != null)
         {
@@ -88,8 +77,8 @@ public class Cabinet : MonoBehaviourPunCallbacks
                 if (herbComponent != null)
                 {
                     herbComponent.Interact();
+                    Debug.Log($"{currentCabinet.name}에서 상호작용을 시작합니다.");
                 }
-                Debug.Log(currentCabinet.name + "에서 상호작용을 시작합니다.");
             }
 
             if (currentTeaTest != null && teaStack > 0)
@@ -97,26 +86,67 @@ public class Cabinet : MonoBehaviourPunCallbacks
                 photonView.RPC("ConsumeTeaStack", RpcTarget.All);
             }
 
+            // Herb6에 대한 독립 처리
             if (currentTable != null && herbComponent != null && herbComponent.HasStack())
             {
-                int stackCount = herbComponent.GetStackCount();
-                if (spawnPoints.Count > 0 && herbComponent.spawnPrefab != null)
+                if (herbComponent.stackName == "Herb6")
                 {
-                    for (int i = 0; i < stackCount; i++)
-                    {
-                        Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
-                        PhotonNetwork.Instantiate(herbComponent.spawnPrefab.name, randomSpawnPoint.position, randomSpawnPoint.rotation);
-                    }
-                    herbComponent.ClearStack();
-                    Debug.Log(stackCount + "개의 프리팹이 랜덤 위치에 소환되었습니다.");
+                    photonView.RPC("SpawnHerb6RPC", RpcTarget.All); // 네트워크 소환 호출
+                    herbComponent.ClearStack(); // 중복 소환 방지
                 }
-                else if (herbComponent.spawnPrefab == null)
+                else
                 {
-                    Debug.LogWarning("소환할 프리팹이 설정되지 않았습니다.");
+                    // 기존 spawnPoints 기반 소환 처리
+                    SpawnOtherHerbs();
                 }
             }
         }
     }
+
+    private void SpawnOtherHerbs()
+    {
+        int stackCount = herbComponent.GetStackCount();
+        if (spawnPoints.Count > 0 && herbComponent.spawnPrefab != null)
+        {
+            for (int i = 0; i < stackCount; i++)
+            {
+                Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
+                PhotonNetwork.Instantiate(herbComponent.spawnPrefab.name, randomSpawnPoint.position, randomSpawnPoint.rotation);
+            }
+            herbComponent.ClearStack();
+            Debug.Log($"{stackCount}개의 프리팹이 랜덤 위치에 소환되었습니다.");
+        }
+        else if (herbComponent.spawnPrefab == null)
+        {
+            Debug.LogWarning("소환할 프리팹이 설정되지 않았습니다.");
+        }
+    }
+
+    [PunRPC]
+    private void SpawnHerb6RPC()
+    {
+        GameObject herbCutObject = GameObject.FindWithTag("HerbCut");
+
+        if (herbCutObject != null)
+        {
+            if (herb6Prefab != null)
+            {
+                // Herb6 프리팹을 HerbCut 위치에 소환
+                Instantiate(herb6Prefab, herbCutObject.transform.position, herbCutObject.transform.rotation);
+                Debug.Log($"Herb6 프리팹이 {herbCutObject.name} 위치에 소환되었습니다.");
+            }
+            else
+            {
+                Debug.LogWarning("Herb6 프리팹이 설정되지 않았습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("태그가 HerbCut인 오브젝트를 찾을 수 없습니다.");
+        }
+    }
+
+
 
     void OnTriggerEnter(Collider other)
     {
@@ -125,12 +155,6 @@ public class Cabinet : MonoBehaviourPunCallbacks
             isInInteractZone = true;
             currentCabinet = other.gameObject;
             Debug.Log(currentCabinet.name + "와 상호작용 가능");
-
-            // 로컬 플레이어일 경우에만 이미지 활성화
-            if (photonView.IsMine && interactionImage != null)
-            {
-                interactionImage.SetActive(true);
-            }
         }
         else if (other.CompareTag("TeaTest"))
         {
@@ -153,12 +177,6 @@ public class Cabinet : MonoBehaviourPunCallbacks
             isInInteractZone = false;
             currentCabinet = null;
             Debug.Log("상호작용 불가");
-
-            // 로컬 플레이어일 경우에만 이미지 비활성화
-            if (photonView.IsMine && interactionImage != null)
-            {
-                interactionImage.SetActive(false);
-            }
         }
         else if (other.CompareTag("TeaTest"))
         {

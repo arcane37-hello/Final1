@@ -51,7 +51,7 @@ public class Minigame2 : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyDown(KeyCode.G) && recipeCanvasGroup != null)
         {
-            ToggleRecipeImage();  // Photon RPC 대신 로컬 호출
+            ToggleRecipeImage(); // Photon RPC 대신 로컬 호출
         }
     }
 
@@ -78,13 +78,13 @@ public class Minigame2 : MonoBehaviourPunCallbacks
         dialogueText.text = "일단 쌍화차를 만드는 방법을 알려드리겠습니다.";
 
         yield return new WaitForSeconds(3f);
-        photonView.RPC("SetRecipeAlpha", RpcTarget.All, 1f);  // 이미지 알파를 1로 설정하여 출력
+        photonView.RPC("SetRecipeAlpha", RpcTarget.All, 1f); // 이미지 알파를 1로 설정하여 출력
 
         dialogueText.text = "레시피를 숙지하셨다면 G 키를 눌러주세요.";
 
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.G));
 
-        SetRecipeAlpha(0f);  // G 키 입력 후 알파값 0
+        SetRecipeAlpha(0f); // G 키 입력 후 알파값 0
         dialogueText.text = "레시피를 다시 보고 싶으시다면 G 키를 누르면 언제든지 볼 수 있습니다.";
 
         yield return new WaitForSeconds(3f);
@@ -92,7 +92,7 @@ public class Minigame2 : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(3f);
         dialogueText.text = "재료는 왼쪽에 위치한 서랍장에서 얻을 수 있습니다.";
         yield return new WaitForSeconds(3f);
-        dialogueText.text = "각각의 서랍장에서 재료를 2개씩 챙깁시다.";
+        dialogueText.text = "각각의 서랍장에서 재료를 1개씩 챙깁시다.";
     }
 
     private void ToggleRecipeImage()
@@ -115,13 +115,24 @@ public class Minigame2 : MonoBehaviourPunCallbacks
         int herb3Count = GameObject.FindGameObjectsWithTag("Herb3").Length;
         int herb4Count = GameObject.FindGameObjectsWithTag("Herb4").Length;
         int herb5Count = GameObject.FindGameObjectsWithTag("Herb5").Length;
+        int herb6Count = GameObject.FindGameObjectsWithTag("Herb6").Length;
+        int herb7Count = GameObject.FindGameObjectsWithTag("Herb7").Length;
+        int herb8Count = GameObject.FindGameObjectsWithTag("Herb8").Length;
+        int herb9Count = GameObject.FindGameObjectsWithTag("Herb9").Length; // 추가된 조건
 
-        if (herbCount >= 2 && herb2Count >= 2 && herb3Count >= 2 && herb4Count >= 2 && herb5Count >= 2)
+        // 조건: 모든 태그에 대해 정확히 1개의 오브젝트가 있어야 함
+        if (herbCount == 1 && herb2Count == 1 && herb3Count == 1 && herb4Count == 1 &&
+            herb5Count == 1 && herb6Count == 1 && herb7Count == 1 && herb8Count == 1 && herb9Count == 1)
         {
-            dialogueText.text = "재료를 전부 가져오셨네요 이제 차를 끓여볼까요?";
-            StartCoroutine(WaitAndMoveCamera());
-            textUpdateStopped = true;
+            TriggerNextAction();
         }
+    }
+
+    void TriggerNextAction()
+    {
+        textUpdateStopped = true; // 조건 만족 후 추가 확인 방지
+        dialogueText.text = "모든 재료를 모았습니다. 다음 단계로 진행합니다.";
+        StartCoroutine(WaitAndMoveCamera());
     }
 
     IEnumerator WaitAndMoveCamera()
@@ -141,6 +152,6 @@ public class Minigame2 : MonoBehaviourPunCallbacks
             playerMoveScript.enabled = false;
         }
 
-        dialogueText.text = "접시 위에 있는 재료들을 주전자로 드래그해봅시다";
+        dialogueText.text = "접시 위에 있는 재료들을 주전자로 드래그해봅시다.";
     }
 }

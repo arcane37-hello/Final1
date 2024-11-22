@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8092470585906128592}
   m_Layer: 0
   m_Name: Herb 6
-  m_TagString: Herb5
+  m_TagString: Herb7
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

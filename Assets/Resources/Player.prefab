@@ -251,6 +251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teaStackPrefab: {fileID: 41699605767591986, guid: f703db9e46fbff74baf9b085d3a87650,
     type: 3}
+  herb6Prefab: {fileID: 6014212971576355070, guid: 9bce3df7db4bf44498bfeb269669b276,
+    type: 3}
 --- !u!114 &2966865992516867670
 MonoBehaviour:
   m_ObjectHideFlags: 0
