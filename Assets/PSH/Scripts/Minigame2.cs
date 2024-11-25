@@ -92,7 +92,7 @@ public class Minigame2 : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(3f);
         dialogueText.text = "재료는 왼쪽에 위치한 서랍장에서 얻을 수 있습니다.";
         yield return new WaitForSeconds(3f);
-        dialogueText.text = "각각의 서랍장에서 재료를 2개씩 챙깁시다.";
+        dialogueText.text = "각각의 서랍장에서 재료를 1개씩 챙깁시다.";
     }
 
     private void ToggleRecipeImage()

@@ -145,9 +145,37 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         {
             questText.text = "계피\n몸의 찬 기운을 없애주고\n소화, 혈액 순환에 도움";
         }
-        else
+        else if (CompareTag("Herb2"))
         {
-            questText.text = ""; // 기본값으로 빈 텍스트 설정
+            questText.text = "감초";
+        }
+        else if (CompareTag("Herb3"))
+        {
+            questText.text = "대추";
+        }
+        else if (CompareTag("Herb4"))
+        {
+            questText.text = "천궁";
+        }
+        else if (CompareTag("Herb5"))
+        {
+            questText.text = "작약";
+        }
+        else if (CompareTag("Herb6"))
+        {
+            questText.text = "생강";
+        }
+        else if (CompareTag("Herb7"))
+        {
+            questText.text = "황기";
+        }
+        else if (CompareTag("Herb8"))
+        {
+            questText.text = "숙지황";
+        }
+        else if (CompareTag("Herb9"))
+        {
+            questText.text = "당귀";
         }
     }
 

@@ -18,6 +18,9 @@ public class Cabinet : MonoBehaviourPunCallbacks
     private Transform teaStackSpawnPoint;
     private CanvasGroup retryButtonCanvasGroup;
 
+    // FIcon 이미지 관련 변수
+    private CanvasGroup iconCanvasGroup;
+
     void Start()
     {
         GameObject teaTestPoint = GameObject.Find("TeaTestPoint");
@@ -64,6 +67,25 @@ public class Cabinet : MonoBehaviourPunCallbacks
         {
             Debug.LogWarning("RetryButton 오브젝트를 찾을 수 없습니다.");
         }
+
+        // FIcon 이미지 CanvasGroup 초기화
+        GameObject iconObject = GameObject.Find("FIcon");
+        if (iconObject != null)
+        {
+            iconCanvasGroup = iconObject.GetComponent<CanvasGroup>();
+            if (iconCanvasGroup != null)
+            {
+                iconCanvasGroup.alpha = 0f; // 초기 알파값 0
+            }
+            else
+            {
+                Debug.LogWarning("FIcon에 CanvasGroup 컴포넌트가 없습니다.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("FIcon 오브젝트를 찾을 수 없습니다.");
+        }
     }
 
     void Update()
@@ -85,26 +107,29 @@ public class Cabinet : MonoBehaviourPunCallbacks
                 photonView.RPC("ConsumeTeaStack", RpcTarget.All);
             }
 
-            // Herb6인 경우 특별 처리
             if (currentTable != null && herbComponent != null && herbComponent.HasStack())
             {
                 if (herbComponent.stackName == "Herb6")
                 {
-                    SpawnHerb6Directly(); // Herb6 프리팹 직접 소환
-                    herbComponent.ClearStack(); // Herb6 소환 후 스택 초기화
+                    SpawnHerb6Directly();
+                    herbComponent.ClearStack();
                 }
                 else
                 {
-                    // Herb6이 아닌 경우 기존 로직 유지
                     SpawnOtherHerbs();
                 }
             }
+        }
+
+        // FIcon 이미지 알파값 업데이트
+        if (iconCanvasGroup != null)
+        {
+            iconCanvasGroup.alpha = isInInteractZone ? 1f : 0f;
         }
     }
 
     private void SpawnHerb6Directly()
     {
-        // Resources 폴더에서 프리팹 동적 로드
         GameObject herb6Prefab = Resources.Load<GameObject>("Prefabs/Herb6");
 
         if (herb6Prefab == null)
@@ -117,10 +142,8 @@ public class Cabinet : MonoBehaviourPunCallbacks
 
         if (herbCutObject != null)
         {
-            // Herb6 프리팹을 소환
             GameObject spawnedHerb6 = Instantiate(herb6Prefab, herbCutObject.transform.position, herbCutObject.transform.rotation);
 
-            // 태그 강제 설정
             spawnedHerb6.tag = "Herb6";
             Debug.Log($"소환된 Herb6의 최종 태그: {spawnedHerb6.tag}, 위치: {spawnedHerb6.transform.position}");
         }
@@ -129,7 +152,6 @@ public class Cabinet : MonoBehaviourPunCallbacks
             Debug.LogWarning("태그가 HerbCut인 오브젝트를 찾을 수 없습니다.");
         }
     }
-
 
     private void SpawnOtherHerbs()
     {
@@ -150,7 +172,6 @@ public class Cabinet : MonoBehaviourPunCallbacks
             Debug.LogWarning("소환할 프리팹이 설정되지 않았습니다.");
         }
     }
-
 
     void OnTriggerEnter(Collider other)
     {
@@ -211,7 +232,7 @@ public class Cabinet : MonoBehaviourPunCallbacks
             teaStack--;
             Debug.Log("TeaStack 소모됨. 현재 TeaStack: " + teaStack);
             photonView.RPC("UpdateDialogueText", RpcTarget.All, "쌍화차 제작 체험을 완료하셨습니다. 수고하셨습니다.");
-            photonView.RPC("ActivateRetryButton", RpcTarget.All); // RetryButton 활성화
+            photonView.RPC("ActivateRetryButton", RpcTarget.All);
         }
         else
         {

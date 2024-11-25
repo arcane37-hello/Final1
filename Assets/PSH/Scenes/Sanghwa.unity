@@ -10529,6 +10529,7 @@ GameObject:
   - component: {fileID: 840312982}
   - component: {fileID: 840312981}
   - component: {fileID: 840312983}
+  - component: {fileID: 840312984}
   m_Layer: 5
   m_Name: FIcon
   m_TagString: Untagged
@@ -10615,6 +10616,18 @@ MonoBehaviour:
   sceneViewId: 14
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!225 &840312984
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 840312979}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &840737518
 PrefabInstance:
   m_ObjectHideFlags: 0
