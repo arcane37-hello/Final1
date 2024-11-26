@@ -122,7 +122,7 @@ public class Cabinet : MonoBehaviourPunCallbacks
         }
 
         // FIcon 이미지 알파값 업데이트
-        if (iconCanvasGroup != null)
+        if (photonView.IsMine && iconCanvasGroup != null)
         {
             iconCanvasGroup.alpha = isInInteractZone ? 1f : 0f;
         }
