@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grabSound: {fileID: 8300000, guid: e88da598212d05140b19cf18bed8f69f, type: 3}
+  isInteractable: 0
 --- !u!114 &772143644540694440
 MonoBehaviour:
   m_ObjectHideFlags: 0

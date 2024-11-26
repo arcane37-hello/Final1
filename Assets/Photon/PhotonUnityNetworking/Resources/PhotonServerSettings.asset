@@ -59,6 +59,7 @@ MonoBehaviour:
   - PlayBGM
   - StopBGM
   - PlayCompletionSound
+  - SpawnHerb6RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

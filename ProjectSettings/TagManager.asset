@@ -18,6 +18,11 @@ TagManager:
   - TeaTest
   - Spawnpoint
   - SpawnPoint
+  - Herb6
+  - Herb7
+  - Herb8
+  - Herb9
+  - HerbCut
   layers:
   - Default
   - TransparentFX

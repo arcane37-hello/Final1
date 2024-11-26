@@ -1,7 +1,7 @@
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun;
 
 public class Minigame2 : MonoBehaviourPunCallbacks
 {
@@ -51,7 +51,7 @@ public class Minigame2 : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyDown(KeyCode.G) && recipeCanvasGroup != null)
         {
-            ToggleRecipeImage();  // Photon RPC 대신 로컬 호출
+            ToggleRecipeImage();
         }
     }
 
@@ -78,13 +78,13 @@ public class Minigame2 : MonoBehaviourPunCallbacks
         dialogueText.text = "일단 쌍화차를 만드는 방법을 알려드리겠습니다.";
 
         yield return new WaitForSeconds(3f);
-        photonView.RPC("SetRecipeAlpha", RpcTarget.All, 1f);  // 이미지 알파를 1로 설정하여 출력
+        photonView.RPC("SetRecipeAlpha", RpcTarget.All, 1f);
 
         dialogueText.text = "레시피를 숙지하셨다면 G 키를 눌러주세요.";
 
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.G));
 
-        SetRecipeAlpha(0f);  // G 키 입력 후 알파값 0
+        SetRecipeAlpha(0f);
         dialogueText.text = "레시피를 다시 보고 싶으시다면 G 키를 누르면 언제든지 볼 수 있습니다.";
 
         yield return new WaitForSeconds(3f);
@@ -92,7 +92,7 @@ public class Minigame2 : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(3f);
         dialogueText.text = "재료는 왼쪽에 위치한 서랍장에서 얻을 수 있습니다.";
         yield return new WaitForSeconds(3f);
-        dialogueText.text = "각각의 서랍장에서 재료를 2개씩 챙깁시다.";
+        dialogueText.text = "각각의 서랍장에서 재료를 1개씩 챙깁시다.";
     }
 
     private void ToggleRecipeImage()
@@ -115,19 +115,34 @@ public class Minigame2 : MonoBehaviourPunCallbacks
         int herb3Count = GameObject.FindGameObjectsWithTag("Herb3").Length;
         int herb4Count = GameObject.FindGameObjectsWithTag("Herb4").Length;
         int herb5Count = GameObject.FindGameObjectsWithTag("Herb5").Length;
+        int herb6Count = GameObject.FindGameObjectsWithTag("Herb6").Length;
+        int herb7Count = GameObject.FindGameObjectsWithTag("Herb7").Length;
+        int herb8Count = GameObject.FindGameObjectsWithTag("Herb8").Length;
+        int herb9Count = GameObject.FindGameObjectsWithTag("Herb9").Length;
 
-        if (herbCount >= 2 && herb2Count >= 2 && herb3Count >= 2 && herb4Count >= 2 && herb5Count >= 2)
+        Debug.Log($"현재 재료 상태 - Herb: {herbCount}, Herb2: {herb2Count}, Herb3: {herb3Count}, Herb4: {herb4Count}");
+        Debug.Log($"Herb5: {herb5Count}, Herb6: {herb6Count}, Herb7: {herb7Count}, Herb8: {herb8Count}, Herb9: {herb9Count}");
+
+        if (herbCount >= 1 && herb2Count >= 1 && herb3Count >= 1 && herb4Count >= 1 &&
+            herb5Count >= 1 && herb6Count >= 1 && herb7Count >= 1 && herb8Count >= 1 && herb9Count >= 1)
         {
-            dialogueText.text = "재료를 전부 가져오셨네요 이제 차를 끓여볼까요?";
-            StartCoroutine(WaitAndMoveCamera());
-            textUpdateStopped = true;
+            Debug.Log("모든 재료가 준비되었습니다. 다음 단계로 이동합니다.");
+            dialogueText.text = "재료를 전부 가져오셨네요! 이제 차를 끓여볼까요?"; // 텍스트 출력 추가
+            StartCoroutine(WaitAndMoveCamera()); // 다음 단계로 이동
+            textUpdateStopped = true; // 텍스트 업데이트 멈춤
+        }
+        else
+        {
+            Debug.Log("재료가 아직 모두 모이지 않았습니다.");
         }
     }
+
 
     IEnumerator WaitAndMoveCamera()
     {
         yield return new WaitForSeconds(2f);
 
+        Debug.Log("카메라 이동을 시작합니다.");
         if (cameraMoveScript != null)
         {
             cameraMoveScript.enabled = false;
@@ -141,6 +156,7 @@ public class Minigame2 : MonoBehaviourPunCallbacks
             playerMoveScript.enabled = false;
         }
 
+        Debug.Log("카메라가 이동하였습니다. 다음 텍스트를 표시합니다.");
         dialogueText.text = "접시 위에 있는 재료들을 주전자로 드래그해봅시다";
     }
 }

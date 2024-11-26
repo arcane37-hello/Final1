@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GrabObject : MonoBehaviourPun, IPunObservable
 {
@@ -13,6 +14,12 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
     public AudioClip grabSound; // 클릭 시 재생할 사운드
     private AudioSource audioSource;
 
+    public bool isInteractable = true;
+
+    // QuestText를 private로 선언
+    private Text questText;
+    private Text diaText;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -22,6 +29,36 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.clip = grabSound;
         audioSource.playOnAwake = false;
+
+        // 이름으로 QuestText 오브젝트 찾기
+        GameObject questTextObject = GameObject.Find("QuestText");
+        if (questTextObject != null)
+        {
+            questText = questTextObject.GetComponent<Text>();
+        }
+        else
+        {
+            Debug.LogWarning("QuestText 오브젝트를 찾을 수 없습니다.");
+        }
+
+        GameObject DiaTextObject = GameObject.Find("InfoText");
+        if (DiaTextObject != null)
+        {
+            diaText = DiaTextObject.GetComponent<Text>();
+        }
+        else
+        {
+            Debug.LogWarning("InfoText 오브젝트를 찾을 수 없습니다.");
+        }
+
+        if (CompareTag("Herb6")) // 오브젝트 태그가 "Herb6"인 경우
+        {
+            isInteractable = false;
+        }
+        else
+        {
+            isInteractable = true;
+        }
     }
 
     void Update()
@@ -54,10 +91,30 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
 
         if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == this.gameObject)
         {
+            // 상호작용 가능한지 확인
+            if (!isInteractable)
+            {
+                if (diaText != null)
+                {
+                    diaText.text = "생강은 손질을 한 후에 넣을 수 있습니다. 칼을 사용해서 손질해 봅시다.";
+                }
+                else
+                {
+                    Debug.LogWarning("diaText가 설정되지 않았습니다.");
+                }
+
+                Debug.Log("이 오브젝트는 현재 상호작용할 수 없습니다.");
+                return;
+            }
+
             isObjectGrabbed = true;
             objectZDistance = Vector3.Distance(mainCamera.transform.position, transform.position);
             fixedYPosition = transform.position.y;
+
             photonView.RPC("PlayGrabSound", RpcTarget.All); // 모든 플레이어에게 사운드 재생
+
+            // 태그에 따라 텍스트 갱신
+            UpdateQuestText();
         }
     }
 
@@ -91,6 +148,54 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         if (audioSource != null && grabSound != null)
         {
             audioSource.Play();
+        }
+    }
+
+    // QuestText 갱신 로직 추가
+    private void UpdateQuestText()
+    {
+        if (questText == null)
+        {
+            Debug.LogWarning("QuestText가 설정되지 않았습니다.");
+            return;
+        }
+
+        // 태그에 따라 텍스트 갱신
+        if (CompareTag("Herb"))
+        {
+            questText.text = "계피\n몸의 찬 기운을 없애주고\n소화, 혈액 순환에 도움";
+        }
+        else if (CompareTag("Herb2"))
+        {
+            questText.text = "감초";
+        }
+        else if (CompareTag("Herb3"))
+        {
+            questText.text = "대추";
+        }
+        else if (CompareTag("Herb4"))
+        {
+            questText.text = "천궁";
+        }
+        else if (CompareTag("Herb5"))
+        {
+            questText.text = "작약";
+        }
+        else if (CompareTag("Herb6"))
+        {
+            questText.text = "생강";
+        }
+        else if (CompareTag("Herb7"))
+        {
+            questText.text = "황기";
+        }
+        else if (CompareTag("Herb8"))
+        {
+            questText.text = "숙지황";
+        }
+        else if (CompareTag("Herb9"))
+        {
+            questText.text = "당귀";
         }
     }
 

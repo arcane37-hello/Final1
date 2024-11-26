@@ -23,6 +23,10 @@ public class KettleSanghwa : MonoBehaviourPun
     private int herb3Stack = 0;
     private int herb4Stack = 0;
     private int herb5Stack = 0;
+    private int herb6Stack = 0;
+    private int herb7Stack = 0;
+    private int herb8Stack = 0;
+    private int herb9Stack = 0;
     private bool canInteract = false;
     private bool isBoiling = false;
     private bool isPouring = false;
@@ -79,8 +83,28 @@ public class KettleSanghwa : MonoBehaviourPun
             herb5Stack++;
             Destroy(collision.gameObject);
         }
+        else if (collision.gameObject.CompareTag("Herb6"))
+        {
+            herb6Stack++;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Herb7"))
+        {
+            herb7Stack++;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Herb8"))
+        {
+            herb8Stack++;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Herb9"))
+        {
+            herb9Stack++;
+            Destroy(collision.gameObject);
+        }
 
-        if (!canInteract && herbStack >= 2 && herb2Stack >= 2 && herb3Stack >= 2 && herb4Stack >= 2 && herb5Stack >= 2)
+        if (!canInteract && herbStack >= 1 && herb2Stack >= 1 && herb3Stack >= 1 && herb4Stack >= 1 && herb5Stack >= 1 && herb6Stack >= 1 && herb7Stack >= 1 && herb8Stack >= 1 && herb9Stack >= 1)
         {
             canInteract = true;
             dialogueText.text = "이제 주전자를 클릭해서 물을 끓여봅시다.";
