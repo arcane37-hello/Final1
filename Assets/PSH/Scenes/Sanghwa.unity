@@ -5753,8 +5753,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD604\uC7AC \uC218\uC9D1\uD55C \uC7AC\uB8CC\n\" \"\n\uBAA8\uC778 \uC7AC\uB8CC\n0/2 
-    0/2  0/2  0/2  0/2"
+  m_Text: 
 --- !u!222 &415341942
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -32986,6 +32985,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grabSound: {fileID: 0}
+  diaText: {fileID: 507244673}
 --- !u!114 &3155147072091243508
 MonoBehaviour:
   m_ObjectHideFlags: 0

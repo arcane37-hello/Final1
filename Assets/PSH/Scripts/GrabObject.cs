@@ -18,6 +18,7 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
 
     // QuestText를 private로 선언
     private Text questText;
+    private Text diaText;
 
     void Start()
     {
@@ -38,6 +39,16 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         else
         {
             Debug.LogWarning("QuestText 오브젝트를 찾을 수 없습니다.");
+        }
+
+        GameObject DiaTextObject = GameObject.Find("InfoText");
+        if (DiaTextObject != null)
+        {
+            diaText = DiaTextObject.GetComponent<Text>();
+        }
+        else
+        {
+            Debug.LogWarning("InfoText 오브젝트를 찾을 수 없습니다.");
         }
 
         if (CompareTag("Herb6")) // 오브젝트 태그가 "Herb6"인 경우
@@ -75,18 +86,27 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
 
     private void TryStartDrag()
     {
-        // 상호작용 가능한지 확인
-        if (!isInteractable)
-        {
-            Debug.Log("이 오브젝트는 현재 상호작용할 수 없습니다.");
-            return;
-        }
-
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == this.gameObject)
         {
+            // 상호작용 가능한지 확인
+            if (!isInteractable)
+            {
+                if (diaText != null)
+                {
+                    diaText.text = "생강은 손질을 한 후에 넣을 수 있습니다. 칼을 사용해서 손질해 봅시다.";
+                }
+                else
+                {
+                    Debug.LogWarning("diaText가 설정되지 않았습니다.");
+                }
+
+                Debug.Log("이 오브젝트는 현재 상호작용할 수 없습니다.");
+                return;
+            }
+
             isObjectGrabbed = true;
             objectZDistance = Vector3.Distance(mainCamera.transform.position, transform.position);
             fixedYPosition = transform.position.y;

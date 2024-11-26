@@ -1,5 +1,6 @@
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class Knife : MonoBehaviourPun, IPunObservable
 {
@@ -12,6 +13,8 @@ public class Knife : MonoBehaviourPun, IPunObservable
 
     public AudioClip grabSound; // 클릭 시 재생할 사운드
     private AudioSource audioSource;
+
+    public Text diaText;
 
     void Start()
     {
@@ -104,6 +107,26 @@ public class Knife : MonoBehaviourPun, IPunObservable
         if (audioSource != null && grabSound != null)
         {
             audioSource.Play();
+        }
+    }
+
+    // Herb6 오브젝트와 충돌 시 처리
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Herb6"))
+        {
+            // Herb6 오브젝트의 GrabObject 컴포넌트를 가져와 isInteractable 활성화
+            var grabObjectScript = collision.gameObject.GetComponent<GrabObject>();
+            if (grabObjectScript != null)
+            {
+                grabObjectScript.isInteractable = true;
+                diaText.text = "생강 손질이 완료되었습니다.";
+                Debug.Log("Herb6 오브젝트와 충돌: isInteractable이 true로 설정되었습니다.");
+            }
+            else
+            {
+                Debug.LogWarning("충돌한 Herb6 오브젝트에 GrabObject 스크립트가 없습니다.");
+            }
         }
     }
 
