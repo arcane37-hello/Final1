@@ -152,7 +152,7 @@ public class InteractUser : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Image file not found at " + imageDirs[currentImageIndex]);
+            //Debug.LogError("Image file not found at " + imageDirs[currentImageIndex]);
         }
     }
 
@@ -201,7 +201,7 @@ public class InteractUser : MonoBehaviour
         }
         else
         {
-            Debug.LogError("File not found at: " + path);
+            //Debug.LogError("File not found at: " + path);
         }
     }
 
@@ -277,7 +277,7 @@ public class InteractUser : MonoBehaviour
 
         else
         {
-            Debug.LogError("Audio file not found at: " + audioPath);
+            //Debug.LogError("Audio file not found at: " + audioPath);
         }
     }
 
