@@ -8061,7 +8061,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &610840248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8173,7 +8173,6 @@ MonoBehaviour:
   nextButton: {fileID: 365270991}
   prevImageButton: {fileID: 820840138}
   nextImageButton: {fileID: 1638042664}
-  audioSource: {fileID: 0}
 --- !u!114 &610840253
 MonoBehaviour:
   m_ObjectHideFlags: 0
