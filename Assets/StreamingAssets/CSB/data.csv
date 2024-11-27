@@ -10,5 +10,5 @@ int,string,string,string,string,string,string,string,string,string,string
 1008,화병,치자,치자차,na,/CSB/desc_chija.txt,na,na,na,na,
 1009,두통,곽향,곽향차,물 1L에 곽향 30g 진피 10g를 넣고 약불에서 10분간 끓이면 됩니다.,/CSB/desc_gwakhyang.txt,,/CSB/img_gwakhyang.jpg,/CSB/img_gwakhyang2.jpg,/CSB/img_gwakhyang3.jpg,/CSB/sounds/audio_gwakhyang.mp3
 1010,인삼,인삼,인삼차,물 1L에 인삼 30g,na,na,na,na,na,
-1011,관절염,우슬,우슬차,물 1L에 건우슬 20-30g을 넣어 주세요. 물이 끓기 시작하면 약한 불로 20분 이상 더 끓이면 됩니다.,/CSB/desc_woosle.txt,na,/CSB/img_woosle.jpg,/CSB/img_woosle2.jpg,/CSB/img_woosle3.jpg,/CSB/sounds/audio_woosle.mp3
+1011,관절염,우슬,우슬차,물 1L에 건우슬 20-30g을 넣어 주세요. 물이 끓기 시작하면 약한 불로 20분 이상 더 끓이면 됩니다.,/CSB/desc_woosle.txt,https://youtu.be/i9y-WqwTZhA?si=v35wYrz23XN304ke&t=119,/CSB/img_woosle.jpg,/CSB/img_woosle2.jpg,/CSB/img_woosle3.jpg,/CSB/sounds/audio_woosle.mp3
 1012,콜레스테롤,뽕잎,뽕잎차,물 1L에 말린 뽕잎 15g을 넣어 3~4분간 우려내면 됩니다.,/CSB/desc_bbongipcha.txt,https://youtu.be/Dzu_OehmmZQ?si=IUeth8prItq89hR4&t=177,/CSB/img_bbongipcha.jpg,/CSB/img_bbongipcha2.jpg,/CSB/img_bbongipcha3.jpg,/CSB/sounds/audio_bbongipcha.mp3
