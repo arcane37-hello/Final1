@@ -167,35 +167,35 @@ public class GrabObject : MonoBehaviourPun, IPunObservable
         }
         else if (CompareTag("Herb2"))
         {
-            questText.text = "감초";
+            questText.text = "감초\n기침 억제, 목 통증 완화";
         }
         else if (CompareTag("Herb3"))
         {
-            questText.text = "대추";
+            questText.text = "대추\n간을 보호하고 담즙 분비 유도";
         }
         else if (CompareTag("Herb4"))
         {
-            questText.text = "천궁";
+            questText.text = "천궁\n혈액 순환에 도움\n진통효과";
         }
         else if (CompareTag("Herb5"))
         {
-            questText.text = "작약";
+            questText.text = "작약\n진통, 혈액 순환에 도움";
         }
         else if (CompareTag("Herb6"))
         {
-            questText.text = "생강";
+            questText.text = "생강\n혈액을 정화, 혈액 순환에 도움";
         }
         else if (CompareTag("Herb7"))
         {
-            questText.text = "황기";
+            questText.text = "황기\n면역력 증진, 피로회복에 효과적";
         }
         else if (CompareTag("Herb8"))
         {
-            questText.text = "숙지황";
+            questText.text = "숙지황\n어지럼증, 변비 등에 효과적";
         }
         else if (CompareTag("Herb9"))
         {
-            questText.text = "당귀";
+            questText.text = "당귀\n이명현상, 불면증에 효과적";
         }
     }
 
